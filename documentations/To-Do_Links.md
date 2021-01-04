@@ -1,16 +1,47 @@
+# TO-DO
+
+### Different kinds of Interaction
+
+##### 1. Movement
+The value of **individual increases** 
+*Helpful links:* 
+    - *[Input Möglichkeiten / Move and Jump](https://creative-coding.decontextualize.com/making-games-with-p5-play/)* Bei Sprites on the move. 
+    - *[Amount of Input increases value](https://creative-coding.decontextualize.com/making-games-with-p5-play/)* 
+    - - *[Direction of movement changes direction of player](https://creative-coding.decontextualize.com/making-games-with-p5-play/)* `.attractionPoint()`
+
+##### 2. Mask
+Value true or false, **increases collective** over time, **decreases individual** over time
+*Helpful links:* 
+
+##### 3. Distancing
+The value of **individual increases** 
+*Helpful links:* 
+    - *[Group flying around](https://creative-coding.decontextualize.com/making-games-with-p5-play/)* Bei Group Sprites. 
+
+##### 4. Hygiene
+Value changes depending on how much time went by. **Decreases individual** and **increases collective**
+*Helpful links:* 
+    - *[Group flying around](https://creative-coding.decontextualize.com/making-games-with-p5-play/)* Bei Collision callbacks. 
+
+##### 5. Single contacts
+Gives individual freedom a boost once. **Increases individual**.
+*Helpful links:* 
+    - *[Change value by collision](https://creative-coding.decontextualize.com/making-games-with-p5-play/)* Bei Collisions `.overlap()`. 
+
+##### 6. Zoom
+Gives individual freedom a boost first but decreases it after some time. **Increases and decreases individual**.
+*Helpful links:* 
+    - *[Change value by collision](https://creative-coding.decontextualize.com/making-games-with-p5-play/)* Bei Collisions `.overlap()`. 
+
+
+##### 7. General
+*Helpful links:* 
+    - *[Play and Pause](https://www.youtube.com/watch?v=YcezEwOXun4)*. 
+    - *[Background Collisions](https://creative-coding.decontextualize.com/making-games-with-p5-play/)* Bei Collision mit `.collide()`oder `.displace()`. 
 
 PLAN for project week: alle Funktionalitäten einmal ausprobiert haben - Mehrere Ebenen müssen einzeln gemalt werden, sodass alle interaktiven Objekte eigene Sprites bekommen können und dann eigene Collider etc. Ebenfalls
-- Input-Möglichkeiten überlegen (nur Arrow und jump?) -> https://creative-coding.decontextualize.com/making-games-with-p5-play/ Sprites on the move
-
-- Play and Pause: https://www.youtube.com/watch?v=YcezEwOXun4
 
 
-Funktionen:
-- Background: Collision https://creative-coding.decontextualize.com/making-games-with-p5-play/ // .collide() oder .displace()
-Movement: ein Wert entwickeln, der ansteigt durch den Amount of Inputhttps://creative-coding.decontextualize.com/making-games-with-p5-play/.attractionPoint() (für in die richtige Richtung gucken bei Input)
-Mask: Wenn eingestellt + und wenn ausgestellt - Werte // Value over time
-Distancing: Value over time // Value Area, je näher desto höher // Flieger Gruppenhttps://creative-coding.decontextualize.com/making-games-with-p5-play/-> Sprite groups // Group ()
-Hygiene: Time Value, je länger desto stärker https://creative-coding.decontextualize.com/making-games-with-p5-play/ -> Collision Callbacks
-Single Contact: Value Areahttps://creative-coding.decontextualize.com/making-games-with-p5-play/-> Collisions //  .overlap()
-Zoom: Time Value, erst ab bestimmter Zeit wird es negativ 
+
+
 
