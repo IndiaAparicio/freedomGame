@@ -5,39 +5,38 @@
 ##### 1. Movement
 The value of **individual increases** 
 *Helpful links:* 
-    - *[Input Möglichkeiten / Move and Jump](https://creative-coding.decontextualize.com/making-games-with-p5-play/)* Bei Sprites on the move. 
-    - *[Amount of Input increases value](https://creative-coding.decontextualize.com/making-games-with-p5-play/)* 
-    - - *[Direction of movement changes direction of player](https://creative-coding.decontextualize.com/making-games-with-p5-play/)* `.attractionPoint()`
+ - *[Input Möglichkeiten / Move and Jump](https://creative-coding.decontextualize.com/making-games-with-p5-play/)* Bei Sprites on the move. 
+ - *[Amount of Input increases value](https://creative-coding.decontextualize.com/making-games-with-p5-play/)* 
+ - *[Direction of movement changes direction of player](https://creative-coding.decontextualize.com/making-games-with-p5-play/)* `.attractionPoint()`
 
 ##### 2. Mask
-Value true or false, **increases collective** over time, **decreases individual** over time
-*Helpful links:* 
+Value true or false, **increases collective** over time, **decreases individual** over time.*Helpful links:* 
 
 ##### 3. Distancing
 The value of **individual increases** 
 *Helpful links:* 
-    - *[Group flying around](https://creative-coding.decontextualize.com/making-games-with-p5-play/)* Bei Group Sprites. 
+- *[Group flying around](https://creative-coding.decontextualize.com/making-games-with-p5-play/)* Bei Group Sprites. 
 
 ##### 4. Hygiene
 Value changes depending on how much time went by. **Decreases individual** and **increases collective**
 *Helpful links:* 
-    - *[Group flying around](https://creative-coding.decontextualize.com/making-games-with-p5-play/)* Bei Collision callbacks. 
+- *[Group flying around](https://creative-coding.decontextualize.com/making-games-with-p5-play/)* Bei Collision callbacks. 
 
 ##### 5. Single contacts
 Gives individual freedom a boost once. **Increases individual**.
 *Helpful links:* 
-    - *[Change value by collision](https://creative-coding.decontextualize.com/making-games-with-p5-play/)* Bei Collisions `.overlap()`. 
+- *[Change value by collision](https://creative-coding.decontextualize.com/making-games-with-p5-play/)* Bei Collisions `.overlap()`. 
 
 ##### 6. Zoom
 Gives individual freedom a boost first but decreases it after some time. **Increases and decreases individual**.
 *Helpful links:* 
-    - *[Change value by collision](https://creative-coding.decontextualize.com/making-games-with-p5-play/)* Bei Collisions `.overlap()`. 
+- *[Change value by collision](https://creative-coding.decontextualize.com/making-games-with-p5-play/)* Bei Collisions `.overlap()`. 
 
 
 ##### 7. General
 *Helpful links:* 
-    - *[Play and Pause](https://www.youtube.com/watch?v=YcezEwOXun4)*. 
-    - *[Background Collisions](https://creative-coding.decontextualize.com/making-games-with-p5-play/)* Bei Collision mit `.collide()`oder `.displace()`. 
+- *[Play and Pause](https://www.youtube.com/watch?v=YcezEwOXun4)*. 
+- *[Background Collisions](https://creative-coding.decontextualize.com/making-games-with-p5-play/)* Bei Collision mit `.collide()`oder `.displace()`. 
 
 PLAN for project week: alle Funktionalitäten einmal ausprobiert haben - Mehrere Ebenen müssen einzeln gemalt werden, sodass alle interaktiven Objekte eigene Sprites bekommen können und dann eigene Collider etc. Ebenfalls
 
