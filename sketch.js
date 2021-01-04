@@ -1,66 +1,100 @@
+//colliders
+let walls, boxes;
 
-//pong clone
-//mouse to control both paddles
+//interactions
+let singleContacts = [];
 
-var paddleA, paddleB, ball, wallTop, wallBottom;
-var MAX_SPEED = 10;
+//player
+let player, playerCollider;
 
-function setup() {
-  createCanvas(800, 400);
-  //frameRate(6);
+//images
+let bgImg0, bgImg1, bgImg2, playerImg;
 
-  paddleA = createSprite(30, height/2, 10, 100);
-  paddleA.immovable = true;
-
-  paddleB = createSprite(width-28, height/2, 10, 100);
-  paddleB.immovable = true;
-
-  wallTop = createSprite(width/2, -30/2, width, 30);
-  wallTop.immovable = true;
-
-  wallBottom = createSprite(width/2, height+30/2, width, 30);
-  wallBottom.immovable = true;
-
-  ball = createSprite(width/2, height/2, 10, 10);
-  ball.maxSpeed = MAX_SPEED;
-
-  paddleA.shapeColor = paddleB.shapeColor =ball.shapeColor = color(255, 255, 255);
-
-  ball.setSpeed(MAX_SPEED, -180);
+function preload(){
+  bgImg0 = loadImage("../img/BG-0.png");
+  bgImg1 = loadImage("../img/BG-1.png");
+  bgImg2 = loadImage("../img/BG-2.png");
 }
 
+
+
+function setup() {
+
+  createCanvas(windowWidth, windowHeight);
+  
+  walls = new Group();
+  boxes = new Group();
+  player = new Player();
+  
+
+ 
+
+  for (let i = 0; i < 5; i++) {
+    let w = createSprite(
+      random(125, width-125), (height/5)*i,
+      random(10, 100), random(10, 100));
+    w.shapeColor = color(0);
+    walls.add(w);
+  }
+
+  for (var i = 0; i < 4; i++) {
+    var b = createSprite(
+      random(50, 100), random(100, height-100),
+      25, 25);
+    b.shapeColor = color(255, 0, 0);
+    boxes.add(b);
+  }
+
+
+}
+
+
+
 function draw() {
-  background(0);
+  background(bgImg1);
 
-  paddleA.position.y = constrain(mouseY, paddleA.height/2, height-paddleA.height/2);
-  paddleB.position.y = constrain(mouseY, paddleA.height/2, height-paddleA.height/2);
+  //PLAYER
+  //creating a Collider for the player with a Sprite, so that the player can interact with other Sprite Objects
+  playerCollider = createSprite(player.x + 30, player.y + 30, 60, 60);
+  playerCollider.shapeColor = color(200,0,50);
+  playerCollider.life = 5;
 
-  ball.bounce(wallTop);
-  ball.bounce(wallBottom);
+  playerCollider.collide(walls);
+  playerCollider.displace(boxes);
+  boxes.collide(walls);
+  boxes.displace(boxes);
 
-  var swing;
-  if(ball.bounce(paddleA)) {
-    swing = (ball.position.y-paddleA.position.y)/3;
-    ball.setSpeed(MAX_SPEED, ball.getDirection()+swing);
+  //creating a Single Contact randomly if value is less than 0.5%
+  if (random(1) < 0.005){
+    singleContacts.push(new SingleContact() );
   }
-
-  if(ball.bounce(paddleB)) {
-    swing = (ball.position.y-paddleB.position.y)/3;
-    ball.setSpeed(MAX_SPEED, ball.getDirection()-swing);
-  }
-
-  if(ball.position.x<0) {
-    ball.position.x = width/2;
-    ball.position.y = height/2;
-    ball.setSpeed(MAX_SPEED, 0);
-  }
-
-  if(ball.position.x>width) {
-    ball.position.x = width/2;
-    ball.position.y = height/2;
-    ball.setSpeed(MAX_SPEED, 180);
+  for (let s of singleContacts){
+    s.move();
+    s.show(); 
   }
 
   drawSprites();
+  player.show();
+  player.move();
 
+  
+    if (keyIsDown(RIGHT_ARROW)) {
+      player.right();
+    }
+    else if (keyIsDown(DOWN_ARROW)) {
+      //fehlt, nur im Himmel oder beim Runter gehen
+    }
+    else if (keyIsDown(LEFT_ARROW)) {
+      player.left();
+    }
+    else if (keyIsDown(UP_ARROW)) {
+      //fehlt, nur im Himmel oder beim Hoch gehen
+    }
+}
+
+function keyPressed() {
+    if (key == ' ') {
+      player.jump();
+    }
+    return false;
 }
