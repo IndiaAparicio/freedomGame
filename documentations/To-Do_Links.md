@@ -41,6 +41,7 @@ Gives individual freedom a boost first but decreases it after some time. **Incre
 - *[Background Collisions](https://creative-coding.decontextualize.com/making-games-with-p5-play/)* Bei Collision mit `.collide()`oder `.displace()`. 
 - *[References p5.play](http://molleindustria.github.io/p5.play/docs/classes/p5.play.html)*.
 - *[Camera Movement](https://www.youtube.com/watch?v=H3Fn33lYuE0)* Frame in a Frame // Nur ein Ausschnitt einer größeren Welt zu sehen
+- *[Virtual Camera](http://molleindustria.github.io/p5.play/examples/index.html?fileName=camera.js)*
 - *[Score System](https://www.youtube.com/watch?v=gvtXwIYh35s)*
 
 #### PLAN for project week: 
