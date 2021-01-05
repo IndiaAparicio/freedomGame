@@ -45,7 +45,7 @@ Gives individual freedom a boost first but decreases it after some time. **Incre
 - *[Score System](https://www.youtube.com/watch?v=gvtXwIYh35s)*
 
 #### PLAN for project week: 
-- Test all functionalitys 
+- Test all functionalities 
 
 
 
