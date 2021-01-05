@@ -1,11 +1,16 @@
 //colliders
-let walls, boxes;
+let walls;
 
 //interactions
 let singleContacts = [];
 
 //player
 let player, playerCollider;
+//gravity (https://www.youtube.com/watch?v=StoBCNiQakM)
+
+//scores
+let individualScore = 0;
+let collectiveScore = 0;
 
 //images
 let bgImg0, bgImg1, bgImg2, playerImg;
@@ -23,11 +28,8 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   
   walls = new Group();
-  boxes = new Group();
   player = new Player();
   
-
- 
 
   for (let i = 0; i < 5; i++) {
     let w = createSprite(
@@ -36,22 +38,24 @@ function setup() {
     w.shapeColor = color(0);
     walls.add(w);
   }
-
-  for (var i = 0; i < 4; i++) {
-    var b = createSprite(
-      random(50, 100), random(100, height-100),
-      25, 25);
-    b.shapeColor = color(255, 0, 0);
-    boxes.add(b);
-  }
-
-
 }
 
 
 
 function draw() {
-  background(bgImg1);
+  
+  background(bgImg2);
+  textSize(40);
+  text(individualScore, 400, 30);
+  text(collectiveScore, 800, 30);
+
+  //ENDINGS
+  if (individualScore >= 30){
+    text('Szenario 1', 200,200);
+  }
+  if (collectiveScore >= 300){
+    text('Szenario 2', 200,200);
+  }
 
   //PLAYER
   //creating a Collider for the player with a Sprite, so that the player can interact with other Sprite Objects
@@ -60,9 +64,10 @@ function draw() {
   playerCollider.life = 5;
 
   playerCollider.collide(walls);
-  playerCollider.displace(boxes);
-  boxes.collide(walls);
-  boxes.displace(boxes);
+  
+  
+
+  
 
   //creating a Single Contact randomly if value is less than 0.5%
   if (random(1) < 0.005){
@@ -73,6 +78,8 @@ function draw() {
     s.show(); 
   }
 
+
+
   drawSprites();
   player.show();
   player.move();
@@ -80,16 +87,22 @@ function draw() {
   
     if (keyIsDown(RIGHT_ARROW)) {
       player.right();
+      individualScore -= 1; 
+      collectiveScore += 1;
     }
     else if (keyIsDown(DOWN_ARROW)) {
       //fehlt, nur im Himmel oder beim Runter gehen
     }
     else if (keyIsDown(LEFT_ARROW)) {
       player.left();
+      individualScore += 1; 
+      collectiveScore -= 1;
     }
     else if (keyIsDown(UP_ARROW)) {
       //fehlt, nur im Himmel oder beim Hoch gehen
     }
+
+    
 }
 
 function keyPressed() {
@@ -98,3 +111,4 @@ function keyPressed() {
     }
     return false;
 }
+

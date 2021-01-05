@@ -40,17 +40,20 @@ Gives individual freedom a boost first but decreases it after some time. **Incre
 - *[Play and Pause](https://www.youtube.com/watch?v=YcezEwOXun4)*. 
 - *[Background Collisions](https://creative-coding.decontextualize.com/making-games-with-p5-play/)* Bei Collision mit `.collide()`oder `.displace()`. 
 - *[References p5.play](http://molleindustria.github.io/p5.play/docs/classes/p5.play.html)*.
-- Frame in a Frame // Nur ein Ausschnitt einer größeren Welt zu sehen
-- Punktesystem
+- *[Camera Movement](https://www.youtube.com/watch?v=H3Fn33lYuE0)* Frame in a Frame // Nur ein Ausschnitt einer größeren Welt zu sehen
+- *[Score System](https://www.youtube.com/watch?v=gvtXwIYh35s)*
 
-PLAN for project week: alle Funktionalitäten einmal ausprobiert haben - Mehrere Ebenen müssen einzeln gemalt werden, sodass alle interaktiven Objekte eigene Sprites bekommen können und dann eigene Collider etc. Ebenfalls
+#### PLAN for project week: 
+- Test all functionalitys 
+
 
 
 
 
 ## Design Tasks 
 
-#### 1. Painting Background and Player in different styles 
+#### 1. Painting Background and Player in different styles
+> Every interactive object needs illustrations
 #### 2. Making Animations 
 
 
