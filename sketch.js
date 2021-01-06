@@ -16,9 +16,12 @@ let collectiveScore = 0;
 
 //camera and bg
 let bg;
-let SCENE_W = 3000;
-let SCENE_H = 2200;
-
+let SCENE_W = 4000;
+let SCENE_H = 3000;
+let EDGE_R = (SCENE_W/2)-50;
+let EDGE_L = (-(SCENE_W/2))+50;
+let EDGE_U = 0; //(-(SCENE_H/2))+50;
+let EDGE_D = SCENE_H;
 //images
 let bgImg0, bgImg1, bgImg2, playerImg;
 
@@ -36,68 +39,81 @@ function setup() {
 
   createCanvas(windowWidth, windowHeight);
 
-  bg = createSprite(0, height, SCENE_W, SCENE_H);
+  bg = createSprite(0, SCENE_H/2, SCENE_W, SCENE_H);
   bg.addImage(loadImage("../img/BG-b1.png"));
 
-  player1 = createSprite(100,1000);
+  player1 = createSprite(0,0);
   player1.addImage(loadImage("../img/woman.png"));
   
   //walls = new Group();
-  //creating sprites for grounds
+  //creating sprites for grounds //ACHTING sprites haben ankerpunkt in der Mitte
   ground = createSprite(0,SCENE_H,SCENE_W,50);
   middleGround = createSprite(0,(SCENE_H/3)*2,SCENE_W,20);
-  clouds1 = createSprite(0,(SCENE_H/3)*0.8,SCENE_W,20);
+  clouds1 = createSprite(-(SCENE_W/2)+((SCENE_W/5)/2),(SCENE_H/3)*0.8,(SCENE_W/5),20);
+  clouds2 = createSprite(SCENE_W/6,(SCENE_H/3)*0.8,(SCENE_W/3)*2,20);
   //clouds2 = createSprite(SCENE_W*0.9,(SCENE_H/3)*0.8,SCENE_W,20);
 }
 
 
 
 function draw() {
-  
-  //BG AND SCORE
+  console.log(player1.position.x);
+  //BG AND CAMERA
   background(255);
-
+  
   if(mouseIsPressed)
-    camera.zoom = 0.7;
+    camera.zoom = 0.2;
   else
     camera.zoom = 1;
 
-  camera.position.x = player1.position.x;
-  camera.position.y = player1.position.y;
+  //limit camera movements on edges
+  let ScreenPlayerRelation = width/2;
+  let ScreenPlayerRelationH = height/2;
+  if (player1.position.x >= EDGE_R - ScreenPlayerRelation){
+    camera.position.x = camera.position.x;
+  }else if(player1.position.x <= EDGE_L + ScreenPlayerRelation){
+    camera.position.x = camera.position.x;
+  }else{
+    camera.position.x = player1.position.x;
+  }
+  console.log(player1.position.y);
+  if (player1.position.y <= EDGE_U + ScreenPlayerRelationH){
+    camera.position.y = camera.position.y;
+  }else if(player1.position.y >= EDGE_D - ScreenPlayerRelationH){
+    camera.position.y = camera.position.y;
+  }else{
+   camera.position.y = player1.position.y;
+  }
+  
 
-  //limit the ghost movements
 
-
-   
-
- //draw the scene
- //drawSprites(bg);
-
-  textSize(40);
-  text(individualScore, windowWidth, windowHeight);
-  text(collectiveScore, 800, 30);
-
+ 
+  
   //PLAYER1 MOVEMENT
-  if (keyIsDown(RIGHT_ARROW)) {
-    player1.position.x += 1;
+  if (keyIsDown(RIGHT_ARROW) && player1.position.x <= (SCENE_W/2)-100) {
+    player1.position.x += 20;
     individualScore -= 1; 
     collectiveScore += 1;
   }
-  if (keyIsDown(LEFT_ARROW)) {
-    player1.position.x -= 1;
+  if (keyIsDown(LEFT_ARROW) && player1.position.x >= (-(SCENE_W/2))+100) {
+    player1.position.x -= 20;
     individualScore += 1; 
     collectiveScore -= 1;
   }
 
-  //jumping
-
+  //JUMPING
   player1.velocity.y += gravity; 
-  if(player1.collide(ground) || player1.collide(middleGround) || player1.collide(clouds1)) {
+  if(player1.collide(ground) || player1.collide(middleGround) || player1.collide(clouds1) || player1.collide(clouds2)
+  ) {
     player1.velocity.y = 0;
     //player1.changeAnimation('');
   }
+  if(player1.position.y >= SCENE_H){
+    player1.velocity.y = 0;
+  }//stop player from falling
+  
   //maybe condition if player is colliding with something only then jump
-  if(keyWentDown(' ') || mouseWentDown(LEFT))
+  if(keyWentDown(' ') && player1.position.y >= (EDGE_U + 50))
   {
     player1.changeAnimation('stretch');
     //player1.animation.rewind();
@@ -116,6 +132,12 @@ function draw() {
   //player1.collide(walls);
 
 
+
+
+  
+
+
+
   //ENDINGS
   if (individualScore >= 30){
     text('Szenario 1', 200,200);
@@ -124,21 +146,39 @@ function draw() {
     text('Szenario 2', 200,200);
   }
 
-
-  // SINGLE CONTACT
-  //creating a Single Contact randomly if value is less than 0.5%
-  if (random(1) < 0.005){
-    singleContacts.push(new SingleContact() );
-  }
-  for (let s of singleContacts){
-    s.move();
-    s.show(); 
-  }
-
+  
   
 
-  drawSprites();   
-  //camera.off();
+ 
+  
+  drawSprites();  
+
+
+  //ADDING INTERACTIONS
+  creatingSingleContacts();
+
+
+  //UI
+  //SCORING SYSTEM 
+  //always after all Sprites are drawn
+  camera.off();//für unbewegliche UI Elementes
+  textSize(40);
+  text(individualScore, 0, 100);
+  text(collectiveScore, 0, 200);
+  camera.on();
 }
 
 
+
+// SINGLE CONTACT
+  //creating a Single Contact randomly if value is less than 0.5%
+  function creatingSingleContacts () {
+    if (random(1) < 0.005){
+      let randomSize = random(10,20);
+      singleContacts.push(new SingleContact(randomSize, SCENE_W, (((SCENE_H/3)*2) - randomSize) , random(5,10)) );
+    }
+    for (let s of singleContacts){
+      s.move();
+      s.show(); 
+    }
+  }
