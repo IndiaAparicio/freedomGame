@@ -1,16 +1,23 @@
 //colliders
-let walls;
+let walls, ground;
 
 //interactions
 let singleContacts = [];
 
 //player
-let player, playerCollider;
+let player1;
 //gravity (https://www.youtube.com/watch?v=StoBCNiQakM)
+let gravity = 1;
+let jump = 15;
 
 //scores
 let individualScore = 0;
 let collectiveScore = 0;
+
+//camera and bg
+let bg;
+let SCENE_W = 3000;
+let SCENE_H = 2200;
 
 //images
 let bgImg0, bgImg1, bgImg2, playerImg;
@@ -18,7 +25,9 @@ let bgImg0, bgImg1, bgImg2, playerImg;
 function preload(){
   bgImg0 = loadImage("../img/BG-0.png");
   bgImg1 = loadImage("../img/BG-1.png");
+  bgBigImg1 = loadImage("../img/BG-b1.png");
   bgImg2 = loadImage("../img/BG-2.png");
+  playerImg = loadImage("../img/woman.png");
 }
 
 
@@ -26,28 +35,86 @@ function preload(){
 function setup() {
 
   createCanvas(windowWidth, windowHeight);
-  
-  walls = new Group();
-  player = new Player();
-  
 
-  for (let i = 0; i < 5; i++) {
-    let w = createSprite(
-      random(125, width-125), (height/5)*i,
-      random(10, 100), random(10, 100));
-    w.shapeColor = color(0);
-    walls.add(w);
-  }
+  bg = createSprite(0, height, SCENE_W, SCENE_H);
+  bg.addImage(loadImage("../img/BG-b1.png"));
+
+  player1 = createSprite(100,1000);
+  player1.addImage(loadImage("../img/woman.png"));
+  
+  //walls = new Group();
+  //creating sprites for grounds
+  ground = createSprite(0,SCENE_H,SCENE_W,50);
+  middleGround = createSprite(0,(SCENE_H/3)*2,SCENE_W,20);
+  clouds1 = createSprite(0,(SCENE_H/3)*0.8,SCENE_W,20);
+  //clouds2 = createSprite(SCENE_W*0.9,(SCENE_H/3)*0.8,SCENE_W,20);
 }
 
 
 
 function draw() {
   
-  background(bgImg2);
+  //BG AND SCORE
+  background(255);
+
+  if(mouseIsPressed)
+    camera.zoom = 0.7;
+  else
+    camera.zoom = 1;
+
+  camera.position.x = player1.position.x;
+  camera.position.y = player1.position.y;
+
+  //limit the ghost movements
+
+
+   
+
+ //draw the scene
+ //drawSprites(bg);
+
   textSize(40);
-  text(individualScore, 400, 30);
+  text(individualScore, windowWidth, windowHeight);
   text(collectiveScore, 800, 30);
+
+  //PLAYER1 MOVEMENT
+  if (keyIsDown(RIGHT_ARROW)) {
+    player1.position.x += 1;
+    individualScore -= 1; 
+    collectiveScore += 1;
+  }
+  if (keyIsDown(LEFT_ARROW)) {
+    player1.position.x -= 1;
+    individualScore += 1; 
+    collectiveScore -= 1;
+  }
+
+  //jumping
+
+  player1.velocity.y += gravity; 
+  if(player1.collide(ground) || player1.collide(middleGround) || player1.collide(clouds1)) {
+    player1.velocity.y = 0;
+    //player1.changeAnimation('');
+  }
+  //maybe condition if player is colliding with something only then jump
+  if(keyWentDown(' ') || mouseWentDown(LEFT))
+  {
+    player1.changeAnimation('stretch');
+    //player1.animation.rewind();
+    player1.velocity.y = -jump;
+  }
+  //necessary for debugging when player sticks to something
+  if (keyIsDown(DOWN_ARROW)){
+    player1.position.y += 1;
+  }
+  //OHNE VIBRIERT DAS BILD WIESO AUCH IMMER
+  player1.position.y += 1;
+
+  //PLAYER Collisions
+  player1.setCollider('circle', 0, 0, 30);
+  //if defined, the collider will be used for mouse events: https://molleindustria.github.io/p5.play/examples/index.html?fileName=keyPresses.js
+  //player1.collide(walls);
+
 
   //ENDINGS
   if (individualScore >= 30){
@@ -57,18 +124,8 @@ function draw() {
     text('Szenario 2', 200,200);
   }
 
-  //PLAYER
-  //creating a Collider for the player with a Sprite, so that the player can interact with other Sprite Objects
-  playerCollider = createSprite(player.x + 30, player.y + 30, 60, 60);
-  playerCollider.shapeColor = color(200,0,50);
-  playerCollider.life = 5;
 
-  playerCollider.collide(walls);
-  
-  
-
-  
-
+  // SINGLE CONTACT
   //creating a Single Contact randomly if value is less than 0.5%
   if (random(1) < 0.005){
     singleContacts.push(new SingleContact() );
@@ -78,37 +135,10 @@ function draw() {
     s.show(); 
   }
 
-
-
-  drawSprites();
-  player.show();
-  player.move();
-
   
-    if (keyIsDown(RIGHT_ARROW)) {
-      player.right();
-      individualScore -= 1; 
-      collectiveScore += 1;
-    }
-    else if (keyIsDown(DOWN_ARROW)) {
-      //fehlt, nur im Himmel oder beim Runter gehen
-    }
-    else if (keyIsDown(LEFT_ARROW)) {
-      player.left();
-      individualScore += 1; 
-      collectiveScore -= 1;
-    }
-    else if (keyIsDown(UP_ARROW)) {
-      //fehlt, nur im Himmel oder beim Hoch gehen
-    }
 
-    
+  drawSprites();   
+  //camera.off();
 }
 
-function keyPressed() {
-    if (key == ' ') {
-      player.jump();
-    }
-    return false;
-}
 

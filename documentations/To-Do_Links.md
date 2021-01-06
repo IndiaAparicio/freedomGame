@@ -9,9 +9,11 @@ The value of **individual increases**
  - *[Amount of Input increases value](https://creative-coding.decontextualize.com/making-games-with-p5-play/)* 
  - *[Direction of movement changes direction of player](https://creative-coding.decontextualize.com/making-games-with-p5-play/)* `.attractionPoint()`
  - *[Player Movements](https://www.youtube.com/watch?v=l0HoJHc-63Q)*.
+ - *[Player Movements2](https://molleindustria.github.io/p5.play/examples/index.html?fileName=keyPresses.js)*
 
 #### 2. Mask
 Value true or false, **increases collective** over time, **decreases individual** over time.*Helpful links:* 
+- *[Change appearance when true](http://molleindustria.github.io/p5.play/examples/index.html?fileName=collisions.js)*
 
 #### 3. Distancing
 The value of **individual increases** 
@@ -43,6 +45,7 @@ Gives individual freedom a boost first but decreases it after some time. **Incre
 - *[Camera Movement](https://www.youtube.com/watch?v=H3Fn33lYuE0)* Frame in a Frame // Nur ein Ausschnitt einer größeren Welt zu sehen
 - *[Virtual Camera](http://molleindustria.github.io/p5.play/examples/index.html?fileName=camera.js)*
 - *[Score System](https://www.youtube.com/watch?v=gvtXwIYh35s)*
+- *[Change bG](https://p5js.org/reference/#/p5/tint)*
 
 #### PLAN for project week: 
 - Test all functionalities 
