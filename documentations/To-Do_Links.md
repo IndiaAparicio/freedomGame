@@ -2,6 +2,9 @@
 
 ## Different kinds of Interaction // Programming tasks
 
+#### References 
+*[References](http://molleindustria.github.io/p5.play/docs/classes/p5.play.html)*
+
 #### 1. Movement
 The value of **individual increases** 
 *Helpful links:* 
@@ -18,7 +21,9 @@ Value true or false, **increases collective** over time, **decreases individual*
 #### 3. Distancing
 The value of **individual increases** 
 *Helpful links:* 
-- *[Group flying around](https://creative-coding.decontextualize.com/making-games-with-p5-play/)* Bei Group Sprites. 
+- *[Group flying around](https://creative-coding.decontextualize.com/making-games-with-p5-play/)* Bei Group Sprites. Also creating moving clouds! Maybe mixing this `.pointOfAttraction` with the movement of *[this](https://molleindustria.github.io/p5.play/examples/index.html?fileName=sprite4.js)*
+- *[Changing the collider size](https://molleindustria.github.io/p5.play/examples/index.html?fileName=collisions3.js)±
+- *[Event called on collision (I can call a function on collision)](https://molleindustria.github.io/p5.play/examples/index.html?fileName=collisions2.js)* 
 
 #### 4. Hygiene
 Value changes depending on how much time went by. **Decreases individual** and **increases collective**

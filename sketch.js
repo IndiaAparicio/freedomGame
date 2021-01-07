@@ -25,6 +25,9 @@ let EDGE_D = SCENE_H;
 //images
 let bgImg0, bgImg1, bgImg2, playerImg;
 
+let birds;
+
+
 function preload(){
   bgImg0 = loadImage("../img/BG-0.png");
   bgImg1 = loadImage("../img/BG-1.png");
@@ -52,12 +55,25 @@ function setup() {
   clouds1 = createSprite(-(SCENE_W/2)+((SCENE_W/5)/2),(SCENE_H/3)*0.8,(SCENE_W/5),20);
   clouds2 = createSprite(SCENE_W/6,(SCENE_H/3)*0.8,(SCENE_W/3)*2,20);
   //clouds2 = createSprite(SCENE_W*0.9,(SCENE_H/3)*0.8,SCENE_W,20);
+
+  birds = new Group();
+  for (var i = 0; i < 10; i++) {
+    var b = createSprite(
+      random(width), random(height),
+      random(10, 50), random(5, 25));
+    b.shapeColor = color(255, 0, random(255));
+    b.friction = random(0.97, 0.99);
+    b.maxSpeed = random(1, 4);
+    b.rotateToDirection = true;
+    birds.add(b);
+  }
 }
 
 
 
 function draw() {
-  console.log(player1.position.x);
+
+   
   //BG AND CAMERA
   background(255);
   
@@ -138,15 +154,11 @@ function draw() {
 
 
 
-  //ENDINGS
-  if (individualScore >= 30){
-    text('Szenario 1', 200,200);
-  }
-  if (collectiveScore >= 300){
-    text('Szenario 2', 200,200);
-  }
-
   
+ 
+  for (var i = 0; i < birds.length; i++) {
+    birds[i].attractionPoint(2, player1.position.x, player1.position.y);
+  }
   
 
  
@@ -159,12 +171,23 @@ function draw() {
 
 
   //UI
-  //SCORING SYSTEM 
   //always after all Sprites are drawn
   camera.off();//für unbewegliche UI Elementes
+
+  //SCORING SYSTEM 
   textSize(40);
   text(individualScore, 0, 100);
   text(collectiveScore, 0, 200);
+
+
+
+  //ENDINGS
+  if (individualScore >= 30){
+    text('Szenario 1', 200,200);
+  }
+  if (collectiveScore >= 300){
+    text('Szenario 2', 200,200);
+  }
   camera.on();
 }
 
