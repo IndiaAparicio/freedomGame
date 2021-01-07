@@ -12,7 +12,7 @@
 > * Mich mit der p5.play library auseinandersetzen
 > * Virtual Camera mit unterschiedlichen Limitations für Player und Camera. Hier bin ich besonders stolz, weil ich nur mit dem Reference von molleindustria gearbeitet habe und sehr viel selbst ausgedacht habe mit SCENE_W und EDGE_W etc. 
 > * Simple Collisions mit Platformen 
-![](/media/january7.mov)
+![](./media/january7.mov)
 > ##### BUGS:
 > * Die virtual Camera hinzubekommen war sehr schwer, da ich herausfinden musste wie die Größe der Scene mit der Größe des Viewports zusammenhängt und wie ich darin die Objekte richtig platziere und so viele relativen Zahlen statt absoluten Zahlen zu verwenden, sodass das Spiel responsive ist. 
 > * Das Player Movement einzuschränken, sodass der Player nicht aus dem Spielfeld kann war ebenfalls eine Herausforderung 
