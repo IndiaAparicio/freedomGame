@@ -1,8 +1,19 @@
 //colliders
-let walls, ground;
+let ground;
 
 //interactions
 let singleContacts = [];
+let maskOn = false;
+let maskGroundCheck = true;
+let teleportColliderSize = 400;
+
+//distancing
+let distanceCharacter;
+let attraction1 = []; //der Punkt, dem die Dinger folgen sollen
+let direction = 90;
+let directionOfAttractionX = 2;
+let directionOfAttractionY = 2;
+
 
 //player
 let player1;
@@ -25,7 +36,7 @@ let EDGE_D = SCENE_H;
 //images
 let bgImg0, bgImg1, bgImg2, playerImg;
 
-let birds;
+
 
 
 function preload(){
@@ -34,6 +45,7 @@ function preload(){
   bgBigImg1 = loadImage("../img/BG-b1.png");
   bgImg2 = loadImage("../img/BG-2.png");
   playerImg = loadImage("../img/woman.png");
+  playerMaskImg = loadImage("../img/mask.png");
 }
 
 
@@ -43,30 +55,64 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
 
   bg = createSprite(0, SCENE_H/2, SCENE_W, SCENE_H);
-  bg.addImage(loadImage("../img/BG-b1.png"));
+  bg.addImage(bgBigImg1);
 
   player1 = createSprite(0,0);
-  player1.addImage(loadImage("../img/woman.png"));
+  player1.addImage(playerMaskImg);
+  player1.addImage(playerImg);
   
-  //walls = new Group();
+  
   //creating sprites for grounds //ACHTING sprites haben ankerpunkt in der Mitte
   ground = createSprite(0,SCENE_H,SCENE_W,50);
   middleGround = createSprite(0,(SCENE_H/3)*2,SCENE_W,20);
   clouds1 = createSprite(-(SCENE_W/2)+((SCENE_W/5)/2),(SCENE_H/3)*0.8,(SCENE_W/5),20);
   clouds2 = createSprite(SCENE_W/6,(SCENE_H/3)*0.8,(SCENE_W/3)*2,20);
-  //clouds2 = createSprite(SCENE_W*0.9,(SCENE_H/3)*0.8,SCENE_W,20);
+  
+  //TELEPORT
+  teleportArea = createSprite(EDGE_R-(SCENE_W/4),EDGE_D-(SCENE_H*0.55),teleportColliderSize,teleportColliderSize);
+  teleportArea1 = createSprite(EDGE_R-(SCENE_W/4),EDGE_D-(SCENE_H*0.2),teleportColliderSize,teleportColliderSize);
+  teleportArea.visible = false;
+  teleportArea1.visible = false;
 
-  birds = new Group();
-  for (var i = 0; i < 10; i++) {
-    var b = createSprite(
-      random(width), random(height),
-      random(10, 50), random(5, 25));
-    b.shapeColor = color(255, 0, random(255));
-    b.friction = random(0.97, 0.99);
-    b.maxSpeed = random(1, 4);
-    b.rotateToDirection = true;
-    birds.add(b);
-  }
+  //MASK 
+  maskPosition = createSprite(0,SCENE_H/2,2000,200);
+  maskPosition.addImage(playerMaskImg);
+  maskPosition.setCollider("circle",0,0,100);
+  invisibleGroundCheck = createSprite(0,(SCENE_H/3)*2,SCENE_W,30);  
+  invisibleGroundCheck.visible = false;//for collision with middleGround for maskCheck
+
+  //HYGIENE
+  hygieneArea = createSprite((EDGE_R)-((SCENE_W/6)/2)+50,SCENE_H/2,(SCENE_W/6),SCENE_H);
+  hygieneArea.visible = false;
+
+  //ZOOM
+  zoomArea = createSprite(-(SCENE_W/10),SCENE_H-(SCENE_H/4),SCENE_W/3,SCENE_H/2);
+  zoomArea.visible = false;
+
+  //ISOLATION
+  isolationArea = createSprite(0,SCENE_H-(SCENE_H/6),SCENE_W,SCENE_H/3);
+  isolationArea.visible = false;
+
+
+  //DISTANCING
+   //creating the attraction point as a moving sprite and making it invisible
+    attraction1 = createSprite(random(width),height/2,20,20);
+    //attraction1.visible = false; //COMMENT OUT TO SEE THE POINT  
+   distanceCharacter = new Group();
+   
+
+    for (let i = 0; i < 20; i++ ){
+      c1 = createSprite(random(width), random(height), random(20,50), 20);
+      c1.shapeColor = color(20,20,20);
+      c1.maxSpeed = 12;
+      camera.setSpeed = random(1,15);
+      c1.friction = random(0.05, 0.15);
+      c1.rotateToDirection = true;
+      distanceCharacter.add(c1);
+    }
+    
+   
+ 
 }
 
 
@@ -92,7 +138,7 @@ function draw() {
   }else{
     camera.position.x = player1.position.x;
   }
-  console.log(player1.position.y);
+
   if (player1.position.y <= EDGE_U + ScreenPlayerRelationH){
     camera.position.y = camera.position.y;
   }else if(player1.position.y >= EDGE_D - ScreenPlayerRelationH){
@@ -143,7 +189,7 @@ function draw() {
   player1.position.y += 1;
 
   //PLAYER Collisions
-  player1.setCollider('circle', 0, 0, 30);
+  player1.setCollider('rectangle', 0, 0, 64,64);
   //if defined, the collider will be used for mouse events: https://molleindustria.github.io/p5.play/examples/index.html?fileName=keyPresses.js
   //player1.collide(walls);
 
@@ -156,18 +202,25 @@ function draw() {
 
   
  
-  for (var i = 0; i < birds.length; i++) {
-    birds[i].attractionPoint(2, player1.position.x, player1.position.y);
-  }
-  
+
 
  
-  
-  drawSprites();  
+  //DEBUGGING
+  maskPosition.debug = mouseIsPressed;
+  player1.debug = mouseIsPressed;
+  console.log(player1.position.y);
 
+  drawSprites();  
+  
 
   //ADDING INTERACTIONS
+  teleporting();
+  maskOnOff();
+  hygieneScore();
+  zoomScore();
+  isolationScore();
   creatingSingleContacts();
+  distancingFunction();
 
 
   //UI
@@ -193,6 +246,68 @@ function draw() {
 
 
 
+
+
+//MASK
+function maskOnOff(){
+   //maske anziehen
+  if(player1.overlap(maskPosition) && maskOn === false && maskGroundCheck){
+    console.log("OVERLAP");
+    player1.addImage(playerMaskImg);
+    maskGroundCheck = false;
+    maskOn = true; 
+  }
+//auf dem Boden gewesen 
+  else if(player1.overlap(invisibleGroundCheck) && maskOn && maskGroundCheck === false){
+    console.log("OVERLAP GROUND");
+    maskGroundCheck = true;
+  } 
+//maske ausziehen
+  if (player1.overlap(maskPosition) && maskOn && maskGroundCheck){
+    console.log("OVERLAP");
+    player1.addImage(playerImg);
+    maskGroundCheck = false;
+    maskOn = false;
+}
+//auf dem Boden gewesen
+else if(player1.overlap(invisibleGroundCheck) && maskOn === false && maskGroundCheck === false){
+    console.log("OVERLAP GROUND2");
+    maskGroundCheck = true;
+}
+}
+
+
+//HYGIENE
+function hygieneScore() {
+  if (player1.overlap(hygieneArea)){
+    collectiveScore += 20;
+  }
+}
+
+//ZOOM
+function zoomScore() {
+  if (player1.overlap(zoomArea)){
+    individualScore += 20;
+  }
+}
+
+//ISOLATION
+function isolationScore(){
+  if (player1.overlap(isolationArea)){
+    individualScore += 20;
+  }
+}
+
+//TELEPORTING
+function teleporting(){
+  if (player1.overlap(teleportArea)){
+    player1.position.y = EDGE_D;
+    camera.position.y = player1.position.y - (height/2);
+  }else if (player1.overlap(teleportArea1)){
+    player1.position.y = ((SCENE_H/3)*2);
+  }
+}
+
 // SINGLE CONTACT
   //creating a Single Contact randomly if value is less than 0.5%
   function creatingSingleContacts () {
@@ -205,3 +320,44 @@ function draw() {
       s.show(); 
     }
   }
+
+
+
+//DISTANCING
+function distancingFunction(){
+
+  //setting the point of attraction inside a certain area
+  if (attraction1.position.x  > EDGE_R){
+    directionOfAttractionX = random(-4,-1);
+  }else if (attraction1.position.x <= EDGE_L){
+    directionOfAttractionX = random(1,4);
+  }
+  if (attraction1.position.y > height){
+    directionOfAttractionY = random(-4,-1);   
+  }else if (attraction1.position.y < 0){
+    directionOfAttractionY = random(1,4);
+  }
+  attraction1.position.x += directionOfAttractionX;
+  attraction1.position.y += directionOfAttractionY;
+
+
+  //direction and speed of attraction character
+  direction += random(1,5); 
+  attraction1.setSpeed(random(2,3), direction); //speed und angle von dem Punkt wo sprite erstellt wurde
+
+  
+  for (let i = 0; i < distanceCharacter.length; i++ ){
+      distanceCharacter[i].attractionPoint(0.12, attraction1.position.x, attraction1.position.y);
+      //maxSpeed für wenn die Dinger weiter weg sind. Hier bei ghost: https://molleindustria.github.io/p5.play/examples/index.html?fileName=sprite4.js
+      distanceCharacter[i].setCollider("circle", 0, 0, 20);
+      distanceCharacter.collide(distanceCharacter[i]); //setting a collider so they won't end up beeing one rectangle
+   } 
+
+   
+ 
+   
+  
+  
+  
+  
+}
