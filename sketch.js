@@ -6,6 +6,7 @@ let singleContacts = [];
 let maskOn = false;
 let maskGroundCheck = true;
 let teleportColliderSize = 400;
+let directionSingle = 5;
 
 //distancing
 let distanceCharacter;
@@ -93,6 +94,13 @@ function setup() {
   isolationArea = createSprite(0,SCENE_H-(SCENE_H/6),SCENE_W,SCENE_H/3);
   isolationArea.visible = false;
 
+  //SINGLE CONTACTS
+  singlepeople = new Group();
+  for (let i = 0; i < 10; i++){
+    s1 = createSprite(random(SCENE_W)-(SCENE_W/2),1000,200,100);
+    s1.friction = random(0.05, 0.15);
+    singlepeople.add(s1);
+  }
 
   //DISTANCING
    //creating the attraction point as a moving sprite and making it invisible
@@ -105,7 +113,7 @@ function setup() {
       c1 = createSprite(random(width), random(height), random(20,50), 20);
       c1.shapeColor = color(20,20,20);
       c1.maxSpeed = 12;
-      camera.setSpeed = random(1,15);
+      //camera.setSpeed = random(1,15);
       c1.friction = random(0.05, 0.15);
       c1.rotateToDirection = true;
       distanceCharacter.add(c1);
@@ -219,6 +227,7 @@ function draw() {
   hygieneScore();
   zoomScore();
   isolationScore();
+  singlePeopleWalking ();
   creatingSingleContacts();
   distancingFunction();
 
@@ -321,6 +330,25 @@ function teleporting(){
     }
   }
 
+  function singlePeopleWalking () {
+    
+
+      for (let i = 0; i < singlepeople.length; i++){
+        
+        if (singlepeople[i].position.x >= EDGE_R){
+          directionSingle = -5;
+          console.log("SMALLER R");
+        }else if (singlepeople[i].position.x <= EDGE_L){
+          directionSingle = 5;
+          console.log("BIGGER L");
+        }
+        singlepeople[i].position.x += directionSingle;
+        
+        
+      }
+
+    
+  }
 
 
 //DISTANCING

@@ -4,6 +4,7 @@
 
 #### References 
 *[References](http://molleindustria.github.io/p5.play/docs/classes/p5.play.html)*
+*[Examples for games made with p5](https://itch.io/games/made-with-p5js)*
 
 #### 1. Movement
 The value of **individual increases** 
