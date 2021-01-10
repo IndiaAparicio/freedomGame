@@ -8,7 +8,7 @@
 ___
 ![Organization](./media/color-orga.png)
 ## Organization 
-* [ ] Timetable 
+* [x] Timetable 
 * [ ] Short Discription
 * [x] Setting up GitHub Repo
 * [x] Write down all To-Do's

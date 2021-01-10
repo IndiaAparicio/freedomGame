@@ -5,7 +5,7 @@
 #### NOVEMBER
 - Idea generation 
 - Create basic concept 
-- - choose topic of porject
+- - choose topic of project
 - - basic functionality 
 - - get basic theoretical knowledge about topic 
 - - design ideas

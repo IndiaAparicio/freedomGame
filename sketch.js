@@ -22,7 +22,7 @@ let directionOfAttractionY = 2;
 let player1;
 //gravity (https://www.youtube.com/watch?v=StoBCNiQakM)
 let gravity = 1;
-let jump = 15;
+let jump = 20;
 let playerGroundCheck = true;
 
 //scores
@@ -53,6 +53,8 @@ function preload(){
   bgImg2 = loadImage("../img/BG-2.png");
   playerImg = loadImage("../img/woman.png");
   playerMaskImg = loadImage("../img/mask.png");
+  individualScoreImg = loadImage("../img/scoreContainerI.png");
+  collectiveScoreImg= loadImage("../img/scoreContainerC.png");
 }
 
 
@@ -174,8 +176,10 @@ function draw() {
     camera.position.y = camera.position.y;
   }else if(player1.position.y >= EDGE_D - ScreenPlayerRelationH){
     camera.position.y = camera.position.y;
+  }else if(player1.overlap(flyingArea)){
+    camera.position.y = player1.position.y;
   }else{
-   camera.position.y = player1.position.y;
+   camera.position.y = player1.position.y - (windowHeight/4);
   }
   
 
@@ -185,13 +189,9 @@ function draw() {
   //PLAYER1 MOVEMENT
   if (keyIsDown(RIGHT_ARROW) && player1.position.x <= (SCENE_W/2)-100) {
     player1.position.x += 20;
-    individualScore -= 1; 
-    collectiveScore += 1;
   }
   if (keyIsDown(LEFT_ARROW) && player1.position.x >= (-(SCENE_W/2))+100) {
     player1.position.x -= 20;
-    individualScore += 1; 
-    collectiveScore -= 1;
   }
   //MAYBE DOING THIS BUT WITH ATTRACTION POINT LIKE TO THE RIGHT wie: attractionPoint.x = player1.position.x + 2
   //if (player1.overlap(flyingArea)){
@@ -277,9 +277,19 @@ function draw() {
   camera.off();//für unbewegliche UI Elementes
 
   //SCORING SYSTEM 
+
   textSize(40);
   text(individualScore, 0, 100);
   text(collectiveScore, 0, 200);
+
+  //displaying Scores
+
+  let m = map(individualScore, 0, 100, 20, windowWidth/5);
+  rect(20,20, m, (windowWidth/5)/4)
+  image(individualScoreImg, 20, 20, windowWidth/5, (windowWidth/5)/4);
+  let m2 = map(collectiveScore, 0, 100, 20, windowWidth/5);
+  rect(40 + windowWidth/5,20, m2, (windowWidth/5)/4)
+  image(collectiveScoreImg, 40 + windowWidth/5, 20, windowWidth/5, (windowWidth/5)/4);
 
 
 
@@ -328,22 +338,22 @@ else if(player1.overlap(invisibleGroundCheck) && maskOn === false && maskGroundC
 
 //HYGIENE
 function hygieneScore() {
-  if (player1.overlap(hygieneArea)){
-    collectiveScore += 20;
+  if (player1.overlap(hygieneArea) && collectiveScore < 100){
+    collectiveScore += 1;
   }
 }
 
 //ZOOM
 function zoomScore() {
-  if (player1.overlap(zoomArea)){
-    individualScore += 20;
+  if (player1.overlap(zoomArea) && individualScore < 100){
+    individualScore += 1;
   }
 }
 
 //ISOLATION
 function isolationScore(){
-  if (player1.overlap(isolationArea)){
-    individualScore += 20;
+  if (player1.overlap(isolationArea) && individualScore < 100){
+    individualScore += 1;
   }
 }
 
