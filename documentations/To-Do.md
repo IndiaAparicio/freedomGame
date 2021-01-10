@@ -6,19 +6,19 @@
 - [Programming](#programming-to-dos)
 - [Design](#design-to-dos)
 ___
-## Organization 
 ![Organization](./media/color-orga.png)
+## Organization 
 * [ ] Timetable 
 * [ ] Short Discription
 * [x] Setting up GitHub Repo
 * [x] Write down all To-Do's
 * [x] Save all references, links
 * [ ] Documentation
-* [ ] Color Scheme for Doku: Orga: Black / Concept: Cyan / Theory: Blue / Programming: Red / Design: Green
+* [x] Color Scheme for Doku: Orga: Black / Concept: Cyan / Theory: Blue / Programming: Red / Design: Green
   
 ___
+![Concept](./media/color-concept.png)
 ## Conceptual To-Do's
-
 * [x] Main Idea
 * [x] Creating Map 
 * [x] Creating different interactions
@@ -30,8 +30,8 @@ ___
 * [ ] Optional: Writing down examples of topics that match the game (f.e. climate change)
 
 ___
+![Theory](./media/color-theory.png)
 ## Theoretical To-Do's
-
 * [x] Analyze the subject of freedom
 * [ ] Analyze individual/collective freedom
 * [ ] Writing everything down
@@ -40,6 +40,7 @@ ___
 * [ ] Write a short discription for the beginning
 
 ___
+![Coding](./media/color-coding.png)
 ## Programming To-Do's
 ##### PLAYER
 * [x] Player Movement (left, right and jumping)
@@ -98,6 +99,7 @@ ___
 * [ ] Start Page
 * [ ] Different Endings 
 ___
+![Design](./media/color-design.png)
 ## Design To-Do's
 * [ ] Create Moodboard for look and feel 
 * [ ] Make a Styleguide 
