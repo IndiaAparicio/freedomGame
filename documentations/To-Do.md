@@ -6,13 +6,15 @@
 - [Programming](#programming-to-dos)
 - [Design](#design-to-dos)
 ___
-## Organization
+## Organization 
+![Organization](./media/color-orga.png)
 * [ ] Timetable 
 * [ ] Short Discription
 * [x] Setting up GitHub Repo
 * [x] Write down all To-Do's
 * [x] Save all references, links
-* [ ] Documtation
+* [ ] Documentation
+* [ ] Color Scheme for Doku: Orga: Black / Concept: Cyan / Theory: Blue / Programming: Red / Design: Green
   
 ___
 ## Conceptual To-Do's
