@@ -1,6 +1,4 @@
-# TO-DO
-
-## Different kinds of Interaction // Programming tasks
+# Helpful Links
 
 #### References 
 *[References](http://molleindustria.github.io/p5.play/docs/classes/p5.play.html)*
@@ -42,8 +40,10 @@ Gives individual freedom a boost first but decreases it after some time. **Incre
 *Helpful links:* 
 - *[Change value by collision](https://creative-coding.decontextualize.com/making-games-with-p5-play/)* Bei Collisions `.overlap()`. 
 
+#### 7. Isolation
 
-#### 7. General
+
+#### 8. General
 *Helpful links:* 
 - *[Play and Pause](https://www.youtube.com/watch?v=YcezEwOXun4)*. 
 - *[Background Collisions](https://creative-coding.decontextualize.com/making-games-with-p5-play/)* Bei Collision mit `.collide()`oder `.displace()`. 
