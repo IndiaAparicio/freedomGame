@@ -39,13 +39,13 @@
 
 <br><br>
 ## Programming To-Do's
-##### PLAYER Movement
+##### PLAYER
 * [x] Player Movement (left, right and jumping)
 * [x] Flying in upper area
 * [x] Teleporting to lower area and back
 * [ ] Scoring: Player Movement 
 <br> 
-##### MASK 
+##### MASK
 * [x] Mask On/Off
 * [ ] Scoring: Mask On/Off
 <br>
