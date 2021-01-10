@@ -5,7 +5,7 @@
 - [Theory](#theoretical-to-dos)
 - [Programming](#programming-to-dos)
 - [Design](#design-to-dos)
-
+___
 ## Organization
 * [ ] Timetable 
 * [ ] Short Discription
@@ -14,7 +14,7 @@
 * [x] Save all references, links
 * [ ] Documtation
   
-<br><br>
+___
 ## Conceptual To-Do's
 
 * [x] Main Idea
@@ -27,7 +27,7 @@
 * [ ] Creating different kinds of Endings (before adding Scoring System)
 * [ ] Optional: Writing down examples of topics that match the game (f.e. climate change)
 
-<br><br>
+___
 ## Theoretical To-Do's
 
 * [x] Analyze the subject of freedom
@@ -37,56 +37,56 @@
 * [ ] Write short discription of every scenario that the user can read in the end
 * [ ] Write a short discription for the beginning
 
-<br><br>
+___
 ## Programming To-Do's
 ##### PLAYER
 * [x] Player Movement (left, right and jumping)
 * [x] Flying in upper area
 * [x] Teleporting to lower area and back
 * [ ] Scoring: Player Movement 
-<br> 
+
 ##### MASK
 * [x] Mask On/Off
 * [ ] Scoring: Mask On/Off
-<br>
+
 ##### DISTANCING 
 * [x] Distancing Function
 * [ ] Clone Distancing 
 * [ ] Scoring Distancing
-<br>
+
 ##### HYGIENE
 * [x] Creating Hygiene Area
 * [ ] Creating Rain (Animated or coded?)
 * [ ] Scoring Hygiene
-<br>
+
 ##### SINGLE CONTACT
 * [x] Single Contacts Function 
 * [ ] Scoring Single Contacts
-<br>
+
 ##### ZOOM
 * [x] Creating Zoom Area
 * [ ] Scoring Zoom 
-<br>
+
 ##### ISOLATION
 * [x] Creating Isolation Area
 * [ ] Scoring Isolation 
-<br>
+
 ##### VIRTUAL CAMERA
 * [x] Create a bigger Scene than the window size
 * [x] Let the virtual Camera follow the player 
 * [x] Make the camera stop moving at certain positions
-<br> 
+
 ##### SCORING
 * [ ] Making the Scoring System work
-<br>
+
 ##### ANIMATION
 * [ ] Including all the illustrations and animations
 * [ ] Making the Animations switch based on the values 
-<br>
+
 ##### SOUND
 * [ ] Including Sound
 * [ ] Make Sound louder/quiter based on time spend in certain areas
-<br>
+
 ##### UI ELEMENTS
 * [ ] Play/Pause
 * [ ] individual freedom value
@@ -95,18 +95,18 @@
 * [ ] Sound On/Off
 * [ ] Start Page
 * [ ] Different Endings 
-<br><br>
+___
 ## Design To-Do's
 * [ ] Create Moodboard for look and feel 
 * [ ] Make a Styleguide 
 * [ ] Maybe choose one color for each interaction?
-<br>
+
 ##### SOUND
 * [ ] Choose Sound Effects (a effect for each interaction area: zoom, isolation, hygiene)
 * [ ] Search for Sounds (a Sound for each short interaction: mask, distancing, contact, user input)
 * [ ] Maybe a Sound for value impact?
 * [ ] Serach for music (a song for each area: upper, middle, lower)
-<br>
+
 ##### ILLUSTRATIONS AND ANIMATIONS
 Creating the **background image** without any elements, the user will interact with/ moving elements
 * [ ] low Score - picture
