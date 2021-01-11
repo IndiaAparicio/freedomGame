@@ -133,7 +133,7 @@ function setup() {
     //attraction1.visible = false; //COMMENT OUT TO SEE THE POINT  
    distanceCharacter = new Group();
    
-
+function createSworm(){}
     for (let i = 0; i < 20; i++ ){
       c1 = createSprite(random(width), random(height), random(20,50), 20);
       c1.shapeColor = color(20,20,20);
@@ -143,7 +143,7 @@ function setup() {
       c1.rotateToDirection = true;
       distanceCharacter.add(c1);
     }
-    
+
    
  
 }

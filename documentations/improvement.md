@@ -25,3 +25,7 @@
 > Ich versuche nun die Funktionalitäten der Interaktionen nacheinander zu coden.
 > ##### BUGS
 > * Für die "distancing" Funktion habe ich eine gute Referenz für den "Schwarm" gefunden, jedoch funktioniert eine der p5.play Funktionen nicht. Folgende: `.attractionPoint`. Die Objekte rotieren nur zum attraction point und bewegen sich nicht, wie in der Referenz. Dank *[diesem Beispiel](https://editor.p5js.org/mbardin/sketches/rJ_Pna7is)* habe ich herausgefunden, dass der BUG an dem Loop liegt, da ohne loop das Problem nicht auftaucht. Finally I found the bug!!!! It was the friction value. The value were to high.
+
+
+
+Soon share it with people // put in online // github pages?

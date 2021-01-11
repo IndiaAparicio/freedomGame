@@ -101,7 +101,7 @@ ___
 ___
 ![Design](./media/color-design.png)
 ## Design To-Do's
-* [ ] Create Moodboard for look and feel 
+* [x] Create Moodboard for look and feel 
 * [ ] Make a Styleguide 
 * [ ] Maybe choose one color for each interaction?
 
