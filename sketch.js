@@ -14,10 +14,14 @@ let directionSingle = 5;
 //distancing
 let distanceCharacter;
 let attraction1 = []; //der Punkt, dem die Dinger folgen sollen
+let attraction_points = [];
+let distancing_groups = [];
+let total_number_of_groups = 6;
 let direction = 90;
 let directionOfAttractionX = 2;
 let directionOfAttractionY = 2;
-
+let directionX = 2;
+let directionY = 2;
 
 //player
 let player1;
@@ -134,9 +138,18 @@ function setup() {
   }
 
   //DISTANCING
+
+  for (let i = 0; i < total_number_of_groups; i++){
+    distancing_groups[i] = new Group();
+    attraction_points[i] = createSprite(random(width),height/2,20,20);
+    createSwarm(distancing_groups[i], attraction_points[i])
+  }
    //creating the attraction point as a moving sprite and making it invisible
     attraction1 = createSprite(random(width),height/2,20,20);
     //attraction1.visible = false; //COMMENT OUT TO SEE THE POINT  
+
+    
+    
    distanceCharacter = new Group();
    
     for (let i = 0; i < 20; i++ ){
@@ -186,10 +199,10 @@ if (running){
   }
   
   
-  //if(mouseIsPressed)
-  //  camera.zoom = 0.2;
-  //else
-  //  camera.zoom = 1;
+  if(mouseIsPressed)
+   camera.zoom = 0.2;
+  else
+    camera.zoom = 1;
 
   //limit camera movements on edges
   let ScreenPlayerRelation = width/2;
@@ -299,6 +312,12 @@ if (running){
   isolationScore();
   singlePeopleWalking ();
   distancingFunction();
+
+  for (let i = 0; i < total_number_of_groups; i++){
+    movingAttractionPoints(attraction_points[i]);
+    swarmFollowAttraction(distancing_groups[i], attraction_points[i]);
+  }
+  
   
 
 
@@ -336,11 +355,11 @@ if (running){
 }
 
 
-function mousePressed() {
+//function mousePressed() {
 
-    running = !running; // flip the boolean
+  //  running = !running; // flip the boolean
  
-}
+//}
 
 
 //MASK
@@ -425,8 +444,63 @@ function teleporting(){
 
 
 //DISTANCING
+
+function createSwarm(distancing_group, attraction_point){
+  for (let e = 0; e < 20; e++ ){
+    c1 = createSprite(random(width), random(height), random(20,50), 20);
+    c1.shapeColor = color(random(0,200),20,random(0,200));
+    c1.maxSpeed = 12;
+    //camera.setSpeed = random(1,15);
+    c1.friction = random(0.05, 0.15);
+    c1.rotateToDirection = true;
+    c1.attractionPoint(0.9, attraction_point.position.x, attraction_point.position.y);
+    distancing_group.add(c1);
+}
+
+}
+
+function movingAttractionPoints(attraction_point){
+  
+  //ALLE BEWEGEN SICH JETZT GLEICH
+
+  if (attraction_point.position.x > EDGE_R){
+    directionX = random(-4,-1);
+  }else if (attraction_point.position.x <= EDGE_L){
+    directionX = random(1,4);
+  }
+  if(attraction_point.position.y > height){
+    directionY = random(-4,-1);
+  }else if (attraction_point.position.y < 0){
+    directionY = random (1,4);
+  }
+  
+  attraction_point.position.x += directionX;
+  attraction_point.position.y += directionY;
+
+  direction += random(1,5); 
+  attraction_point.setSpeed(random(2,3), direction); 
+}
+
+
+
+function swarmFollowAttraction(distancing_group, attraction_point){
+  //scheint nicht zu gehen weil das du auf einzelne sprites angewendet werden kann
+  for (let i = 0; i < 20; i++){
+    distancing_group[i].attractionPoint(random(0.08, 0.2), attraction_point.position.x, attraction_point.position.y);
+    distancing_group[i].setCollider("circle", 0, 0, 20);
+      distancing_group.collide(distancing_group[i]);
+  }
+  //distancing_group.attractionPoint(0.12, attraction_point.position.x, attraction_point.position.y);
+}
+
+
+
+
+
+//VORHER BEISPIEL
 function distancingFunction(){
 
+  
   //setting the point of attraction inside a certain area
   if (attraction1.position.x  > EDGE_R){
     directionOfAttractionX = random(-4,-1);
@@ -453,6 +527,11 @@ function distancingFunction(){
       distanceCharacter[i].setCollider("circle", 0, 0, 20);
       distanceCharacter.collide(distanceCharacter[i]); //setting a collider so they won't end up beeing one rectangle
    } 
+
+
+   //distancing_groups.attractionPoint(0.12, attraction1.position.x, attraction1.position.y);
+
+   
 }
 
 function flying(){
