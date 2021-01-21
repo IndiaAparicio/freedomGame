@@ -1,3 +1,4 @@
+let running = true;
 //colliders
 let ground;
 let leftEdgeCollider;
@@ -20,6 +21,7 @@ let directionOfAttractionY = 2;
 
 //player
 let player1;
+
 //gravity (https://www.youtube.com/watch?v=StoBCNiQakM)
 let gravity = 1;
 let jump = 20;
@@ -37,6 +39,10 @@ let EDGE_R = (SCENE_W/2)-50;
 let EDGE_L = (-(SCENE_W/2))+50;
 let EDGE_U = 0; //(-(SCENE_H/2))+50;
 let EDGE_D = SCENE_H;
+
+//buttons
+let buttonPlay;
+
 //images
 let bgImg0, bgImg1, bgImg2, playerImg;
 
@@ -133,7 +139,6 @@ function setup() {
     //attraction1.visible = false; //COMMENT OUT TO SEE THE POINT  
    distanceCharacter = new Group();
    
-function createSworm(){}
     for (let i = 0; i < 20; i++ ){
       c1 = createSprite(random(width), random(height), random(20,50), 20);
       c1.shapeColor = color(20,20,20);
@@ -145,6 +150,15 @@ function createSworm(){}
     }
 
    
+      buttonZoom = createButton('Zoom out');
+      buttonZoom.position(20, 20);
+
+      buttonPlay = createButton('Play/Pause');
+      buttonPlay.position(20, 40);
+
+
+      
+    
  
 }
 
@@ -152,14 +166,30 @@ function createSworm(){}
 
 function draw() {
 
-   
+
+if (running){
   //BG AND CAMERA
   background(255);
+
+  buttonZoom.mousePressed(zoom);
+  function zoom(){
+    if (camera.zoom > 0.5){
+      camera.zoom = 0.2;
+    }else if (camera.zoom < 0.5){
+      camera.zoom = 1;
+    }
+    
+  }
+  buttonPlay.mousePressed(playAndPause);
+  function playAndPause(){
+   
+  }
   
-  if(mouseIsPressed)
-    camera.zoom = 0.2;
-  else
-    camera.zoom = 1;
+  
+  //if(mouseIsPressed)
+  //  camera.zoom = 0.2;
+  //else
+  //  camera.zoom = 1;
 
   //limit camera movements on edges
   let ScreenPlayerRelation = width/2;
@@ -301,10 +331,16 @@ function draw() {
     text('Szenario 2', 200,200);
   }
   camera.on();
+
+}
 }
 
 
+function mousePressed() {
 
+    running = !running; // flip the boolean
+ 
+}
 
 
 //MASK
