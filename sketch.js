@@ -3,6 +3,10 @@ let running = true;
 let ground;
 let leftEdgeCollider;
 let rightEdgeCollider;
+let stairs_1;
+
+//kann ich hier oben löschen - ist nur für debugging
+let teleportArea, teleportArea1;
 
 //interactions
 let maskOn = false;
@@ -29,6 +33,7 @@ let player1;
 //gravity (https://www.youtube.com/watch?v=StoBCNiQakM)
 let gravity = 1;
 let jump = 20;
+let jumpHeight = 300; // Für alle Dinge, auf die der Player springen muss
 let playerGroundCheck = true;
 
 //scores
@@ -47,8 +52,7 @@ let EDGE_D = SCENE_H;
 //buttons
 let buttonPlay;
 
-//images
-let bgImg0, bgImg1, bgImg2, playerImg;
+
 
 //SingleContact
 let heightSinglePerson = (SCENE_H/5)*3;
@@ -57,10 +61,16 @@ let heightSinglePerson = (SCENE_H/5)*3;
 
 
 function preload(){
-  bgImg0 = loadImage("../img/BG-0.png");
-  bgImg1 = loadImage("../img/BG-1.png");
-  bgBigImg1 = loadImage("../img/BG-b1.png");
-  bgImg2 = loadImage("../img/BG-2.png");
+  //background images
+  bgImg1 = loadImage("../img/bg-test-1.png");
+  bgImg2 = loadImage("../img/bg-test-2.png");
+  bgImg3 = loadImage("../img/bg-test-3.png");
+  bgImg4 = loadImage("../img/bg-test-4.png");
+  bgImg5 = loadImage("../img/bg-test-5.png");
+  bgImg6 = loadImage("../img/bg-test-6.png");
+  bgImg7 = loadImage("../img/bg-test-9.png");
+  bgImg8 = loadImage("../img/bg-test-8.png");
+
   playerImg = loadImage("../img/woman.png");
   playerMaskImg = loadImage("../img/mask.png");
   individualScoreImg = loadImage("../img/scoreContainerI.png");
@@ -73,13 +83,14 @@ function setup() {
 
   createCanvas(windowWidth, windowHeight);
 
-  bg = createSprite(0, SCENE_H/2, SCENE_W, SCENE_H);
-  bg.addImage(bgBigImg1);
-
-  player1 = createSprite(0,0);
-  player1.addImage(playerMaskImg);
-  player1.addImage(playerImg);
+  bg_back = createSprite(0, SCENE_H/2, SCENE_W, SCENE_H); //Hintergrund, der sich anders bewegt (muss ein größeres Bild sein)
+  bg = createSprite(0, SCENE_H/2, SCENE_W, SCENE_H); //Vrdergrund 
   
+
+  
+
+  //bg.addImage(bgBigImg1);
+
   
   //creating sprites for grounds //ACHTING sprites haben ankerpunkt in der Mitte
   ground = createSprite(0,SCENE_H,SCENE_W,50);
@@ -91,14 +102,56 @@ function setup() {
   rightEdgeCollider = createSprite(SCENE_W/2+200,(SCENE_H/2),100,SCENE_H); //für singleCotact
   rightEdgeCollider.visible = false;
 
+  
+
   flyingArea = createSprite(0,(SCENE_H/6),SCENE_W,SCENE_H/3);
   flyingArea.visible = false;
+  //flyingEntryArea = createSprite(-(SCENE_W/4),(SCENE_H/3)-(SCENE_H/24),300,SCENE_H/12);
   gravityArea = createSprite(0,(SCENE_H)-(SCENE_H/3),SCENE_W,SCENE_H/1.5);
   gravityArea.visible = false;
 
+
+  // STAIRS
+  //stair_1 = createSprite(100, ((SCENE_H/3)*2)-(jumpHeight/2) , 300, jumpHeight);
+  stairs_1 = new Group();
+  for (let i = 0; i < (jumpHeight*3); i+=jumpHeight/1.5){
+    let stairHeight = 30;
+    let stair = createSprite(-(SCENE_W/4)-i,(SCENE_H/3)+i, 300, stairHeight);
+    stair.setCollider("rectangle", 0, -(stairHeight/2)+1, 250, 0); //making the collider only on top of stair, so player can still jump an walk infront of it 
+    stairs_1.add(stair);
+  }
+  for (let i = 0; i < (jumpHeight); i+=jumpHeight/3){
+    let stairHeight = 30;
+    let stairWidth = 150;
+    let stair = createSprite((SCENE_W/5)+(1.5*i),((SCENE_H/3)*1.6)+i,stairWidth,stairHeight);
+    stair.setCollider("rectangle",0,-(stairHeight/2)+1,stairWidth-10,0);
+    stairs_1.add(stair);
+  }
+  for (let i = 0; i < (jumpHeight); i+=jumpHeight/3){
+    let stairHeight = 30;
+    let stairWidth = 150;
+    let stair = createSprite((SCENE_W/5)+(1.5*i),((SCENE_H/3)*2.6)+i,stairWidth,stairHeight);
+    stair.setCollider("rectangle",0,-(stairHeight/2)+1,stairWidth-10,0);
+    stairs_1.add(stair);
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
   //TELEPORT
   teleportArea = createSprite(EDGE_R-(SCENE_W/4),EDGE_D-(SCENE_H*0.55),teleportColliderSize,teleportColliderSize);
+  teleportArea.setCollider("circle", 0,0,50,50);
   teleportArea1 = createSprite(EDGE_R-(SCENE_W/4),EDGE_D-(SCENE_H*0.2),teleportColliderSize,teleportColliderSize);
+  teleportArea1.setCollider("circle", 0,0,50,50);
   teleportArea.visible = false;
   teleportArea1.visible = false;
 
@@ -170,9 +223,13 @@ function setup() {
       buttonPlay.position(20, 40);
 
 
-      
+
+      //Player zum Schluss, damit er immer vorne ist
+    player1 = createSprite(0,SCENE_H/2);
+    player1.addImage(playerMaskImg);
+    player1.addImage(playerImg);
+  
     
- 
 }
 
 
@@ -180,10 +237,39 @@ function setup() {
 function draw() {
 
 
-if (running){
-  //BG AND CAMERA
-  background(255);
+if (running){//if game is not on pause
 
+  //BG AND CAMERA
+  background(70); //BG outside of frame 
+
+  // B A C K G R O U N D S 
+  //based on collectiveScore
+  bg_back.addImage(bgImg8);
+  if (collectiveScore < 17){
+    bg.addImage(bgImg1);
+  }else if (collectiveScore > 16 && collectiveScore < 33){
+    bg.addImage(bgImg2);
+  }else if (collectiveScore > 32 && collectiveScore < 50){
+    bg.addImage(bgImg3);
+  } else if (collectiveScore > 49 && collectiveScore < 66){
+    bg.addImage(bgImg4);
+  }else if(collectiveScore > 65 && collectiveScore < 82){
+    bg.addImage(bgImg5);
+  }else{
+    bg.addImage(bgImg7);
+  }
+  push();
+  for(let i = -1910 ; i < player1.position.x; i++){
+    bg_back.position.x = -(i/10);
+  }
+  scale(0.5);
+  pop();
+  
+  
+  console.log(bg_back.position.x);
+  console.log(player1.position.x);
+
+  // Z O O M
   buttonZoom.mousePressed(zoom);
   function zoom(){
     if (camera.zoom > 0.5){
@@ -204,6 +290,8 @@ if (running){
   else
     camera.zoom = 1;
 
+
+  //----- C A M E R A -------  
   //limit camera movements on edges
   let ScreenPlayerRelation = width/2;
   let ScreenPlayerRelationH = height/2;
@@ -224,87 +312,41 @@ if (running){
   }else{
    camera.position.y = player1.position.y - (windowHeight/4);
   }
-  
+  camera.position.y = player1.position.y - (windowHeight/4);
 
 
  
   
-  //PLAYER1 MOVEMENT
-  if (keyIsDown(RIGHT_ARROW) && player1.position.x <= (SCENE_W/2)-100) {
-    player1.position.x += 20;
+  // ------ P L A Y E R 1  M O V E M E N T-------
+
+
+  //GRAVITY AREA
+  if (player1.overlap(gravityArea)){
+    playerMovement();
+  }else if (player1.overlap(flyingArea)){
+    flying();
   }
-  if (keyIsDown(LEFT_ARROW) && player1.position.x >= (-(SCENE_W/2))+100) {
-    player1.position.x -= 20;
-  }
-  //MAYBE DOING THIS BUT WITH ATTRACTION POINT LIKE TO THE RIGHT wie: attractionPoint.x = player1.position.x + 2
-  //if (player1.overlap(flyingArea)){
-  //  player1.rotateToDirection = true;
-  //}
-
-  //JUMPING
-  player1.velocity.y += gravity; 
-  if(player1.collide(ground) || player1.collide(middleGround)) {
-    player1.velocity.y = 0;
-    console.log("GROUND CHECK");
-    //player1.changeAnimation('');
-  }
-  if(player1.position.y >= SCENE_H){
-    player1.velocity.y = 0;
-  }//stop player from falling
-  
-  
- 
-  if(keyWentDown(' ') && player1.position.y >= (EDGE_U + 50) && playerGroundCheck && player1.overlap(gravityArea))
-  {
-    //player1.changeAnimation('stretch');
-    //player1.animation.rewind();
-    player1.velocity.y = -jump;
-    playerGroundCheck = false;
-  }
-  //ONLY SINGLE JUMP / GROUNDCHECK
-  if(player1.overlap(middleGround) || player1.overlap(ground)){
-    console.log("GROUND CHECK2");
-    playerGroundCheck = true;
-  }
-
-  //necessary for debugging when player sticks to something
-  if (keyIsDown(DOWN_ARROW)){
-    player1.position.y += 1;
-  }
-  //OHNE VIBRIERT DAS BILD WIESO AUCH IMMER
-  player1.position.y += 1;
-
-  //PLAYER Collisions
-  player1.setCollider('rectangle', 0, 0, 64,64);
-  //if defined, the collider will be used for mouse events: https://molleindustria.github.io/p5.play/examples/index.html?fileName=keyPresses.js
-
-
-
-
-
   
 
-
-
-  
- 
-
-
- 
-  //DEBUGGING
-  maskPosition.debug = mouseIsPressed;
+  maskPosition.debug = mouseIsPressed; //so werden die collider visualisiert
+  stairs_1.debug = mouseIsPressed;
   player1.debug = mouseIsPressed;
-  console.log(player1.position.y);
+  teleportArea.debug = mouseIsPressed;
+  teleportArea1.debug = mouseIsPressed;
+  
+
+  
+
+
 
   drawSprites();  
   
 
-  //ADDING INTERACTIONS
-  if (player1.overlap(flyingArea)){
-    flying();
-  }else{
-    gravity = 1;
-  }
+
+
+
+  // ---------- A D D I N G --- I N T E R A C T I O N S -----------
+  
   teleporting();
   maskOnOff();
   hygieneScore();
@@ -321,7 +363,8 @@ if (running){
   
 
 
-  //UI
+  // --------- G U I ---------------
+
   //always after all Sprites are drawn
   camera.off();//für unbewegliche UI Elementes
 
@@ -352,7 +395,7 @@ if (running){
   camera.on();
 
 }
-}
+}//end draw
 
 
 //function mousePressed() {
@@ -362,7 +405,115 @@ if (running){
 //}
 
 
-//MASK
+
+/* ------------------- I N T E R A T C T I O N S --------------------- */
+
+
+// ---- PLAYER1 MOVEMENT -----
+function playerMovement(){
+  
+  gravity = 1;
+    
+    //left right
+    if (keyIsDown(RIGHT_ARROW) && player1.position.x <= (SCENE_W/2)-100) {
+      player1.position.x += 10;
+    }
+    if (keyIsDown(LEFT_ARROW) && player1.position.x >= (-(SCENE_W/2))+100) {
+      player1.position.x -= 10;
+    }
+    //how to make player facing right direction // different animations?
+    //MAYBE DOING THIS BUT WITH ATTRACTION POINT LIKE TO THE RIGHT wie: attractionPoint.x = player1.position.x + 2
+    //if (player1.overlap(flyingArea)){
+    //  player1.rotateToDirection = true;
+    //}
+
+
+
+    //JUMPING
+    player1.velocity.y += gravity; 
+    if(player1.collide(ground) || player1.collide(middleGround) || player1.collide(stairs_1)) {
+      player1.velocity.y = 0;
+    //player1.changeAnimation('');
+    }
+    if(player1.position.y >= SCENE_H){
+      player1.velocity.y = 0;
+    }//stop player from falling
+
+
+    //wenn space, innerhalb gravity area und gerade am Boden war, dann jumpen
+    if(keyWentDown(' ') && playerGroundCheck && player1.overlap(gravityArea))
+    {
+    //player1.changeAnimation('stretch');
+    //player1.animation.rew ind();
+      player1.velocity.y = -jump;
+      playerGroundCheck = false;
+    }
+
+    //GROUND CHECK
+    //wenn player boden berührt hat, dann ist der Ground check true
+    if(player1.overlap(middleGround) || player1.overlap(ground)){
+      playerGroundCheck = true;
+    }
+
+
+
+    //DEBUGGING
+
+    //necessary for debugging when player sticks to something
+    if (keyIsDown(DOWN_ARROW)){
+      player1.position.y += 1;
+    }
+    player1.position.y += 1;  //OHNE VIBRIERT DAS BILD WIESO AUCH IMMER -> ich glaube wegen overlap bei groundcheck
+
+    if(player1.overlap(stairs_1)){
+      console.log("GROUND CHECK");
+      playerGroundCheck = true;
+    }//das muss einzeln hinter dem debug hier drüber, damit ein GroundCheck stattfindet
+
+   
+  //PLAYER Collisions
+  //player1.setCollider('rectangle', 0, 0, 64,64);
+  //if defined, the collider will be used for mouse events: https://molleindustria.github.io/p5.play/examples/index.html?fileName=keyPresses.js
+  
+}
+
+
+
+// ---- FLYING ----
+function flying(){
+  gravity = 0; 
+  player1.velocity.y = 0.5;
+  player1.velocity.y += gravity;
+
+  if (keyIsDown(RIGHT_ARROW)) {
+    player1.position.x += 7;
+  }
+  if (keyIsDown(LEFT_ARROW)) {
+    player1.position.x -= 7;
+  }
+  if (keyIsDown(UP_ARROW)) {
+    player1.position.y -= 7;
+  }
+  if (keyIsDown(DOWN_ARROW)) {
+    player1.position.y += 7;
+  }
+
+}
+
+// ---- TELEPORTING ----
+function teleporting(){
+  if (player1.overlap(teleportArea)){
+    player1.position.y = EDGE_D - 100;
+    camera.position.y = player1.position.y - (windowHeight/2);
+  }else if (player1.overlap(teleportArea1)){
+    player1.position.y = ((SCENE_H/3)*2);
+  }
+}
+
+
+
+
+// ---- MASK ----
 function maskOnOff(){
    //maske anziehen
   if(player1.overlap(maskPosition) && maskOn === false && maskGroundCheck){
@@ -391,38 +542,29 @@ else if(player1.overlap(invisibleGroundCheck) && maskOn === false && maskGroundC
 }
 
 
-//HYGIENE
+// ----- HYGIENE -----
 function hygieneScore() {
   if (player1.overlap(hygieneArea) && collectiveScore < 100){
     collectiveScore += 1;
   }
 }
 
-//ZOOM
+// ---- ZOOM ----
 function zoomScore() {
   if (player1.overlap(zoomArea) && individualScore < 100){
     individualScore += 1;
   }
 }
 
-//ISOLATION
+// --- ISOLATION ----
 function isolationScore(){
   if (player1.overlap(isolationArea) && individualScore < 100){
     individualScore += 1;
   }
 }
 
-//TELEPORTING
-function teleporting(){
-  if (player1.overlap(teleportArea)){
-    player1.position.y = EDGE_D;
-    camera.position.y = player1.position.y - (height/2);
-  }else if (player1.overlap(teleportArea1)){
-    player1.position.y = ((SCENE_H/3)*2);
-  }
-}
 
-// SINGLE CONTACT
+// ---- SINGLE CONTACT ----
 
 
   function singlePeopleWalking () {
@@ -443,7 +585,7 @@ function teleporting(){
   }
 
 
-//DISTANCING
+// ---- DISTANCING ----
 
 function createSwarm(distancing_group, attraction_point){
   for (let e = 0; e < 20; e++ ){
@@ -532,22 +674,4 @@ function distancingFunction(){
    //distancing_groups.attractionPoint(0.12, attraction1.position.x, attraction1.position.y);
 
    
-}
-
-function flying(){
-  gravity = 0; 
-
-  if (keyIsDown(RIGHT_ARROW)) {
-    player1.position.x += 10;
-  }
-  if (keyIsDown(LEFT_ARROW)) {
-    player1.position.x -= 10;
-  }
-  if (keyIsDown(UP_ARROW)) {
-    player1.position.y -= 10;
-  }
-  if (keyIsDown(DOWN_ARROW)) {
-    player1.position.y += 10;
-  }
-
 }
