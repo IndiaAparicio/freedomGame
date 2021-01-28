@@ -25,6 +25,7 @@ let EDGE_R = (SCENE_W/2)-50;
 let EDGE_L = (-(SCENE_W/2))+50;
 let EDGE_U = 0; //(-(SCENE_H/2))+50;
 let EDGE_D = SCENE_H;
+let transp;
 
 //colliders
 let ground;
@@ -46,16 +47,12 @@ let heightSinglePerson = (SCENE_H/5)*3;
 
 //distancing
 let distanceCharacter;
-let attraction1 = []; //der Punkt, dem die Dinger folgen sollen
-let attraction_points = [];
-let dirXs = [];
 let distancing_groups = [];
 let total_number_of_groups = 6;
-let direction = 90;
-let directionOfAttractionX = 2;
-let directionOfAttractionY = 2;
-let directionX = 2;
-let directionY = 2;
+let amount_of_characters = 40;
+let att_points = [];
+let minSpeed = 2;//min and max speed of attraction points
+let maxSpeed = 3;
 
 
 
@@ -72,8 +69,8 @@ function preload(){
 
   playerImg = loadImage("../img/woman.png");
   playerMaskImg = loadImage("../img/mask.png");
-  individualScoreImg = loadImage("../img/scoreContainerI.png");
-  collectiveScoreImg= loadImage("../img/scoreContainerC.png");
+  //individualScoreImg = loadImage("../img/scoreContainerI.png");
+  //collectiveScoreImg= loadImage("../img/scoreContainerC.png");
 }
 
 
@@ -90,6 +87,18 @@ function setup() {
 
   bg_back = createSprite(0, SCENE_H/2, SCENE_W, SCENE_H); //Hintergrund, der sich anders bewegt (muss ein größeres Bild sein)
   bg = createSprite(0, SCENE_H/2, SCENE_W, SCENE_H); //Vrdergrund 
+  
+  
+  // hier müssen die transparenzen auferufen werden, weil es in draw zu lange laden muss
+  // Tipp: https://forum.processing.org/two/discussion/19438/image-transparency-alpha-via-tint-is-very-slow
+  const pg = createGraphics(bgImg1.width, bgImg1.height);
+  pg.tint(0, 153, 204, 126);
+  pg.image(bgImg1, 0,0);
+ 
+  transp = pg.get();
+
+  
+
   
   //bg.addImage(bgBigImg1);
   
@@ -174,6 +183,7 @@ function setup() {
   isolationArea = createSprite(0,SCENE_H-(SCENE_H/6),SCENE_W,SCENE_H/3);
   isolationArea.visible = false;
 
+
   //SINGLE CONTACTS
   singlepeople = new Group(); //die nach rechts gehen
   singlepeople2 = new Group(); //die nach links gehen
@@ -190,29 +200,15 @@ function setup() {
     singlepeople2.add(s2);
   }
 
+
   //DISTANCING
+  //making the swarm and attraction points
   for (let i = 0; i < total_number_of_groups; i++){
     distancing_groups[i] = new Group();
-    attraction_points[i] = createSprite(random(-SCENE_W/2, SCENE_W/2),random(0, SCENE_H/4),random(10,100),20);
-    createSwarm(distancing_groups[i], attraction_points[i]);
-    //dirXs[i] = 4;
+    att_points[i] = new Attraction_points(random(-SCENE_W/2, SCENE_W/2), random(SCENE_H/3), random(-2,2), random(-2,2));
+    createSwarm(distancing_groups[i], att_points[i].positionX, att_points[i].positionY);
   }
-   //creating the attraction point as a moving sprite and making it invisible
-    attraction1 = createSprite(random(width),height/2,20,20);
-    //attraction1.visible = false; //COMMENT OUT TO SEE THE POINT  
 
-
-   distanceCharacter = new Group();
-    for (let i = 0; i < 20; i++ ){
-      c1 = createSprite(random(width), random(height), random(20,50), 20);
-      c1.shapeColor = color(20,20,20);
-      c1.maxSpeed = 12;
-      //camera.setSpeed = random(1,15);
-      c1.friction = random(0.05, 0.15);
-      c1.rotateToDirection = true;
-      distanceCharacter.add(c1);
-    }
- 
 
 // P L A Y E R 
 
@@ -230,7 +226,6 @@ function setup() {
 function mousePressed(){
   if(mouseX > 20 && mouseX < 20 + windowWidth/10 && mouseY > windowHeight - (windowHeight/10) && mouseY < windowHeight - (windowHeight/20)) {
     running = !running; // flip the boolean
-    console.log("PAUSE");
     fill('rgba(0,0,0,0.9)');
     rect(0,0,SCENE_W,SCENE_H);
     fill(200,0,50);
@@ -256,11 +251,12 @@ if (running){//if game is not on pause
 
   // B A C K G R O U N D S 
   //based on collectiveScore
+  push();
   bg_back.addImage(bgImg8);
-  if (collectiveScore < 17){
-    bg.addImage(bgImg7);
+  if (collectiveScore < 17){ 
+    bg.addImage(transp);
   }else if (collectiveScore > 16 && collectiveScore < 33){
-    bg.addImage(bgImg2);
+    bg.addImage(transp );
   }else if (collectiveScore > 32 && collectiveScore < 50){
     bg.addImage(bgImg3);
   } else if (collectiveScore > 49 && collectiveScore < 66){
@@ -270,6 +266,7 @@ if (running){//if game is not on pause
   }else{
     bg.addImage(bgImg7);
   }
+  pop();
   
   //back - background mapped to playermovement 
   for(let i = -1910 ; i < player1.position.x; i++){
@@ -279,6 +276,7 @@ if (running){//if game is not on pause
   // C A M E R A 
   //limit camera movements on edges
   let ScreenPlayerRelation = width/2;
+  let ScreenPlayerRelationH = height/2;
 
   if (player1.position.x >= EDGE_R - ScreenPlayerRelation){
     camera.position.x = camera.position.x;
@@ -288,6 +286,12 @@ if (running){//if game is not on pause
     camera.position.x = player1.position.x;
   }
 
+
+  
+
+  if(mouseX > 40 + windowWidth/10 && mouseX < 40 + windowWidth/5 && mouseY > windowHeight - (windowHeight/10) && mouseY < windowHeight - (windowHeight/20)) { 
+    zoomInOut();
+  } 
 
   //NOCHMAL PRÜFEN  ////////////////////////////////////////////////////////////////////////////////////////////////////////
   if(player1.overlap(gravityArea)){
@@ -319,6 +323,12 @@ if (running){//if game is not on pause
       camera.position.y = player1.position.y;
       enteringFlyingArea = false;
     }
+    
+    //can only go to edge
+    if (player1.position.y <= ScreenPlayerRelationH ){
+      camera.position.y = ScreenPlayerRelationH;
+    }
+    
     
     
   }
@@ -353,7 +363,7 @@ if (running){//if game is not on pause
 
 
   // ALLLES WAS DANACH KOMMT WIRD GEHÖRT NICHT IN DIE WELT
-  drawSprites();  
+ drawSprites();  
   
 
 
@@ -367,12 +377,13 @@ if (running){//if game is not on pause
   zoomScore();
   isolationScore();
   singlePeopleWalking ();
-  distancingFunction();
-  
 
+  
+  //DISTANCING 
   for (let i = 0; i < total_number_of_groups; i++){
-    swarmFollowAttraction(distancing_groups[i], attraction_points[i]);
-    movingAttractionPoints(attraction_points[i], dirXs[i]);
+    att_points[i].move();
+    //att_points[i].show();
+    swarmFollowAttraction(distancing_groups[i], att_points[i].positionX, att_points[i].positionY);
   }
   
   for (i = 0; i < rain.length; i++) {
@@ -472,10 +483,7 @@ if (running){//if game is not on pause
 
   //zoom
   rect(40 + windowWidth/10 ,windowHeight - (windowHeight/10), windowWidth/10, windowHeight/20, 20);
-  if(mouseIsPressed && mouseX > 40 + windowWidth/10 && mouseX < 40 + windowWidth/5 && mouseY > windowHeight - (windowHeight/10) && mouseY < windowHeight - (windowHeight/20)) 
-  {camera.zoom = 0.2}
-  else
-    camera.zoom = 1;
+  
   
   //sound
   rect(windowWidth - windowWidth/20 - 20 ,windowHeight - (windowHeight/10), windowWidth/20, windowHeight/20, 20);
@@ -511,7 +519,13 @@ if (running){//if game is not on pause
 
 /* ------------------- I N T E R A T C T I O N S --------------------- */
 
-
+function zoomInOut(){
+  if(mouseIsPressed){
+    camera.zoom = windowWidth/SCENE_H;
+  }else{
+    camera.zoom = 1;
+  }
+}
 
 // ---- PLAYER1 MOVEMENT -----
 function playerMovement(){
@@ -525,6 +539,7 @@ function playerMovement(){
     if (keyIsDown(LEFT_ARROW) && player1.position.x >= (-(SCENE_W/2))+100) {
       player1.position.x -= 10;
     }
+    
     //how to make player facing right direction // different animations?
     //MAYBE DOING THIS BUT WITH ATTRACTION POINT LIKE TO THE RIGHT wie: attractionPoint.x = player1.position.x + 2
     //if (player1.overlap(flyingArea)){
@@ -570,7 +585,6 @@ function playerMovement(){
     player1.position.y += 1;  //OHNE VIBRIERT DAS BILD WIESO AUCH IMMER -> ich glaube wegen overlap bei groundcheck
 
     if(player1.overlap(stairs_1)){
-      //console.log("GROUND CHECK");
       playerGroundCheck = true;
     }//das muss einzeln hinter dem debug hier drüber, damit ein GroundCheck stattfindet
 
@@ -589,13 +603,13 @@ function flying(){
   player1.velocity.y = 0.5;
   player1.velocity.y += gravity;
 
-  if (keyIsDown(RIGHT_ARROW)) {
+  if (keyIsDown(RIGHT_ARROW) && player1.position.x <= (SCENE_W/2)-100) {
     player1.position.x += 7;
   }
-  if (keyIsDown(LEFT_ARROW)) {
+  if (keyIsDown(LEFT_ARROW) && player1.position.x >= (-(SCENE_W/2))+100) {
     player1.position.x -= 7;
   }
-  if (keyIsDown(UP_ARROW)) {
+  if (keyIsDown(UP_ARROW) && player1.position.y > 50) {
     player1.position.y -= 7;
   }
   if (keyIsDown(DOWN_ARROW)) {
@@ -647,7 +661,6 @@ function maskOnOff(){
   
    //maske anziehen
   if(player1.overlap(maskPosition) && maskOn === false && maskGroundCheck){
-    //console.log("OVERLAP");
     player1.addImage(playerMaskImg);
     maskGroundCheck = false;
     maskOn = true; 
@@ -657,12 +670,10 @@ function maskOnOff(){
   }
 //auf dem Boden gewesen 
   else if(player1.overlap(invisibleGroundCheck) && maskOn && maskGroundCheck === false){
-    //console.log("OVERLAP GROUND");
     maskGroundCheck = true;
   } 
 //maske ausziehen
   if (player1.overlap(maskPosition) && maskOn && maskGroundCheck){
-    //console.log("OVERLAP");
     player1.addImage(playerImg);
     maskGroundCheck = false;
     maskOn = false;
@@ -671,7 +682,6 @@ function maskOnOff(){
 }
 //auf dem Boden gewesen
 else if(player1.overlap(invisibleGroundCheck) && maskOn === false && maskGroundCheck === false){
-   // console.log("OVERLAP GROUND2");
     maskGroundCheck = true;
 }
 }
@@ -756,7 +766,6 @@ function isolationScore(){
 
 
 // ---- SINGLE CONTACT ----
-
 let touchedPerson = false;
   function singlePeopleWalking () {
     if(running){
@@ -778,76 +787,42 @@ let touchedPerson = false;
         }
       }
 
-      if (player1.overlap(singlepeople) || player1.overlap(singlepeople2) && touchedPerson === false){
-        individualScore += 5;
-        collectiveScore -= 3;
+      if (player1.overlap(singlepeople2) && !touchedPerson || player1.overlap(singlepeople) && !touchedPerson){
         touchedPerson = true;
+        setTimeout(function(){touchedPerson = false;},5000);
+        individualScore += 5 ;
+        collectiveScore -= 3;
       }
-      if (player1.overlap(middleGround) || player1.overlap(stairs_1)){
-        setTimeout(function (){touchedPerson = false},5000)
-        //console.log(touchedPerson);
-      }
+      
+    
   }}
 
 
 // ---- DISTANCING ----
 
-function createSwarm(distancing_group, attraction_point){
-  for (let e = 0; e < 20; e++ ){
-    c1 = createSprite(random(width), random(height), random(20,50), 20);
+// CREATING SWARM
+function createSwarm(distancing_group, attraction_pointX, attraction_pointY){
+  for (let e = 0; e < amount_of_characters; e++ ){
+    c1 = createSprite(random(-SCENE_W/2, SCENE_W/2), random(SCENE_H/3), random(20,50), 20);
     c1.shapeColor = color(random(0,200),20,random(0,200));
-    c1.maxSpeed = 12;
+    //c1.maxSpeed = 15;
     //camera.setSpeed = random(1,15);
-    c1.friction = random(0.05, 0.15);
+    c1.friction = random(0.07, 0.18);
     c1.rotateToDirection = true;
-    c1.attractionPoint(0.9, attraction_point.position.x, attraction_point.position.y);
+    c1.attractionPoint(29, attraction_pointX, attraction_pointY);
     distancing_group.add(c1);
+  }
 }
 
-}
-
-function movingAttractionPoints(attraction_point, dirX){
-  if(running){
-  if(dirX == null){dirX = 10;}
- 
-    
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  //ALLE BEWEGEN SICH JETZT GLEICH
-  //das Problem ist, dass sich die Variabel auf alle beziehz und desshalb alle sich woanders hinbewegen wenn einer den Rand erreicht
-
-  if (attraction_point.position.x >= EDGE_R){
-    dirX = -4;
-  }
-  if (attraction_point.position.x <= EDGE_L){
-    dirX = 4;
-  }
-  /*if(attraction_point.position.y > height){
-    directionY = random(-4,-1);
-  }else if (attraction_point.position.y < 0){
-    directionY = random (1,4);
-  }*/
-
-  
-  
-  attraction_point.position.x += dirX;
-  console.log(dirX);
-  //attraction_point.position.y += directionY;
-
-  //direction += random(1,5); 
-  //attraction_point.setSpeed(random(10,13), direction); 
-}}
-
-
+// SWARM FOLLOWS ATTRACTION POINT
 let touchedGroup = false;
 let hasStartedTimeoutS = false;
-function swarmFollowAttraction(distancing_group, attraction_point){
+function swarmFollowAttraction(distancing_group, attraction_pointX, attraction_pointY){
   
-  if(running){
-
-  for (let i = 0; i < 20; i++){
-    distancing_group[i].attractionPoint(random(0.08, 0.2), attraction_point.position.x, attraction_point.position.y);
+  for (let i = 0; i < amount_of_characters; i++){
+    distancing_group[i].attractionPoint(random(0.08, 0.2), attraction_pointX, attraction_pointY);
     distancing_group[i].setCollider("circle", 0, 0, 20);
-      distancing_group.collide(distancing_group[i]);
+    distancing_group.collide(distancing_group[i]);
   }
 
   if(player1.overlap(distancing_group) && touchedGroup === false){
@@ -862,51 +837,51 @@ function swarmFollowAttraction(distancing_group, attraction_point){
   }
   //console.log(touchedGroup);
   //distancing_group.attractionPoint(0.12, attraction_point.position.x, attraction_point.position.y);
-}}
+}
 
-
-
-
-
-//VORHER BEISPIEL
-function distancingFunction(){
-  if(running){
-
-  
-  //setting the point of attraction inside a certain area
-  if (attraction1.position.x  > EDGE_R){
-    directionOfAttractionX = random(-4,-1);
-  }else if (attraction1.position.x <= EDGE_L){
-    directionOfAttractionX = random(1,4);
+// CREATING AND MOVING ATTRACTION POINTS
+class Attraction_points {
+  constructor(posX, posY, speedX, speedY){
+      this.posX = posX;
+      this.posY = posY;
+      this.speedX = speedX;
+      this.speedY = speedY;
   }
-  if (attraction1.position.y > height){
-    directionOfAttractionY = random(-4,-1);   
-  }else if (attraction1.position.y < 0){
-    directionOfAttractionY = random(1,4);
+
+  get positionX (){
+    return this.posX;
   }
-  attraction1.position.x += directionOfAttractionX;
-  attraction1.position.y += directionOfAttractionY;
+  get positionY (){
+    return this.posY;
+  }
 
+  move(){
+      if(this.posX <= -(SCENE_W/2)){
+          this.speedX = random(minSpeed,maxSpeed);
+      }else if(this.posX >= SCENE_W/2){
+          this.speedX = random(-maxSpeed,-minSpeed);
+      }
 
-  //direction and speed of attraction character
-  direction += random(1,5); 
-  attraction1.setSpeed(random(2,3), direction); //speed und angle von dem Punkt wo sprite erstellt wurde
-
+      if(this.posY <= 0){
+        this.speedY = random(minSpeed,maxSpeed); 
+      }else if(this.posY >= SCENE_H/3){
+        this.speedY = random(-maxSpeed,-minSpeed);
   
-  for (let i = 0; i < distanceCharacter.length; i++ ){
-      distanceCharacter[i].attractionPoint(0.12, attraction1.position.x, attraction1.position.y);
-      //maxSpeed für wenn die Dinger weiter weg sind. Hier bei ghost: https://molleindustria.github.io/p5.play/examples/index.html?fileName=sprite4.js
-      distanceCharacter[i].setCollider("circle", 0, 0, 20);
-      distanceCharacter.collide(distanceCharacter[i]); //setting a collider so they won't end up beeing one rectangle
-   } 
+      }
+
+      this.posX += this.speedX;
+      this.posY += this.speedY;
+
+  }
+  //ONLY FOR DEBUGGING
+  show(){
+    fill(200,0,0);
+      rect(this.posX, this.posY, 100,100);
+  }
+}
 
 
-   //distancing_groups.attractionPoint(0.12, attraction1.position.x, attraction1.position.y);
-
-   
-}}
-
-
+// R A I N
 //https://editor.p5js.org/monicawen/sketches/HkU-BCJqm
 function Rain(x,y){
   this.x = x;
@@ -953,6 +928,7 @@ function Rain(x,y){
 
   }
   }
+
 
 
 
