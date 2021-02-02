@@ -9,7 +9,7 @@ ___
 ![Organization](./media/color-orga.png)
 ## Organization 
 * [x] Timetable 
-* [ ] Short Discription
+* [x] Short Discription
 * [x] Setting up GitHub Repo
 * [x] Write down all To-Do's
 * [x] Save all references, links
@@ -46,33 +46,33 @@ ___
 * [x] Player Movement (left, right and jumping)
 * [x] Flying in upper area
 * [x] Teleporting to lower area and back
-* [ ] Scoring: Player Movement 
+* [x] Scoring: Player Movement 
 
 ##### MASK
 * [x] Mask On/Off
-* [ ] Scoring: Mask On/Off
+* [x] Scoring: Mask On/Off
 
 ##### DISTANCING 
 * [x] Distancing Function
-* [ ] Clone Distancing 
-* [ ] Scoring Distancing
+* [x] Clone Distancing 
+* [x] Scoring Distancing
 
 ##### HYGIENE
 * [x] Creating Hygiene Area
-* [ ] Creating Rain (Animated or coded?)
-* [ ] Scoring Hygiene
+* [x] Creating Rain (Animated or coded?)
+* [x] Scoring Hygiene
 
 ##### SINGLE CONTACT
 * [x] Single Contacts Function 
-* [ ] Scoring Single Contacts
+* [x] Scoring Single Contacts
 
 ##### ZOOM
 * [x] Creating Zoom Area
-* [ ] Scoring Zoom 
+* [x] Scoring Zoom 
 
 ##### ISOLATION
 * [x] Creating Isolation Area
-* [ ] Scoring Isolation 
+* [x] Scoring Isolation 
 
 ##### VIRTUAL CAMERA
 * [x] Create a bigger Scene than the window size
@@ -91,9 +91,9 @@ ___
 * [ ] Make Sound louder/quiter based on time spend in certain areas
 
 ##### UI ELEMENTS
-* [ ] Play/Pause
-* [ ] individual freedom value
-* [ ] collective freedom value
+* [x] Play/Pause
+* [x] individual freedom value
+* [x] collective freedom value
 * [ ] Restart
 * [ ] Sound On/Off
 * [ ] Start Page

@@ -15,6 +15,12 @@ let enteringGravityArea = false;
 //scores
 let individualScore = 50;
 let collectiveScore = 50;
+let fbS_I_r = 0; //feedback Score Individual color red
+let fbS_I_g = 0; //feedback Score Individual color green
+let fbS_I_b = 0; //feedback Score Individual color blue
+let fbS_C_r = 0; //feedback Score Collective color red
+let fbS_C_g = 0; //feedback Score Collective color green
+let fbS_C_b = 0; //feedback Score Collective color bliue
 
 
 //camera and bg
@@ -37,10 +43,14 @@ let teleportArea, teleportArea1;
 
 
 //interactions
-let maskOn = false;
+let maskOn = true;
 let maskGroundCheck = true;
 let teleportColliderSize = 400;
 let directionSingle = 5;
+let movingHygieneA = 0;
+let movingHygieneB = SCENE_W/6;
+let hDir = 1;
+let hDir2 = 1;
 
 //SingleContact
 let heightSinglePerson = (SCENE_H/5)*3;
@@ -110,12 +120,14 @@ function setup() {
   //creating sprites for grounds //ACHTING sprites haben ankerpunkt in der Mitte
   ground = createSprite(0,SCENE_H,SCENE_W,50);
   middleGround = createSprite(0,(SCENE_H/3)*2,SCENE_W,20);
-  //clouds1 = createSprite(-(SCENE_W/2)+((SCENE_W/5)/2),(SCENE_H/3)*0.8,(SCENE_W/5),20);
-  //clouds2 = createSprite(SCENE_W/6,(SCENE_H/3)*0.8,(SCENE_W/3)*2,20);
+  //deleteS = createSprite(0,SCENE_H/3,SCENE_W,50); //wo flying area beginnt 
   leftEdgeCollider = createSprite((-(SCENE_W/2)-200),(SCENE_H/2),100,SCENE_H); //für singleContact
   leftEdgeCollider.visible = false;
   rightEdgeCollider = createSprite(SCENE_W/2+200,(SCENE_H/2),100,SCENE_H); //für singleCotact
   rightEdgeCollider.visible = false;
+
+  //Bildschirm 
+  podest1 = createSprite(-400, 1300, 1200, 30);
 
   // FLYING AND GRAVITY AREA 
   flyingArea = createSprite(0,(SCENE_H/6),SCENE_W,SCENE_H/3);
@@ -161,19 +173,18 @@ function setup() {
 // I N T E R A C T I O N S
 
   //MASK 
-  maskPosition = createSprite(0,SCENE_H/2,2000,200);
+  maskPosition = createSprite(400,SCENE_H/2,2000,200);
   maskPosition.addImage(playerMaskImg);
   maskPosition.setCollider("circle",0,0,100);
   invisibleGroundCheck = createSprite(0,(SCENE_H/3)*2,SCENE_W,30);  
   invisibleGroundCheck.visible = false;//for collision with middleGround for maskCheck
 
   //HYGIENE
-  hygieneArea = createSprite((EDGE_R)-((SCENE_W/6)/2)+50,SCENE_H/2,(SCENE_W/6),SCENE_H);
+  hygieneArea = createSprite(movingHygieneB-(SCENE_W/12),SCENE_H/2,(SCENE_W/6),SCENE_H);
   hygieneArea.visible = false;
-  //rain
-  for (let i = 0; i < 1000; i++){
-    rain[i] = new Rain (random((EDGE_R)-(SCENE_W/6),SCENE_W/2), random (0,SCENE_H), random(15,50));
-  }
+
+  
+  
 
   //ZOOM
   zoomArea = createSprite(-(SCENE_W/10),SCENE_H-(SCENE_H/4),SCENE_W/3,SCENE_H/2);
@@ -213,7 +224,7 @@ function setup() {
 // P L A Y E R 
 
   //Player zum Schluss, damit er immer vorne ist
-  player1 = createSprite(0,SCENE_H/2);
+  player1 = createSprite(400,1500);
   player1.addImage(playerMaskImg);
   player1.addImage(playerImg);
   
@@ -245,6 +256,7 @@ function draw() {
 if (running){//if game is not on pause
 
 
+ 
 
   //----- B G  A N D  C A M E R A ------
   background(70); //BG outside of frame 
@@ -373,6 +385,7 @@ if (running){//if game is not on pause
   
   teleporting();
   maskOnOff();
+  movingHygieneArea();
   hygieneScore();
   zoomScore();
   isolationScore();
@@ -420,14 +433,14 @@ if (running){//if game is not on pause
 
   // mapping für die Farbe und Länge der Balken in den Scores
   let m = map(individualScore, 0, 100, 20, windowWidth/5);
-  let c1 = map(individualScore, 0, 100, 200, 255);
-  let c2 = map(individualScore, 0, 100, 0, 255);
-  let c3 = map(individualScore,0, 100, 50, 255);
+  let c1 = map(individualScore, 0, 100, 250, 0);
+  let c2 = map(individualScore, 0, 100, 0, 200);
+  let c3 = map(individualScore,0, 100, 100, 150);
 
   let m2 = map(collectiveScore, 0, 100, 20, windowWidth/5);
-  let c4 = map(collectiveScore, 0, 100, 200, 255);
-  let c5 = map(collectiveScore, 0, 100, 0, 255);
-  let c6 = map(collectiveScore,0, 100, 50, 255);
+  let c4 = map(collectiveScore, 0, 100, 230, 0);
+  let c5 = map(collectiveScore, 0, 100, 0, 200);
+  let c6 = map(collectiveScore,0, 100, 100, 150);
 
 
 
@@ -444,21 +457,25 @@ if (running){//if game is not on pause
   rect(40 + windowWidth/5,20, m2, (windowWidth/5)/4, r); //collective
 
   //äußeres
-  stroke(0);
+  stroke(fbS_I_r, fbS_I_g, fbS_I_b);
   strokeWeight(3);
   noFill();
   rect(20,20, windowWidth/5, (windowWidth/5)/4, r); //individual
+
+  stroke(fbS_C_r, fbS_C_g, fbS_C_b);
   rect(40 + windowWidth/5, 20, windowWidth/5, (windowWidth/5)/4,r ); //collective
 
   //text
   noStroke();
-  fill(0);
+  fill(fbS_I_r, fbS_I_g, fbS_I_b);
   textAlign(CENTER);
   textSize(windowHeight/40);
   text("Individual", 20 + windowWidth/10, 20 + windowWidth/35);
+
+  fill(fbS_C_r, fbS_C_g, fbS_C_b);
   text("Collective", 40 + windowWidth/5 + windowWidth/10, 20 + windowWidth/35);
 
-  
+
   
   
   // BUTTONS
@@ -466,6 +483,7 @@ if (running){//if game is not on pause
   //Shadows Buttons
   push();
     translate(3, 3);
+    noStroke();
     fill('rgba(0,0,0,0.5)');
     rect(20 ,windowHeight - (windowHeight/10), windowWidth/10, windowHeight/20, 20);
     rect(40 + windowWidth/10 ,windowHeight - (windowHeight/10), windowWidth/10, windowHeight/20, 20);
@@ -476,6 +494,7 @@ if (running){//if game is not on pause
 
   //Buttons
   fill(255);
+  noStroke();
   //pause
   rect(20 ,windowHeight - (windowHeight/10), windowWidth/10, windowHeight/20, 20);
   //funktion ist am anfang von draw
@@ -504,7 +523,27 @@ if (running){//if game is not on pause
 
 
   //ENDINGS
-  
+
+  if (individualScore < 10 && collectiveScore > 90){
+    running = !running;
+    fill(0,0,200);
+    rect(0, 0, windowWidth, windowHeight);
+  }
+  if (individualScore > 90 && collectiveScore < 10){
+    running = !running;
+    fill(0,0,200);
+    rect(0, 0, windowWidth, windowHeight);
+  }
+  if (individualScore < 10 && collectiveScore < 10){
+    running = !running;
+    fill(0,0,200);
+    rect(0, 0, windowWidth, windowHeight);
+  }
+  if (individualScore > 90 && collectiveScore > 90){
+    running = !running;
+    fill(0,0,200);
+    rect(0, 0, windowWidth, windowHeight);
+  }
 
 
 
@@ -523,7 +562,7 @@ function zoomInOut(){
   if(mouseIsPressed){
     camera.zoom = windowWidth/SCENE_H;
   }else{
-    camera.zoom = 1;
+    camera.zoom = 0.2;
   }
 }
 
@@ -550,7 +589,7 @@ function playerMovement(){
 
     //JUMPING
     player1.velocity.y += gravity; 
-    if(player1.collide(ground) || player1.collide(middleGround) || player1.collide(stairs_1)) {
+    if(player1.collide(ground) || player1.collide(middleGround) || player1.collide(stairs_1) || player1.collide(podest1)) {
       player1.velocity.y = 0;
     //player1.changeAnimation('');
     }
@@ -630,26 +669,54 @@ function teleporting(){
 
 
 
+// SCORE FEEDBACK
+function feedbackUpScoreI(){
+  //maskFback = createSprite(20,20, windowWidth/5, (windowWidth/5)/4);
+  // Add Animation
+  //setTimeout(function(){maskFback.remove()}, 500);
+  fbS_I_g = 200;
+  fbS_I_b = 150;
+  setTimeout(function(){fbS_I_g = 0; fbS_I_b = 0;}, 500);
+}
+
+function feedbackDownScoreI(){
+  fbS_I_r = 220;
+  fbS_I_b = 60;
+  setTimeout(function(){fbS_I_r = 0; fbS_I_b = 0;}, 500);
+}
+function feedbackUpScoreC(){
+  fbS_C_g = 200;
+  fbS_C_b = 150;
+  setTimeout(function(){fbS_C_g = 0; fbS_C_b = 0;}, 500);
+}
+function feedbackDownScoreC(){
+  fbS_C_r = 220;
+  fbS_C_b = 60;
+  setTimeout(function(){fbS_C_r = 0; fbS_C_b = 0;}, 500);
+}
+
+
 
 // ---- MASK ----
 
 let maskOnInterval, maskOffInterval;
   function setMaskOnInterval (){
-  if( maskOnInterval !== null){return}
+  // if( maskOnInterval !== null){return}
      maskOnInterval = setInterval(function(){
       // SCORE CHANGE WHILE MASK IS ON
-      collectiveScore += 0.3;
-      individualScore -= 0.3;
-    },1000);//every 1000 milliseconds
+      collectiveScore += 0.1;
+      individualScore -= 0.1;
+    },500);//every 1000 milliseconds
   }
   function setMaskOffInterval (){
-    if( maskOffInterval !== null){return}
+    //if( maskOffInterval !== null){return}
     maskOffInterval = setInterval(function(){
       // SCORE CHANGE WHILE MASK IS OFF
-      individualScore += 0.3; 
-      collectiveScore -= 0.3;
-    },1000);//every 1000 milliseconds
+      individualScore += 0.1; 
+      collectiveScore -= 0.1;
+    },500);//every 1000 milliseconds
   }
+  
   function stopMaskOnInterval(){
     clearInterval(maskOnInterval);
   }
@@ -662,6 +729,8 @@ function maskOnOff(){
    //maske anziehen
   if(player1.overlap(maskPosition) && maskOn === false && maskGroundCheck){
     player1.addImage(playerMaskImg);
+    feedbackUpScoreC();
+    feedbackDownScoreI();
     maskGroundCheck = false;
     maskOn = true; 
   
@@ -675,6 +744,8 @@ function maskOnOff(){
 //maske ausziehen
   if (player1.overlap(maskPosition) && maskOn && maskGroundCheck){
     player1.addImage(playerImg);
+    feedbackUpScoreI();
+    feedbackDownScoreC();
     maskGroundCheck = false;
     maskOn = false;
     setMaskOffInterval();
@@ -693,16 +764,44 @@ let hygieneBoostIntervall;
 let hasStartedTimeoutH = false;
 let clean = 5; //je nach dem wie Clean jemand ist (0 voll / 10 null)
 
+function movingHygieneArea(){
+   //rain
+  for (let i = 0; i < 1000; i++){
+    rain[i] = new Rain (random(movingHygieneA,movingHygieneB), random (0,SCENE_H), random(15,50));
+  }
+
+
+  //smallest for random in rain
+  if (movingHygieneA >= SCENE_W/2){
+    hDir = -1;
+  }else if (movingHygieneA <= -SCENE_W/2){
+    hDir = 1;
+  }
+  movingHygieneA += hDir;
+  hygieneArea.position.x += hDir;
+
+  //highest for random in rain
+  if (movingHygieneB >= SCENE_W/2){
+    hDir2 = -1;
+  }else if (movingHygieneB <= -SCENE_W/2){
+    hDir2 = 1;
+  }
+  movingHygieneB += hDir2;
+  console.log(movingHygieneB);
+}
+
 function hygieneScore() {
   if(clean >= 10){ clean = 10; }else if(clean <= 1){clean = 1;}
   //console.log(boostHygine);
   if (player1.overlap(hygieneArea) && boostHygine === false){
       clean = 1;
       boostHygine = true;
+      feedbackUpScoreC();
+      feedbackDownScoreI();
       collectiveScore += 20;
       individualScore -= 10;
   }else if (player1.overlap(hygieneArea) === false && boostHygine && !hasStartedTimeoutH){
-      hygieneBoostIntervall = setTimeout(function(){boostHygine = false; hasStartedTimeoutH = false;}, 10000); //wenn in der letzten Sekunde ein boost war
+      hygieneBoostIntervall = setTimeout(function(){boostHygine = false; hasStartedTimeoutH = false;}, 20000); //wenn in der letzten Sekunde ein boost war
       hasStartedTimeoutH = true;
     }
   //console.log(hasStartedTimeoutH);
@@ -710,8 +809,8 @@ function hygieneScore() {
   //clean
 
   if(player1.overlap(hygieneArea) === false){
-    clean *= 1.001; // wie schnell der Wert zurück au 10 fällt 
-    collectiveScore -= clean * 0.001; // wie starken Impact clean auf den Score hat
+    //clean *= 1.001; // wie schnell der Wert zurück au 10 fällt 
+    //collectiveScore -= clean * 0.001; // wie starken Impact clean auf den Score hat
   }
 
 }
@@ -732,6 +831,7 @@ function zoomScore() {
 
   if(insideZoomArea){
       //ADD ANIMATION
+      feedbackUpScoreI();
       boring *= 0.999; //es wird immer langweiliger
       individualScore += boring * 0.001;
   }else{
@@ -755,8 +855,10 @@ function isolationScore(){
   }
 
   if (insideIsolationArea){
+    feedbackDownScoreI();
     lonely *= 1.001;
     individualScore -= lonely * 0.001;
+    collectiveScore += lonely * 0.001;
   }else{
     lonely *= 0.999; //lässt außerhalb lonely wieder runter gehen
   }
@@ -790,6 +892,8 @@ let touchedPerson = false;
       if (player1.overlap(singlepeople2) && !touchedPerson || player1.overlap(singlepeople) && !touchedPerson){
         touchedPerson = true;
         setTimeout(function(){touchedPerson = false;},5000);
+        feedbackUpScoreI();
+        feedbackDownScoreC();
         individualScore += 5 ;
         collectiveScore -= 3;
       }
@@ -826,6 +930,8 @@ function swarmFollowAttraction(distancing_group, attraction_pointX, attraction_p
   }
 
   if(player1.overlap(distancing_group) && touchedGroup === false){
+    feedbackUpScoreI();
+    feedbackDownScoreC();
     individualScore += 10;
     collectiveScore -= 10;
     touchedGroup = true;
