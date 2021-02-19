@@ -3,6 +3,7 @@ let running = true;
 
 //player
 let player1;
+let playerAnimation;
 
 //gravity (https://www.youtube.com/watch?v=StoBCNiQakM)
 let gravity = 1;
@@ -52,6 +53,11 @@ let movingHygieneB = SCENE_W/6;
 let hDir = 1;
 let hDir2 = 1;
 
+//Bildschirme in ZoomArea
+let zoomScreenMiddle;
+let zoomScreenGround;
+let move1 = 50;
+
 //SingleContact
 let heightSinglePerson = (SCENE_H/5)*3;
 
@@ -70,17 +76,20 @@ function preload(){
   //background images
   bgImg1 = loadImage("../img/bg-test-1.png");
   bgImg2 = loadImage("../img/bg-test-2.png");
-  bgImg3 = loadImage("../img/bg-test-3.png");
-  bgImg4 = loadImage("../img/bg-test-4.png");
-  bgImg5 = loadImage("../img/bg-test-5.png");
-  bgImg6 = loadImage("../img/bg-test-6.png");
-  bgImg7 = loadImage("../img/bg-test-9.png");
-  bgImg8 = loadImage("../img/bg-test-8.png");
+  bgImg3 = loadImage("../img/world-highR.png");
+  bgImg4 = loadImage("../img/world-highR.png");
+  bgImg5 = loadImage("../img/world-highR.png");
+  bgImg6 = loadImage("../img/world-highR.png");
+  bgImg7 = loadImage("../img/world-highR.png"); //world
+  bgImg8 = loadImage("../img/sky.png"); // BG 
+  middleCity = loadImage("../img/middleCity.png"); // middleCity
+  clouds1 = loadImage("../img/wolken-highR.png");
 
   playerImg = loadImage("../img/woman.png");
   playerMaskImg = loadImage("../img/mask.png");
-  //individualScoreImg = loadImage("../img/scoreContainerI.png");
-  //collectiveScoreImg= loadImage("../img/scoreContainerC.png");
+
+  playerAnimation = loadAnimation('../img/player1.png','../img/player6.png');
+ 
 }
 
 
@@ -95,9 +104,17 @@ function setup() {
 
   // B A C K G R O U N D
 
-  bg_back = createSprite(0, SCENE_H/2, SCENE_W, SCENE_H); //Hintergrund, der sich anders bewegt (muss ein größeres Bild sein)
-  bg = createSprite(0, SCENE_H/2, SCENE_W, SCENE_H); //Vrdergrund 
   
+  bg_back = createSprite(0, SCENE_H/2, SCENE_W+300, SCENE_H); //Hintergrund, der sich anders bewegt (muss ein größeres Bild sein)
+  bg_middle = createSprite(0, SCENE_H/2, SCENE_W+300, SCENE_H); //Vrdergrund 
+  bg = createSprite(0, SCENE_H/2, SCENE_W, SCENE_H); //Vrdergrund 
+  bg_clouds1 = createSprite(SCENE_W/2, SCENE_H/2, SCENE_W, SCENE_H);
+  bg_clouds2 = createSprite(-SCENE_W/2, SCENE_H/2, SCENE_W, SCENE_H);
+
+  bg_back.addImage(bgImg8);
+  bg_middle.addImage(middleCity);
+  bg_clouds1.addImage(clouds1);
+  bg_clouds2.addImage(clouds1);
   
   // hier müssen die transparenzen auferufen werden, weil es in draw zu lange laden muss
   // Tipp: https://forum.processing.org/two/discussion/19438/image-transparency-alpha-via-tint-is-very-slow
@@ -107,6 +124,7 @@ function setup() {
  
   transp = pg.get();
 
+  
   
 
   
@@ -118,8 +136,10 @@ function setup() {
 
   // GROUNDS
   //creating sprites for grounds //ACHTING sprites haben ankerpunkt in der Mitte
-  ground = createSprite(0,SCENE_H,SCENE_W,50);
-  middleGround = createSprite(0,(SCENE_H/3)*2,SCENE_W,20);
+  ground = createSprite(0,SCENE_H,SCENE_W,250);
+  ground.visible = false;
+  middleGround = createSprite(0,(SCENE_H/3)*2,SCENE_W,60);
+  middleGround.visible = false;
   //deleteS = createSprite(0,SCENE_H/3,SCENE_W,50); //wo flying area beginnt 
   leftEdgeCollider = createSprite((-(SCENE_W/2)-200),(SCENE_H/2),100,SCENE_H); //für singleContact
   leftEdgeCollider.visible = false;
@@ -155,7 +175,7 @@ function setup() {
   for (let i = 0; i < (jumpHeight); i+=jumpHeight/3){
     let stairHeight = 30;
     let stairWidth = 150;
-    let stair = createSprite((SCENE_W/5)+(1.5*i),((SCENE_H/3)*2.6)+i,stairWidth,stairHeight);
+    let stair = createSprite((SCENE_W/5)+(1.5*i),((SCENE_H/3)*2.57)+(i*0.8),stairWidth,stairHeight);
     stair.setCollider("rectangle",0,-(stairHeight/2)+1,stairWidth-10,0);
     stairs_1.add(stair);
   }
@@ -168,6 +188,17 @@ function setup() {
   teleportArea.visible = false;
   teleportArea1.visible = false;
 
+
+  //creating black boxes around Scene, so player doesnt see objects leaving Scene
+  let blackbox_L, blackbox_R, blackbox_U, blackbox_D;
+  blackbox_L = createSprite(-SCENE_W/2-500,SCENE_H/2,1000,5000);
+  blackbox_R = createSprite(SCENE_W/2+500,SCENE_H/2,1000,5000);
+  blackbox_U = createSprite(0,-500,6000,1000);
+  blackbox_D = createSprite(0,SCENE_H+500,6000,1000);
+  blackbox_L.shapeColor = color(0,0,0);
+  blackbox_R.shapeColor = color(0,0,0);
+  blackbox_U.shapeColor = color(0,0,0);
+  blackbox_D.shapeColor = color(0,0,0);
 
 
 // I N T E R A C T I O N S
@@ -184,8 +215,6 @@ function setup() {
   hygieneArea.visible = false;
 
   
-  
-
   //ZOOM
   zoomArea = createSprite(-(SCENE_W/10),SCENE_H-(SCENE_H/4),SCENE_W/3,SCENE_H/2);
   zoomArea.visible = false;
@@ -220,20 +249,28 @@ function setup() {
     createSwarm(distancing_groups[i], att_points[i].positionX, att_points[i].positionY);
   }
 
-
+  
+  
+  zoomScreenMiddle = createGraphics(1200,480);
+  zoomScreenGround = createGraphics(125,125);
+  zoomScreenGroundBig = createGraphics(800,425);
+  
 // P L A Y E R 
 
   //Player zum Schluss, damit er immer vorne ist
   player1 = createSprite(400,1500);
-  player1.addImage(playerMaskImg);
-  player1.addImage(playerImg);
+  player1.addAnimation('playerAnimation', '../img/player1.png','../img/player6.png');
+  // player1.addImage(playerMaskImg);
+  // player1.addImage(playerImg);
   
-    
-    
+ 
+  
+
+
 } // end Set up
 
 
-
+// PAUSE FUNCTION
 function mousePressed(){
   if(mouseX > 20 && mouseX < 20 + windowWidth/10 && mouseY > windowHeight - (windowHeight/10) && mouseY < windowHeight - (windowHeight/20)) {
     running = !running; // flip the boolean
@@ -245,7 +282,17 @@ function mousePressed(){
     textAlign(CENTER);
     textSize(windowHeight/40);
     text("Continue", 20 + windowWidth/20, windowHeight - (windowHeight/15));
-}
+  }
+  if(mouseX > windowWidth - windowWidth/10 && mouseY < 20 + windowWidth/15){
+    running = !running; // flip the boolean
+    fill('rgba(0,0,0,0.9)');
+    rect(0,0,SCENE_W,SCENE_H);
+    fill(255);
+    textAlign(CENTER);
+    textSize(windowHeight/10);
+    text("Erklärung", windowWidth/2, windowHeight/2);
+  }
+ 
 }
 
 
@@ -255,16 +302,19 @@ function draw() {
 
 if (running){//if game is not on pause
 
-
- 
+  
 
   //----- B G  A N D  C A M E R A ------
-  background(70); //BG outside of frame 
+  background(0); //BG outside of frame 
+ 
+
+  animation(playerAnimation, 400,1500);
 
   // B A C K G R O U N D S 
   //based on collectiveScore
   push();
-  bg_back.addImage(bgImg8);
+  
+  
   if (collectiveScore < 17){ 
     bg.addImage(transp);
   }else if (collectiveScore > 16 && collectiveScore < 33){
@@ -283,7 +333,19 @@ if (running){//if game is not on pause
   //back - background mapped to playermovement 
   for(let i = -1910 ; i < player1.position.x; i++){
     bg_back.position.x = -(i/10);
+    bg_middle.position.x = -(i/20);
+
   }
+
+  //lässt Wolken wieder bei 0 starteb, nachdem sie aus dem Bild sind
+  if(bg_clouds1.position.x < -SCENE_W-50){
+    bg_clouds1.position.x = SCENE_W+50; 
+  }
+  if(bg_clouds2.position.x < -SCENE_W-50){
+    bg_clouds2.position.x = SCENE_W+50; 
+  } 
+  bg_clouds1.position.x += -0.5;
+  bg_clouds2.position.x += -0.5;
 
   // C A M E R A 
   //limit camera movements on edges
@@ -300,7 +362,7 @@ if (running){//if game is not on pause
 
 
   
-
+  //zoom changing on Button zoom
   if(mouseX > 40 + windowWidth/10 && mouseX < 40 + windowWidth/5 && mouseY > windowHeight - (windowHeight/10) && mouseY < windowHeight - (windowHeight/20)) { 
     zoomInOut();
   } 
@@ -354,7 +416,7 @@ if (running){//if game is not on pause
   
   // ------ P L A Y E R 1  M O V E M E N T -------
 
-
+ 
   //GRAVITY AREA
   if (player1.overlap(gravityArea)){
     playerMovement();
@@ -378,8 +440,29 @@ if (running){//if game is not on pause
  drawSprites();  
   
 
+  
+
+  // SCREENS DIE ANIMATIONEN MACHEN IN ZOOM BEREICHEN
+  let att_animation_middle = map(player1.position.x, -1060, 140, 600, 1800);
+  let att_animation_ground = map(player1.position.x, -840, -100, 600, 1000);
 
 
+  graphicsScreen(zoomScreenMiddle, -1080, SCENE_H/2-100, att_animation_middle, 480, 200, 250, 0, 50);
+  graphicsScreen(zoomScreenGroundBig, -870, 2215, att_animation_ground, 425, 0, 0, 100, 150);
+
+console.log(player1.position.x);
+
+  for(let i = 0; i<301; i += 150){
+    for(let y = 0; y < 1000; y += 980){
+      graphicsScreen(zoomScreenGround, -1015+y, 2215+i, 125, 125,0, 0, 100, 150);
+    }
+  }
+
+  
+ 
+  // damit der Player vor den Screens bleibt (es muss noch die einzelnen Distancing Personen hinzugefügt werden)
+  drawSprite(player1);
+  drawSprites(singlepeople, singlepeople2);
 
   // ---------- A D D I N G --- I N T E R A C T I O N S -----------
   
@@ -545,6 +628,8 @@ if (running){//if game is not on pause
     rect(0, 0, windowWidth, windowHeight);
   }
 
+  
+
 
 
   camera.on();
@@ -562,7 +647,7 @@ function zoomInOut(){
   if(mouseIsPressed){
     camera.zoom = windowWidth/SCENE_H;
   }else{
-    camera.zoom = 0.2;
+    camera.zoom = 0.4;
   }
 }
 
@@ -787,7 +872,7 @@ function movingHygieneArea(){
     hDir2 = 1;
   }
   movingHygieneB += hDir2;
-  console.log(movingHygieneB);
+  //console.log(movingHygieneB);
 }
 
 function hygieneScore() {
@@ -817,6 +902,7 @@ function hygieneScore() {
 
 // ---- ZOOM ----
 let boring = 10; //10 fun // 0 boring
+let maxZoomC = 1;
 function zoomScore() {
   let insideZoomArea;
   if (boring <= 1){boring = 1;}else if(boring >= 10){boring = 10;}
@@ -831,14 +917,31 @@ function zoomScore() {
 
   if(insideZoomArea){
       //ADD ANIMATION
-      feedbackUpScoreI();
+      
+      //10 = not boring, 1 = boring
       boring *= 0.999; //es wird immer langweiliger
-      individualScore += boring * 0.001;
+      maxZoomC += 0.01; //maximale Zunahme des collective Werts für den Bereich
+
+      if(maxZoomC < 20){
+        collectiveScore += 0.01;
+        feedbackUpScoreC();
+      }else{
+        collectiveScore += 0;
+      }
+      
+      if(boring > 5){
+        individualScore += boring * 0.001;
+        feedbackUpScoreI();
+      }else{
+        individualScore += boring * -0.005;
+        feedbackDownScoreI();
+      }
   }else{
       boring *= 1.001; //lässt boring wieder hoch gehen
+      maxZoomC -= 0.01; //lässt maxZoom wieder runter gehen
   }
-
-    //individualScore += 1;
+  console.log("boring" + boring);
+  console.log("maxZoom" + maxZoomC);
   
 }
 
@@ -1037,6 +1140,37 @@ function Rain(x,y){
 
 
 
+  function graphicsScreen(graphics, x, y, w, h, bg, r, g, b){
+
+
+      graphics.background(bg);
+      graphics.noFill();
+      graphics.stroke(r,g,b);
+      graphics.strokeWeight(5);
+      graphics.rectMode(CENTER);
+
+      if(move1 <= 500){
+          for(let i = 0; i < 600; i+=50){
+            graphics.rect(w/2,h/2,move1-i,move1-i); ////hier statt 250 die Hälfte von er graphics Größe
+          }
+          for(let i = 0; i < 500; i+=50){
+          graphics.rect(w/2,h/2,move1+i,move1+i);
+          }
+      }else{
+        move1 = 50;
+      }
+      
+      move1 += 1;
+      image(graphics, x, y);//Ort
+  }
+
+
+
+
+
+  function windowResized() {
+    resizeCanvas(windowWidth, windowHeight);
+  }
 
   //wenn irgendein key gedrückt wird add 0.01 für den movement dings
   //wenn key gedrückt +individual, -collective
