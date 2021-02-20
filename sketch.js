@@ -3,7 +3,10 @@ let running = true;
 
 //player
 let player1;
-let playerAnimation;
+
+
+//Animation
+let distancing_1_animate;
 
 //gravity (https://www.youtube.com/watch?v=StoBCNiQakM)
 let gravity = 1;
@@ -59,7 +62,7 @@ let zoomScreenGround;
 let move1 = 50;
 
 //SingleContact
-let heightSinglePerson = (SCENE_H/5)*3;
+let heightSinglePerson = (SCENE_H/5)*3.15;
 
 //distancing
 let distanceCharacter;
@@ -88,11 +91,121 @@ function preload(){
   playerImg = loadImage("../img/woman.png");
   playerMaskImg = loadImage("../img/mask.png");
 
-  playerAnimation = loadAnimation('../img/player1.png','../img/player6.png');
- 
+  test1 = loadImage('../img/testtst.png');
+  test2 = loadImage('../img/testtest.png');
+
+  //  A N I M A T I O N S
+  //Player:
+  player_1_jump_animate = loadAnimation('../img/player/Player-SW-Jump-1.png','../img/player/Player-SW-Jump-11.png');
+  player_1_ground_animate = loadAnimation('../img/player/Player-SW-Ground-1.png','../img/player/Player-SW-Ground-11.png');
+  player_1_mask_jump_animate = loadAnimation('../img/player/Player-SW-Maske-Ground-1.png','../img/player/Player-SW-Maske-Ground-11.png');
+  player_1_mask_ground_animate = loadAnimation('../img/player/Player-SW-Maske-Jump-1.png','../img/player/Player-SW-Maske-Jump-11.png');
+
+  player_2_jump_animate = loadAnimation('../img/player/Player-Ausgeblichen-Jump-1.png','../img/player/Player-Ausgeblichen-Jump-11.png');
+  player_2_ground_animate = loadAnimation('../img/player/Player-Ausgeblichen-Ground-1.png','../img/player/Player-Ausgeblichen-Ground-11.png');
+  player_2_mask_jump_animate = loadAnimation('../img/player/Player-Ausgeblichen-Maske-Jump-1.png','../img/player/Player-Ausgeblichen-Maske-Jump-11.png');
+  player_2_mask_ground_animate = loadAnimation('../img/player/Player-Ausgeblichen-Maske-Ground-1.png','../img/player/Player-Ausgeblichen-Maske-Ground-11.png');
+
+  player_3_jump_animate = loadAnimation('../img/player/Player-Bunt-Jump-1.png','../img/player/Player-Bunt-Jump-11.png');
+  player_3_ground_animate = loadAnimation('../img/player/Player-Bunt-Ground-1.png','../img/player/Player-Bunt-Ground-11.png');
+  player_3_mask_jump_animate = loadAnimation('../img/player/Player-Bunt-Maske-Jump-1.png','../img/player/Player-Bunt-Maske-Jump-11.png');
+  player_3_mask_ground_animate = loadAnimation('../img/player/Player-Bunt-Maske-Ground-1.png','../img/player/Player-Bunt-Maske-Ground-11.png');
+
+  player_4_jump_animate = loadAnimation('../img/player/Player-Halb-Jump-1.png','../img/player/Player-Halb-Jump-11.png');
+  player_4_ground_animate = loadAnimation('../img/player/Player-Halb-Ground-1.png','../img/player/Player-Halb-Ground-11.png');
+  player_4_mask_jump_animate = loadAnimation('../img/player/Player-Halb-Maske-Jump-1.png','../img/player/Player-Halb-Maske-Jump-11.png');
+  player_4_mask_ground_animate = loadAnimation('../img/player/Player-Halb-Maske-Ground-1.png','../img/player/Player-Halb-Maske-Ground-11.png');
+
+  player_5_jump_animate = loadAnimation('../img/player/Player-Detail-Jump-1.png','../img/player/Player-Detail-Jump-11.png');
+  player_5_ground_animate = loadAnimation('../img/player/Player-Detail-Ground-1.png','../img/player/Player-Detail-Ground-11.png');
+  player_5_mask_jump_animate = loadAnimation('../img/player/Player-Detail-Maske-Jump-1.png','../img/player/Player-Detail-Maske-Jump-11.png');
+  player_5_mask_ground_animate = loadAnimation('../img/player/Player-Detail-Maske-Ground-1.png','../img/player/Player-Detail-Maske-Ground-11.png');
+
+  //SingleContact
+  singleContact_1_L_animate = loadAnimation('../img/SingleContact/SingleContact-SW-L-1.png','../img/SingleContact/SingleContact-SW-L-10.png');
+  singleContact_1_R_animate = loadAnimation('../img/SingleContact/SingleContact-SW-R-1.png','../img/SingleContact/SingleContact-SW-R-10.png');
+  singleContact_2_L_animate = loadAnimation('../img/SingleContact/SingleContact-Verblichen-L-1.png','../img/SingleContact/SingleContact-Verblichen-L-10.png');
+  singleContact_2_R_animate = loadAnimation('../img/SingleContact/SingleContact-Verblichen-R-1.png','../img/SingleContact/SingleContact-Verblichen-R-10.png');
+  singleContact_3_L_animate = loadAnimation('../img/SingleContact/SingleContact-Bunt-L-1.png','../img/SingleContact/SingleContact-Bunt-L-10.png');
+  singleContact_3_R_animate = loadAnimation('../img/SingleContact/SingleContact-Bunt-R-1.png','../img/SingleContact/SingleContact-Bunt-R-10.png');
+  singleContact_4_L_animate = loadAnimation('../img/SingleContact/SingleContact-Halb-L-1.png','../img/SingleContact/SingleContact-Halb-L-10.png');
+  singleContact_4_R_animate = loadAnimation('../img/SingleContact/SingleContact-Halb-R-1.png','../img/SingleContact/SingleContact-Halb-R-10.png');
+  singleContact_5_L_animate = loadAnimation('../img/SingleContact/SingleContact-Detail-L-1.png','../img/SingleContact/SingleContact-Detail-L-10.png');
+  singleContact_5_R_animate = loadAnimation('../img/SingleContact/SingleContact-Detail-R-1.png','../img/SingleContact/SingleContact-Detail-R-10.png');
+
+  //Distancing
+  distancing_1_animate = loadAnimation('../img/Distancing/Distancing-SW-1.png','../img/Distancing/Distancing-SW-7.png');
+  distancing_2_col1_animate = loadAnimation('../img/Distancing/Distancing-Ausgeblichen-ColorA-1.png','../img/Distancing/Distancing-Ausgeblichen-ColorA-7.png');
+  distancing_2_col2_animate = loadAnimation('../img/Distancing/Distancing-Ausgeblichen-ColorB-1.png','../img/Distancing/Distancing-Ausgeblichen-ColorB-7.png');
+  distancing_2_col3_animate = loadAnimation('../img/Distancing/Distancing-Ausgeblichen-ColorC-1.png','../img/Distancing/Distancing-Ausgeblichen-ColorC-7.png');
+  distancing_3_col1_animate = loadAnimation('../img/Distancing/Distancing-Bunt-ColorA-1.png','../img/Distancing/Distancing-Bunt-ColorA-7.png');
+  distancing_3_col2_animate = loadAnimation('../img/Distancing/Distancing-Bunt-ColorB-1.png','../img/Distancing/Distancing-Bunt-ColorB-7.png');
+  distancing_3_col3_animate = loadAnimation('../img/Distancing/Distancing-Bunt-ColorC-1.png','../img/Distancing/Distancing-Bunt-ColorC-7.png');
+  distancing_4_col1_animate = loadAnimation('../img/Distancing/Distancing-Halb-ColorA-1.png','../img/Distancing/Distancing-Halb-ColorA-7.png');
+  distancing_4_col2_animate = loadAnimation('../img/Distancing/Distancing-Halb-ColorB-1.png','../img/Distancing/Distancing-Halb-ColorB-7.png');
+  distancing_4_col3_animate = loadAnimation('../img/Distancing/Distancing-Halb-ColorC-1.png','../img/Distancing/Distancing-Halb-ColorC-7.png');
+  distancing_5_col1_animate = loadAnimation('../img/Distancing/Distancing-Detail-ColorA-1.png','../img/Distancing/Distancing-Detail-ColorA-7.png');
+  distancing_5_col2_animate = loadAnimation('../img/Distancing/Distancing-Detail-ColorB-1.png','../img/Distancing/Distancing-Detail-ColorB-7.png');
+  distancing_5_col3_animate = loadAnimation('../img/Distancing/Distancing-Detail-ColorC-1.png','../img/Distancing/Distancing-Detail-ColorC-7.png');
+
+
+  //playerAnimation = loadAnimation('../img/Detailbubble-1.png','../img/Detailbubble-11.png');
+  //distancingAnimation = loadAnimation('../img/Distancing/DistancingDetail-1.png','../img/Distancing/DistancingDetail-7.png');
+  //singlePeopleAnimation = loadAnimation('../img/SingleContact-1.png','../img/SingleContact-10.png');
 }
 
+/*
+//ANIMATIONS:
+[fertig gemalt] [eingepflegt]
+- Player (Maße: 199 x 322 px)
+  - [] [] Detailed mask
+  - [] [] Detailed
+  - [] [] halb Detailed mask
+  - [] [] halb Detailed
+  - [] [] bunt mask
+  - [] [] bunt 
+  - [] [] azsgeblichen mask
+  - [] [] ausgeblichen 
+  - [] [] S/W mask
+  - [] [] S/W 
+- Distancing (Maße: 44 x 34 px)
+  - [] [] detailed Color1
+  - [] [] detailed Color2
+  - [] [] detailed Color3
+  - [] [] bunt Color1
+  - [] [] bunt Color2
+  - [] [] bunt Color3
+  - [] [] S/W Color1
+  - [] [] S/W Color2
+  - [] [] S/W Color3
+- Single Contact (Maße: 133 x 178 px) TESTEN
+  - [] [] detailed R Color1
+  - [] [] detailed R Color2
+  - [] [] detailed R Color3
+  - [] [] detailed L Color1
+  - [] [] detailed L Color2
+  - [] [] detailed L Color3
+  - [] [] bunt R Color1
+  - [] [] bunt R Color2
+  - [] [] bunt R Color3
+  - [] [] bunt L Color1
+  - [] [] bunt L Color2
+  - [] [] bunt L Color3
+  - [] [] S/W R Color1
+  - [] [] S/W R Color2
+  - [] [] S/W R Color3
+  - [] [] S/W L Color1
+  - [] [] S/W L Color2
+  - [] [] S/W L Color3
+- BG
+  - [] [] detailed
+  - [] [] halb
+  - [] [] bunt
+  - [] [] ausgeblichen
+  - [] [] S/W
 
+
+*/
 
 /* ----------- S E T  U P ------------- */
 
@@ -230,13 +343,25 @@ function setup() {
   for (let i = 0; i < 3; i++){//Menge an single Contacs definieren
     s1 = createSprite(random(SCENE_W)-(SCENE_W/2),heightSinglePerson,200,100);
     s1.friction = random(0.001, 0.05);
-    s1.shapeColor = color(200,0,50);
+    //s1.shapeColor = color(200,0,50);
     s1.maxSpeed = 12;
+    //ANIMARE
+    s1.addAnimation('singleContact_1_R_animate', '../img/SingleContact/SingleContact-SW-R-1.png','../img/SingleContact/SingleContact-SW-R-10.png');
+    s1.addAnimation('singleContact_2_R_animate', '../img/SingleContact/SingleContact-Verblichen-R-1.png','../img/SingleContact/SingleContact-Verblichen-R-10.png');
+    s1.addAnimation('singleContact_3_R_animate', '../img/SingleContact/SingleContact-Bunt-R-1.png','../img/SingleContact/SingleContact-Bunt-R-10.png');
+    s1.addAnimation('singleContact_4_R_animate', '../img/SingleContact/SingleContact-Halb-R-1.png','../img/SingleContact/SingleContact-Halb-R-10.png');
+    s1.addAnimation('singleContact_5_R_animate', '../img/SingleContact/SingleContact-Detail-R-1.png','../img/SingleContact/SingleContact-Detail-R-10.png');
     singlepeople.add(s1);
+
     s2 = createSprite(random(SCENE_W)-(SCENE_W/2),heightSinglePerson,200,100);
     s2.friction = random(0.001, 0.03);
     s2.shapeColor = color(0,0,50);
     s2.maxSpeed = 12;
+    s2.addAnimation('singleContact_1_L_animate', '../img/SingleContact/SingleContact-SW-L-1.png','../img/SingleContact/SingleContact-SW-L-10.png');
+    s2.addAnimation('singleContact_2_L_animate', '../img/SingleContact/SingleContact-Verblichen-L-1.png','../img/SingleContact/SingleContact-Verblichen-L-10.png');
+    s2.addAnimation('singleContact_3_L_animate', '../img/SingleContact/SingleContact-Bunt-L-1.png','../img/SingleContact/SingleContact-Bunt-L-10.png');
+    s2.addAnimation('singleContact_4_L_animate', '../img/SingleContact/SingleContact-Halb-L-1.png','../img/SingleContact/SingleContact-Halb-L-10.png');
+    s2.addAnimation('singleContact_5_L_animate', '../img/SingleContact/SingleContact-Detail-L-1.png','../img/SingleContact/SingleContact-Detail-R-10.png');
     singlepeople2.add(s2);
   }
 
@@ -259,7 +384,17 @@ function setup() {
 
   //Player zum Schluss, damit er immer vorne ist
   player1 = createSprite(400,1500);
-  player1.addAnimation('playerAnimation', '../img/player1.png','../img/player6.png');
+  player1.addAnimation('player_1_ground_animate','../img/player/Player-SW-Ground-1.png','../img/player/Player-SW-Ground-11.png');
+  player1.addAnimation('player_2_ground_animate','../img/player/Player-Ausgeblichen-Ground-1.png','../img/player/Player-Ausgeblichen-Ground-11.png');
+  player1.addAnimation('player_3_ground_animate','../img/player/Player-Bunt-Ground-1.png','../img/player/Player-Bunt-Ground-11.png');
+  player1.addAnimation('player_4_ground_animate','../img/player/Player-Halb-Ground-1.png','../img/player/Player-Halb-Ground-11.png');
+  player1.addAnimation('player_5_ground_animate','../img/player/Player-Detail-Ground-1.png','../img/player/Player-Detail-Ground-11.png');
+  //ANIMARE
+  //player1.addAnimation('playerAnimation', '../img/Detailbubble-1.png','../img/Detailbubble-11.png');
+  
+  //ADD ALL PLAYER ANIMATIONS FITST HERE
+  //player1.addAnimation('playerAnimation', '../img/Detailbubble-1.png','../img/Detailbubble-11.png');
+  player1.setCollider("rectangle",0,50,65,115);
   // player1.addImage(playerMaskImg);
   // player1.addImage(playerImg);
   
@@ -308,26 +443,44 @@ if (running){//if game is not on pause
   background(0); //BG outside of frame 
  
 
-  animation(playerAnimation, 400,1500);
+ 
 
   // B A C K G R O U N D S 
   //based on collectiveScore
   push();
   
-  
-  if (collectiveScore < 17){ 
+  //ANIMARE
+  if (collectiveScore < 20){ 
     bg.addImage(transp);
-  }else if (collectiveScore > 16 && collectiveScore < 33){
+    
+  }else if (collectiveScore > 20 && collectiveScore < 40){
     bg.addImage(transp );
-  }else if (collectiveScore > 32 && collectiveScore < 50){
+    
+  }else if (collectiveScore > 40 && collectiveScore < 60){
     bg.addImage(bgImg3);
-  } else if (collectiveScore > 49 && collectiveScore < 66){
+    
+  } else if (collectiveScore > 60 && collectiveScore < 80){
     bg.addImage(bgImg4);
-  }else if(collectiveScore > 65 && collectiveScore < 82){
+    
+  }else if(collectiveScore > 80 && collectiveScore < 100){
     bg.addImage(bgImg5);
-  }else{
-    bg.addImage(bgImg7);
+   
   }
+
+  if(individualScore < 20){
+    player1.changeAnimation('player_1_ground_animate');
+  }else if(individualScore > 20 && individualScore < 40){
+    player1.changeAnimation('player_2_ground_animate');
+  }else if(individualScore > 40 && individualScore < 60){
+    player1.changeAnimation('player_3_ground_animate');
+  }else if(individualScore > 60 && individualScore < 80){
+    player1.changeAnimation('player_4_ground_animate');
+  }else if(individualScore > 80){
+    player1.changeAnimation('player_5_ground_animate');
+  }
+
+
+
   pop();
   
   //back - background mapped to playermovement 
@@ -461,8 +614,9 @@ console.log(player1.position.x);
   
  
   // damit der Player vor den Screens bleibt (es muss noch die einzelnen Distancing Personen hinzugefügt werden)
-  drawSprite(player1);
+  
   drawSprites(singlepeople, singlepeople2);
+  drawSprite(player1);
 
   // ---------- A D D I N G --- I N T E R A C T I O N S -----------
   
@@ -647,7 +801,7 @@ function zoomInOut(){
   if(mouseIsPressed){
     camera.zoom = windowWidth/SCENE_H;
   }else{
-    camera.zoom = 0.4;
+    camera.zoom = 0.1;
   }
 }
 
@@ -1010,11 +1164,36 @@ let touchedPerson = false;
 // CREATING SWARM
 function createSwarm(distancing_group, attraction_pointX, attraction_pointY){
   for (let e = 0; e < amount_of_characters; e++ ){
-    c1 = createSprite(random(-SCENE_W/2, SCENE_W/2), random(SCENE_H/3), random(20,50), 20);
+    c1 = createSprite(random(-SCENE_W/2, SCENE_W/2), random(SCENE_H/3), 44, 34);
     c1.shapeColor = color(random(0,200),20,random(0,200));
+
+    let cntRandom = random(1);
+    //ANIMARE 
+    //hier die animationen dem Sprite hinzufügen und bei draw mit change animation ändern
+    
+    
+      c1.addAnimation('distancing_1_animate', '../img/Distancing/Distancing-SW-1.png','../img/Distancing/Distancing-SW-7.png');
+
+
+    // c1.addAnimation('distancing_2_col1_animate', '../img/Distancing/Distancing-Ausgeblichen-ColorA-1.png','../img/Distancing/Distancing-Ausgeblichen-ColorA-7.png');
+    // c1.addAnimation('distancing_3_col1_animate', '../img/Distancing/Distancing-Bunt-ColorA-1.png','../img/Distancing/Distancing-Bunt-ColorA-7.png');
+    // c1.addAnimation('distancing_4_col1_animate', '../img/Distancing/Distancing-Halb-ColorA-1.png','../img/Distancing/Distancing-Halb-ColorA-7.png');
+    // c1.addAnimation('distancing_5_col1_animate', '../img/Distancing/Distancing-Detail-ColorA-1.png','../img/Distancing/Distancing-Detail-ColorA-7.png');   
+    //  c1.addAnimation('distancing_2_col2_animate', '../img/Distancing/Distancing-Ausgeblichen-ColorB-1.png','../img/Distancing/Distancing-Ausgeblichen-ColorB-7.png');
+    //  c1.addAnimation('distancing_3_col2_animate', '../img/Distancing/Distancing-Bunt-ColorB-1.png','../img/Distancing/Distancing-Bunt-ColorB-7.png'); 
+    //  c1.addAnimation('distancing_4_col2_animate', '../img/Distancing/Distancing-Halb-ColorB-1.png','../img/Distancing/Distancing-Halb-ColorB-7.png');
+    //  c1.addAnimation('distancing_5_col2_animate', '../img/Distancing/Distancing-Detail-ColorB-1.png','../img/Distancing/Distancing-Detail-ColorB-7.png'); 
+    //  c1.addAnimation('distancing_2_col3_animate', '../img/Distancing/Distancing-Ausgeblichen-ColorC-1.png','../img/Distancing/Distancing-Ausgeblichen-ColorC-7.png'); 
+    //  c1.addAnimation('distancing_3_col3_animate', '../img/Distancing/Distancing-Bunt-ColorC-1.png','../img/Distancing/Distancing-Bunt-ColorC-7.png');
+    //  c1.addAnimation('distancing_4_col3_animate', '../img/Distancing/Distancing-Halb-ColorC-1.png','../img/Distancing/Distancing-Halb-ColorC-7.png');
+    //  c1.addAnimation('distancing_5_col3_animate', '../img/Distancing/Distancing-Detail-ColorC-1.png','../img/Distancing/Distancing-Detail-ColorC-7.png');
+    
+    
+  
     //c1.maxSpeed = 15;
     //camera.setSpeed = random(1,15);
     c1.friction = random(0.07, 0.18);
+    c1.rotation = 180;
     c1.rotateToDirection = true;
     c1.attractionPoint(29, attraction_pointX, attraction_pointY);
     distancing_group.add(c1);
