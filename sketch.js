@@ -3,7 +3,8 @@ let running = true;
 
 //player
 let player1;
-
+let s1, s2;
+let isJumping = true;
 
 //Animation
 let distancing_1_animate;
@@ -88,50 +89,73 @@ function preload(){
   middleCity = loadImage("../img/middleCity.png"); // middleCity
   clouds1 = loadImage("../img/wolken-highR.png");
 
-  playerImg = loadImage("../img/woman.png");
-  playerMaskImg = loadImage("../img/mask.png");
 
-  test1 = loadImage('../img/testtst.png');
-  test2 = loadImage('../img/testtest.png');
+  schnur_Mask_img = loadImage("../img/schnur/schnur-maske-7.png");
+  schnur_img = loadImage("../img/schnur/schnur-7.png");
+
+  // test1 = loadImage('../img/testtst.png');
+  // test2 = loadImage('../img/testtest.png');
 
   //  A N I M A T I O N S
   //Player:
-  player_1_jump_animate = loadAnimation('../img/player/Player-SW-Jump-1.png','../img/player/Player-SW-Jump-11.png');
-  player_1_ground_animate = loadAnimation('../img/player/Player-SW-Ground-1.png','../img/player/Player-SW-Ground-11.png');
-  player_1_mask_jump_animate = loadAnimation('../img/player/Player-SW-Maske-Ground-1.png','../img/player/Player-SW-Maske-Ground-11.png');
-  player_1_mask_ground_animate = loadAnimation('../img/player/Player-SW-Maske-Jump-1.png','../img/player/Player-SW-Maske-Jump-11.png');
+  player1 = createSprite(400,1500);
 
-  player_2_jump_animate = loadAnimation('../img/player/Player-Ausgeblichen-Jump-1.png','../img/player/Player-Ausgeblichen-Jump-11.png');
-  player_2_ground_animate = loadAnimation('../img/player/Player-Ausgeblichen-Ground-1.png','../img/player/Player-Ausgeblichen-Ground-11.png');
-  player_2_mask_jump_animate = loadAnimation('../img/player/Player-Ausgeblichen-Maske-Jump-1.png','../img/player/Player-Ausgeblichen-Maske-Jump-11.png');
-  player_2_mask_ground_animate = loadAnimation('../img/player/Player-Ausgeblichen-Maske-Ground-1.png','../img/player/Player-Ausgeblichen-Maske-Ground-11.png');
+  player1.addAnimation('player_1_jump_animate', '../img/player/Player-SW-Jump-1.png','../img/player/Player-SW-Jump-11.png');
+  player1.addAnimation('player_1_ground_animate','../img/player/Player-SW-Ground-1.png','../img/player/Player-SW-Ground-11.png');
+  player1.addAnimation('player_1_mask_jump_animate','../img/player/Player-SW-Maske-Ground-1.png','../img/player/Player-SW-Maske-Ground-11.png');
+  player1.addAnimation('player_1_mask_ground_animate','../img/player/Player-SW-Maske-Jump-1.png','../img/player/Player-SW-Maske-Jump-11.png');
 
-  player_3_jump_animate = loadAnimation('../img/player/Player-Bunt-Jump-1.png','../img/player/Player-Bunt-Jump-11.png');
-  player_3_ground_animate = loadAnimation('../img/player/Player-Bunt-Ground-1.png','../img/player/Player-Bunt-Ground-11.png');
-  player_3_mask_jump_animate = loadAnimation('../img/player/Player-Bunt-Maske-Jump-1.png','../img/player/Player-Bunt-Maske-Jump-11.png');
-  player_3_mask_ground_animate = loadAnimation('../img/player/Player-Bunt-Maske-Ground-1.png','../img/player/Player-Bunt-Maske-Ground-11.png');
+  player1.addAnimation('player_2_jump_animate','../img/player/Player-Ausgeblichen-Jump-1.png','../img/player/Player-Ausgeblichen-Jump-11.png');
+  player1.addAnimation('player_2_ground_animate','../img/player/Player-Ausgeblichen-Ground-1.png','../img/player/Player-Ausgeblichen-Ground-11.png');
+  player1.addAnimation('player_2_mask_jump_animate','../img/player/Player-Ausgeblichen-Maske-Jump-1.png','../img/player/Player-Ausgeblichen-Maske-Jump-11.png');
+  player1.addAnimation('player_2_mask_ground_animate','../img/player/Player-Ausgeblichen-Maske-Ground-1.png','../img/player/Player-Ausgeblichen-Maske-Ground-11.png');
 
-  player_4_jump_animate = loadAnimation('../img/player/Player-Halb-Jump-1.png','../img/player/Player-Halb-Jump-11.png');
-  player_4_ground_animate = loadAnimation('../img/player/Player-Halb-Ground-1.png','../img/player/Player-Halb-Ground-11.png');
-  player_4_mask_jump_animate = loadAnimation('../img/player/Player-Halb-Maske-Jump-1.png','../img/player/Player-Halb-Maske-Jump-11.png');
-  player_4_mask_ground_animate = loadAnimation('../img/player/Player-Halb-Maske-Ground-1.png','../img/player/Player-Halb-Maske-Ground-11.png');
+  player1.addAnimation('player_3_jump_animate','../img/player/Player-Bunt-Jump-1.png','../img/player/Player-Bunt-Jump-11.png');
+  player1.addAnimation('player_3_ground_animate','../img/player/Player-Bunt-Ground-1.png','../img/player/Player-Bunt-Ground-11.png');
+  player1.addAnimation('player_3_mask_jump_animate','../img/player/Player-Bunt-Maske-Jump-1.png','../img/player/Player-Bunt-Maske-Jump-11.png');
+  player1.addAnimation('player_3_mask_ground_animate','../img/player/Player-Bunt-Maske-Ground-1.png','../img/player/Player-Bunt-Maske-Ground-11.png');
 
-  player_5_jump_animate = loadAnimation('../img/player/Player-Detail-Jump-1.png','../img/player/Player-Detail-Jump-11.png');
-  player_5_ground_animate = loadAnimation('../img/player/Player-Detail-Ground-1.png','../img/player/Player-Detail-Ground-11.png');
-  player_5_mask_jump_animate = loadAnimation('../img/player/Player-Detail-Maske-Jump-1.png','../img/player/Player-Detail-Maske-Jump-11.png');
-  player_5_mask_ground_animate = loadAnimation('../img/player/Player-Detail-Maske-Ground-1.png','../img/player/Player-Detail-Maske-Ground-11.png');
+  player1.addAnimation('player_4_jump_animate','../img/player/Player-Halb-Jump-1.png','../img/player/Player-Halb-Jump-11.png');
+  player1.addAnimation('player_4_ground_animate','../img/player/Player-Halb-Ground-1.png','../img/player/Player-Halb-Ground-11.png');
+  player1.addAnimation('player_4_mask_jump_animate','../img/player/Player-Halb-Maske-Jump-1.png','../img/player/Player-Halb-Maske-Jump-11.png');
+  player1.addAnimation('player_4_mask_ground_animate','../img/player/Player-Halb-Maske-Ground-1.png','../img/player/Player-Halb-Maske-Ground-11.png');
 
-  //SingleContact
-  singleContact_1_L_animate = loadAnimation('../img/SingleContact/SingleContact-SW-L-1.png','../img/SingleContact/SingleContact-SW-L-10.png');
-  singleContact_1_R_animate = loadAnimation('../img/SingleContact/SingleContact-SW-R-1.png','../img/SingleContact/SingleContact-SW-R-10.png');
-  singleContact_2_L_animate = loadAnimation('../img/SingleContact/SingleContact-Verblichen-L-1.png','../img/SingleContact/SingleContact-Verblichen-L-10.png');
-  singleContact_2_R_animate = loadAnimation('../img/SingleContact/SingleContact-Verblichen-R-1.png','../img/SingleContact/SingleContact-Verblichen-R-10.png');
-  singleContact_3_L_animate = loadAnimation('../img/SingleContact/SingleContact-Bunt-L-1.png','../img/SingleContact/SingleContact-Bunt-L-10.png');
-  singleContact_3_R_animate = loadAnimation('../img/SingleContact/SingleContact-Bunt-R-1.png','../img/SingleContact/SingleContact-Bunt-R-10.png');
-  singleContact_4_L_animate = loadAnimation('../img/SingleContact/SingleContact-Halb-L-1.png','../img/SingleContact/SingleContact-Halb-L-10.png');
-  singleContact_4_R_animate = loadAnimation('../img/SingleContact/SingleContact-Halb-R-1.png','../img/SingleContact/SingleContact-Halb-R-10.png');
-  singleContact_5_L_animate = loadAnimation('../img/SingleContact/SingleContact-Detail-L-1.png','../img/SingleContact/SingleContact-Detail-L-10.png');
-  singleContact_5_R_animate = loadAnimation('../img/SingleContact/SingleContact-Detail-R-1.png','../img/SingleContact/SingleContact-Detail-R-10.png');
+  player1.addAnimation('player_5_jump_animate','../img/player/Player-Detail-Jump-1.png','../img/player/Player-Detail-Jump-11.png');
+  player1.addAnimation('player_5_ground_animate','../img/player/Player-Detail-Ground-1.png','../img/player/Player-Detail-Ground-11.png');
+  player1.addAnimation('player_5_mask_jump_animate','../img/player/Player-Detail-Maske-Jump-1.png','../img/player/Player-Detail-Maske-Jump-11.png');
+  player1.addAnimation('player_5_mask_ground_animate','../img/player/Player-Detail-Maske-Ground-1.png','../img/player/Player-Detail-Maske-Ground-11.png');
+
+
+  
+
+  // //SingleContact
+  //   singlepeople = new Group(); //die nach rechts gehen
+  //   singlepeople2 = new Group(); //die nach links gehen
+  //   for (let i = 0; i < 3; i++){//Menge an single Contacs definieren
+  //     s1 = createSprite(random(SCENE_W)-(SCENE_W/2),heightSinglePerson,200,100);
+  //     s1.friction = random(0.001, 0.05);
+  //     //s1.shapeColor = color(200,0,50);
+  //     s1.maxSpeed = 12;
+  //     //ANIMARE
+  //     s1.addAnimation('singleContact_1_R_animate', '../img/SingleContact/SingleContact-SW-R-1.png','../img/SingleContact/SingleContact-SW-R-10.png');
+  //     s1.addAnimation('singleContact_2_R_animate', '../img/SingleContact/SingleContact-Verblichen-R-1.png','../img/SingleContact/SingleContact-Verblichen-R-10.png');
+  //     s1.addAnimation('singleContact_3_R_animate', '../img/SingleContact/SingleContact-Bunt-R-1.png','../img/SingleContact/SingleContact-Bunt-R-10.png');
+  //     s1.addAnimation('singleContact_4_R_animate', '../img/SingleContact/SingleContact-Halb-R-1.png','../img/SingleContact/SingleContact-Halb-R-10.png');
+  //     s1.addAnimation('singleContact_5_R_animate', '../img/SingleContact/SingleContact-Detail-R-1.png','../img/SingleContact/SingleContact-Detail-R-10.png');
+  //     singlepeople.add(s1);
+  
+  //     s2 = createSprite(random(SCENE_W)-(SCENE_W/2),heightSinglePerson,200,100);
+  //     s2.friction = random(0.001, 0.03);
+  //     s2.shapeColor = color(0,0,50);
+  //     s2.maxSpeed = 12;
+  //     s2.addAnimation('singleContact_1_L_animate', '../img/SingleContact/SingleContact-SW-L-1.png','../img/SingleContact/SingleContact-SW-L-10.png');
+  //     s2.addAnimation('singleContact_2_L_animate', '../img/SingleContact/SingleContact-Verblichen-L-1.png','../img/SingleContact/SingleContact-Verblichen-L-10.png');
+  //     s2.addAnimation('singleContact_3_L_animate', '../img/SingleContact/SingleContact-Bunt-L-1.png','../img/SingleContact/SingleContact-Bunt-L-10.png');
+  //     s2.addAnimation('singleContact_4_L_animate', '../img/SingleContact/SingleContact-Halb-L-1.png','../img/SingleContact/SingleContact-Halb-L-10.png');
+  //     s2.addAnimation('singleContact_5_L_animate', '../img/SingleContact/SingleContact-Detail-L-1.png','../img/SingleContact/SingleContact-Detail-R-10.png');
+  //     singlepeople2.add(s2);
+  //   }
+
 
   //Distancing
   distancing_1_animate = loadAnimation('../img/Distancing/Distancing-SW-1.png','../img/Distancing/Distancing-SW-7.png');
@@ -237,14 +261,6 @@ function setup() {
  
   transp = pg.get();
 
-  
-  
-
-  
-  //bg.addImage(bgBigImg1);
-  
-
-
   // C O L L I D E R S
 
   // GROUNDS
@@ -253,7 +269,6 @@ function setup() {
   ground.visible = false;
   middleGround = createSprite(0,(SCENE_H/3)*2,SCENE_W,60);
   middleGround.visible = false;
-  //deleteS = createSprite(0,SCENE_H/3,SCENE_W,50); //wo flying area beginnt 
   leftEdgeCollider = createSprite((-(SCENE_W/2)-200),(SCENE_H/2),100,SCENE_H); //für singleContact
   leftEdgeCollider.visible = false;
   rightEdgeCollider = createSprite(SCENE_W/2+200,(SCENE_H/2),100,SCENE_H); //für singleCotact
@@ -261,21 +276,21 @@ function setup() {
 
   //Bildschirm 
   podest1 = createSprite(-400, 1300, 1200, 30);
+  podest1.visible = false;
 
   // FLYING AND GRAVITY AREA 
   flyingArea = createSprite(0,(SCENE_H/6),SCENE_W,SCENE_H/3);
   flyingArea.visible = false;
-  //flyingEntryArea = createSprite(-(SCENE_W/4),(SCENE_H/3)-(SCENE_H/24),300,SCENE_H/12);
   gravityArea = createSprite(0,(SCENE_H)-(SCENE_H/3),SCENE_W,SCENE_H/1.5);
   gravityArea.visible = false;
 
   // STAIRS
-  //stair_1 = createSprite(100, ((SCENE_H/3)*2)-(jumpHeight/2) , 300, jumpHeight);
   stairs_1 = new Group();
   for (let i = 0; i < (jumpHeight*3); i+=jumpHeight/1.5){
     let stairHeight = 30;
     let stair = createSprite(-(SCENE_W/4)-i,(SCENE_H/3)+i, 300, stairHeight);
     stair.setCollider("rectangle", 0, -(stairHeight/2)+1, 250, 0); //making the collider only on top of stair, so player can still jump an walk infront of it 
+    stair.visible = false;
     stairs_1.add(stair);
   }
   for (let i = 0; i < (jumpHeight); i+=jumpHeight/3){
@@ -283,6 +298,7 @@ function setup() {
     let stairWidth = 150;
     let stair = createSprite((SCENE_W/5)+(1.5*i),((SCENE_H/3)*1.6)+i,stairWidth,stairHeight);
     stair.setCollider("rectangle",0,-(stairHeight/2)+1,stairWidth-10,0);
+    stair.visible = false;
     stairs_1.add(stair);
   }
   for (let i = 0; i < (jumpHeight); i+=jumpHeight/3){
@@ -290,6 +306,7 @@ function setup() {
     let stairWidth = 150;
     let stair = createSprite((SCENE_W/5)+(1.5*i),((SCENE_H/3)*2.57)+(i*0.8),stairWidth,stairHeight);
     stair.setCollider("rectangle",0,-(stairHeight/2)+1,stairWidth-10,0);
+    stair.visible = false;
     stairs_1.add(stair);
   }
 
@@ -317,10 +334,13 @@ function setup() {
 // I N T E R A C T I O N S
 
   //MASK 
-  maskPosition = createSprite(400,SCENE_H/2,2000,200);
-  maskPosition.addImage(playerMaskImg);
-  maskPosition.setCollider("circle",0,0,100);
-  invisibleGroundCheck = createSprite(0,(SCENE_H/3)*2,SCENE_W,30);  
+  maskPosition = createSprite(400,1400,211,541);
+  //maskPosition.addAnimation('schnur-maske', '..img/schnur/schnur-maske-1.png', '..img/schnur-maske-12.png');
+  //maskPosition.addAnimation('schnur-maske', '..img/schnur/schnur-1.png', '..img/schnur-12.png');
+  maskPosition.addImage(schnur_Mask_img);
+  
+  maskPosition.setCollider("circle",0,130,100);
+  invisibleGroundCheck = createSprite(0,(SCENE_H/3)*2,SCENE_W,60);  
   invisibleGroundCheck.visible = false;//for collision with middleGround for maskCheck
 
   //HYGIENE
@@ -340,7 +360,7 @@ function setup() {
   //SINGLE CONTACTS
   singlepeople = new Group(); //die nach rechts gehen
   singlepeople2 = new Group(); //die nach links gehen
-  for (let i = 0; i < 3; i++){//Menge an single Contacs definieren
+  
     s1 = createSprite(random(SCENE_W)-(SCENE_W/2),heightSinglePerson,200,100);
     s1.friction = random(0.001, 0.05);
     //s1.shapeColor = color(200,0,50);
@@ -361,9 +381,9 @@ function setup() {
     s2.addAnimation('singleContact_2_L_animate', '../img/SingleContact/SingleContact-Verblichen-L-1.png','../img/SingleContact/SingleContact-Verblichen-L-10.png');
     s2.addAnimation('singleContact_3_L_animate', '../img/SingleContact/SingleContact-Bunt-L-1.png','../img/SingleContact/SingleContact-Bunt-L-10.png');
     s2.addAnimation('singleContact_4_L_animate', '../img/SingleContact/SingleContact-Halb-L-1.png','../img/SingleContact/SingleContact-Halb-L-10.png');
-    s2.addAnimation('singleContact_5_L_animate', '../img/SingleContact/SingleContact-Detail-L-1.png','../img/SingleContact/SingleContact-Detail-R-10.png');
+    s2.addAnimation('singleContact_5_L_animate', '../img/SingleContact/SingleContact-Detail-L-1.png','../img/SingleContact/SingleContact-Detail-L-10.png');
     singlepeople2.add(s2);
-  }
+  
 
 
   //DISTANCING
@@ -383,12 +403,12 @@ function setup() {
 // P L A Y E R 
 
   //Player zum Schluss, damit er immer vorne ist
-  player1 = createSprite(400,1500);
-  player1.addAnimation('player_1_ground_animate','../img/player/Player-SW-Ground-1.png','../img/player/Player-SW-Ground-11.png');
-  player1.addAnimation('player_2_ground_animate','../img/player/Player-Ausgeblichen-Ground-1.png','../img/player/Player-Ausgeblichen-Ground-11.png');
-  player1.addAnimation('player_3_ground_animate','../img/player/Player-Bunt-Ground-1.png','../img/player/Player-Bunt-Ground-11.png');
-  player1.addAnimation('player_4_ground_animate','../img/player/Player-Halb-Ground-1.png','../img/player/Player-Halb-Ground-11.png');
-  player1.addAnimation('player_5_ground_animate','../img/player/Player-Detail-Ground-1.png','../img/player/Player-Detail-Ground-11.png');
+  // player1 = createSprite(400,1500);
+  // player1.addAnimation('player_1_ground_animate','../img/player/Player-SW-Ground-1.png','../img/player/Player-SW-Ground-11.png');
+  // player1.addAnimation('player_2_ground_animate','../img/player/Player-Ausgeblichen-Ground-1.png','../img/player/Player-Ausgeblichen-Ground-11.png');
+  // player1.addAnimation('player_3_ground_animate','../img/player/Player-Bunt-Ground-1.png','../img/player/Player-Bunt-Ground-11.png');
+  // player1.addAnimation('player_4_ground_animate','../img/player/Player-Halb-Ground-1.png','../img/player/Player-Halb-Ground-11.png');
+  // player1.addAnimation('player_5_ground_animate','../img/player/Player-Detail-Ground-1.png','../img/player/Player-Detail-Ground-11.png');
   //ANIMARE
   //player1.addAnimation('playerAnimation', '../img/Detailbubble-1.png','../img/Detailbubble-11.png');
   
@@ -451,36 +471,87 @@ if (running){//if game is not on pause
   
   //ANIMARE
   if (collectiveScore < 20){ 
-    bg.addImage(transp);
-    
+    bg.addImage(bgImg3);
+    singlepeople.changeAnimation('singleContact_1_R_animate');
+    s2.changeAnimation('singleContact_1_L_animate');
   }else if (collectiveScore > 20 && collectiveScore < 40){
-    bg.addImage(transp );
-    
+    bg.addImage(bgImg3);
+    s1.changeAnimation('singleContact_2_R_animate');
+    s2.changeAnimation('singleContact_2_L_animate');
   }else if (collectiveScore > 40 && collectiveScore < 60){
     bg.addImage(bgImg3);
-    
+    s1.changeAnimation('singleContact_3_R_animate');
+    s2.changeAnimation('singleContact_3_L_animate');
   } else if (collectiveScore > 60 && collectiveScore < 80){
-    bg.addImage(bgImg4);
-    
+    bg.addImage(bgImg3);
+    s1.changeAnimation('singleContact_4_R_animate');
+    s2.changeAnimation('singleContact_4_L_animate');
   }else if(collectiveScore > 80 && collectiveScore < 100){
-    bg.addImage(bgImg5);
+    bg.addImage(bgImg3);
+    s1.changeAnimation('singleContact_5_R_animate');
+    s2.changeAnimation('singleContact_5_L_animate');
    
   }
 
   if(individualScore < 20){
-    player1.changeAnimation('player_1_ground_animate');
+    if(maskOn && playerGroundCheck){
+      player1.changeAnimation('player_1_mask_jump_animate');
+    }else if(maskOn && !isJumping){
+      player1.changeAnimation('player_1_mask_ground_animate');
+    }else if(!maskOn && isJumping){
+      player1.changeAnimation('player_1_jump_animate');
+    }else if(!maskOn && !isJumping){
+      player1.changeAnimation('player_1_ground_animate');
+    }
   }else if(individualScore > 20 && individualScore < 40){
-    player1.changeAnimation('player_2_ground_animate');
+    if(maskOn && isJumping){
+      player1.changeAnimation('player_2_mask_jump_animate');
+    }else if(maskOn && !isJumping){
+      player1.changeAnimation('player_2_mask_ground_animate');
+    }else if(!maskOn && isJumping){
+      player1.changeAnimation('player_2_jump_animate');
+    }else if(!maskOn && !isJumping){
+      player1.changeAnimation('player_2_ground_animate');
+    }
   }else if(individualScore > 40 && individualScore < 60){
-    player1.changeAnimation('player_3_ground_animate');
+    if(maskOn && isJumping){
+      player1.changeAnimation('player_3_mask_jump_animate');
+    }else if(maskOn && !isJumping){
+      player1.changeAnimation('player_3_mask_ground_animate');
+    }else if(!maskOn && isJumping){
+      player1.changeAnimation('player_3_jump_animate');
+    }else if(!maskOn && !isJumping){
+      player1.changeAnimation('player_3_ground_animate');
+    }
   }else if(individualScore > 60 && individualScore < 80){
-    player1.changeAnimation('player_4_ground_animate');
+    if(maskOn && isJumping){
+      player1.changeAnimation('player_4_mask_jump_animate');
+    }else if(maskOn && !isJumping){
+      player1.changeAnimation('player_4_mask_ground_animate');
+    }else if(!maskOn && isJumping){
+      player1.changeAnimation('player_4_jump_animate');
+    }else if(!maskOn && !isJumping){
+      player1.changeAnimation('player_4_ground_animate');
+    }
   }else if(individualScore > 80){
-    player1.changeAnimation('player_5_ground_animate');
+    if(maskOn && isJumping){
+      player1.changeAnimation('player_5_mask_jump_animate');
+    }else if(maskOn && !isJumping){
+      player1.changeAnimation('player_5_mask_ground_animate');
+    }else if(!maskOn && isJumping){
+      player1.changeAnimation('player_5_jump_animate');
+    }else if(!maskOn && !isJumping){
+      player1.changeAnimation('player_5_ground_animate');
+    }
   }
 
+  if(maskOn){
+    maskPosition.addImage(schnur_img);
+  }else{
+    maskPosition.addImage(schnur_Mask_img);
+  }
 
-
+  
   pop();
   
   //back - background mapped to playermovement 
@@ -580,6 +651,7 @@ if (running){//if game is not on pause
 
   // debugging
   maskPosition.debug = mouseIsPressed; //so werden die collider visualisiert
+  invisibleGroundCheck.debug = mouseIsPressed;
   stairs_1.debug = mouseIsPressed;
   player1.debug = mouseIsPressed;
   teleportArea.debug = mouseIsPressed;
@@ -603,7 +675,7 @@ if (running){//if game is not on pause
   graphicsScreen(zoomScreenMiddle, -1080, SCENE_H/2-100, att_animation_middle, 480, 200, 250, 0, 50);
   graphicsScreen(zoomScreenGroundBig, -870, 2215, att_animation_ground, 425, 0, 0, 100, 150);
 
-console.log(player1.position.x);
+
 
   for(let i = 0; i<301; i += 150){
     for(let y = 0; y < 1000; y += 980){
@@ -615,7 +687,8 @@ console.log(player1.position.x);
  
   // damit der Player vor den Screens bleibt (es muss noch die einzelnen Distancing Personen hinzugefügt werden)
   
-  drawSprites(singlepeople, singlepeople2);
+  drawSprites(singlepeople);
+  drawSprites(singlepeople2);
   drawSprite(player1);
 
   // ---------- A D D I N G --- I N T E R A C T I O N S -----------
@@ -830,7 +903,9 @@ function playerMovement(){
     player1.velocity.y += gravity; 
     if(player1.collide(ground) || player1.collide(middleGround) || player1.collide(stairs_1) || player1.collide(podest1)) {
       player1.velocity.y = 0;
-    //player1.changeAnimation('');
+      //isJumping = false;
+    }else{
+      isJumping = true;
     }
     if(player1.position.y >= SCENE_H){
       player1.velocity.y = 0;
@@ -840,16 +915,18 @@ function playerMovement(){
     //wenn space, innerhalb gravity area und gerade am Boden war, dann jumpen
     if(keyWentDown(' ') && playerGroundCheck && player1.overlap(gravityArea))
     {
-    //player1.changeAnimation('stretch');
-    //player1.animation.rew ind();
       player1.velocity.y = -jump;
       playerGroundCheck = false;
     }
+    // if(keyWentDown(' ')){
+    //   isJumping = true;
+    // }
 
     //GROUND CHECK
     //wenn player boden berührt hat, dann ist der Ground check true
     if(player1.overlap(middleGround) || player1.overlap(ground)){
       playerGroundCheck = true;
+      isJumping = false;
     }
 
 
@@ -880,6 +957,7 @@ function flying(){
   gravity = 0; 
   player1.velocity.y = 0.5;
   player1.velocity.y += gravity;
+  isJumping = true;
 
   if (keyIsDown(RIGHT_ARROW) && player1.position.x <= (SCENE_W/2)-100) {
     player1.position.x += 7;
@@ -902,7 +980,7 @@ function teleporting(){
     player1.position.y = EDGE_D - 100;
     camera.position.y = player1.position.y - (windowHeight/2);
   }else if (player1.overlap(teleportArea1)){
-    player1.position.y = ((SCENE_H/3)*2);
+    player1.position.y = ((SCENE_H/3)*1.8);
   }
 }
 
@@ -967,7 +1045,8 @@ function maskOnOff(){
   
    //maske anziehen
   if(player1.overlap(maskPosition) && maskOn === false && maskGroundCheck){
-    player1.addImage(playerMaskImg);
+    //player1.addImage(playerMaskImg);
+    console.log('OVERLAP');
     feedbackUpScoreC();
     feedbackDownScoreI();
     maskGroundCheck = false;
@@ -982,7 +1061,8 @@ function maskOnOff(){
   } 
 //maske ausziehen
   if (player1.overlap(maskPosition) && maskOn && maskGroundCheck){
-    player1.addImage(playerImg);
+    //player1.addImage(playerImg);
+    console.log('OVERLAP');
     feedbackUpScoreI();
     feedbackDownScoreC();
     maskGroundCheck = false;
@@ -1026,12 +1106,12 @@ function movingHygieneArea(){
     hDir2 = 1;
   }
   movingHygieneB += hDir2;
-  //console.log(movingHygieneB);
+  
 }
 
 function hygieneScore() {
   if(clean >= 10){ clean = 10; }else if(clean <= 1){clean = 1;}
-  //console.log(boostHygine);
+  
   if (player1.overlap(hygieneArea) && boostHygine === false){
       clean = 1;
       boostHygine = true;
@@ -1043,7 +1123,7 @@ function hygieneScore() {
       hygieneBoostIntervall = setTimeout(function(){boostHygine = false; hasStartedTimeoutH = false;}, 20000); //wenn in der letzten Sekunde ein boost war
       hasStartedTimeoutH = true;
     }
-  //console.log(hasStartedTimeoutH);
+  
   
   //clean
 
@@ -1094,8 +1174,8 @@ function zoomScore() {
       boring *= 1.001; //lässt boring wieder hoch gehen
       maxZoomC -= 0.01; //lässt maxZoom wieder runter gehen
   }
-  console.log("boring" + boring);
-  console.log("maxZoom" + maxZoomC);
+  // console.log("boring" + boring);
+  // console.log("maxZoom" + maxZoomC);
   
 }
 
