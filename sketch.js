@@ -3,11 +3,23 @@ let running = true;
 
 //player
 let player1;
+
+
+//Animation
 let s1, s2, distance1;
 let isJumping = true;
 
-//Animation
-let distancing_1_animate;
+//Sound-Checks
+let middleAreaSoundOn = false;
+let flyingAreaSoundOn = false;
+let isolationAreaSoundOn = false;
+let hygieneAreaSoundOn = false;
+let zoomAreaSoundOn = false;
+let teleportAreaSoundOn = false;
+let teleportArea1SoundOn = false;
+let maskSoundOn = false;
+let distancingSoundOn = false;
+let singleContactSoundOn = false;
 
 //gravity (https://www.youtube.com/watch?v=StoBCNiQakM)
 let gravity = 1;
@@ -20,12 +32,12 @@ let enteringGravityArea = false;
 //scores
 let individualScore = 50;
 let collectiveScore = 50;
-let fbS_I_r = 0; //feedback Score Individual color red
-let fbS_I_g = 0; //feedback Score Individual color green
-let fbS_I_b = 0; //feedback Score Individual color blue
-let fbS_C_r = 0; //feedback Score Collective color red
-let fbS_C_g = 0; //feedback Score Collective color green
-let fbS_C_b = 0; //feedback Score Collective color bliue
+let fbS_I_r = 255; //feedback Score Individual color red
+let fbS_I_g = 255; //feedback Score Individual color green
+let fbS_I_b = 255; //feedback Score Individual color blue
+let fbS_C_r = 255; //feedback Score Collective color red
+let fbS_C_g = 255; //feedback Score Collective color green
+let fbS_C_b = 255; //feedback Score Collective color bliue
 
 
 //camera and bg
@@ -36,7 +48,7 @@ let EDGE_R = (SCENE_W/2)-50;
 let EDGE_L = (-(SCENE_W/2))+50;
 let EDGE_U = 0; //(-(SCENE_H/2))+50;
 let EDGE_D = SCENE_H;
-let transp;
+
 
 //colliders
 let ground;
@@ -45,6 +57,7 @@ let rightEdgeCollider;
 let stairs_1;
 let rain = [];
 let teleportArea, teleportArea1;
+let middleArea;
 
 
 //interactions
@@ -68,24 +81,32 @@ let heightSinglePerson = (SCENE_H/5)*3.15;
 //distancing
 let distanceCharacter;
 let distancing_groups = [];
-let total_number_of_groups = 6;
-let amount_of_characters = 40;
+let total_number_of_groups = 4;
+let amount_of_characters = 25;
 let att_points = [];
 let minSpeed = 2;//min and max speed of attraction points
 let maxSpeed = 3;
 
+//Text Information 
+let updateUserInfo = 'Welcome to the game';
 
 
 function preload(){
-  //background images
-  // bgImg1 = loadImage("../img/bg-test-1.png");
-  // bgImg2 = loadImage("../img/bg-test-2.png");
-  // bgImg3 = loadImage("../img/world-highR.png");
-  // bgImg4 = loadImage("../img/world-highR.png");
-  // bgImg5 = loadImage("../img/world-highR.png");
-  // bgImg6 = loadImage("../img/world-highR.png");
-  // bgImg7 = loadImage("../img/world-highR.png"); //world
-  bgImg8 = loadImage("../img/sky.png"); // BG 
+  
+  jump_sound = loadSound('../audio/jump.mp3');
+  distancing_sound = loadSound('../audio/swoosh.mp3');
+  singleContact_sound = loadSound('../audio/swoosh.mp3');
+  hygiene_sound = loadSound('../audio/rain.mp3');
+  zoom_sound = loadSound('../audio/electricity.mp3');
+  mask_sound = loadSound('../audio/maske.mp3');
+  teleport_sound = loadSound('../audio/teleport.mp3');
+  button_sound = loadSound('../audio/button.mp3');
+
+  flyingArea_sound = loadSound('../audio/gone_short_audiohub.mp3');
+  isolationArea_sound = loadSound('../audio/morning-memory-short-audiohub.mp3');
+  middleArea_sound = loadSound('../audio/heartbeat-short-audiohub.mp3');
+  
+  
   // middleCity = loadImage("../img/middleCity.png"); // middleCity
 
 
@@ -136,53 +157,11 @@ function preload(){
   player1.addAnimation('player_5_ground_animate','../img/player/Player-Detail-Ground-1.png','../img/player/Player-Detail-Ground-11.png');
   player1.addAnimation('player_5_mask_jump_animate','../img/player/Player-Detail-Maske-Jump-1.png','../img/player/Player-Detail-Maske-Jump-11.png');
   player1.addAnimation('player_5_mask_ground_animate','../img/player/Player-Detail-Maske-Ground-1.png','../img/player/Player-Detail-Maske-Ground-11.png');
-
-
   
 
-  // //SingleContact
-  //   singlepeople = new Group(); //die nach rechts gehen
-  //   singlepeople2 = new Group(); //die nach links gehen
-  //   for (let i = 0; i < 3; i++){//Menge an single Contacs definieren
-  //     s1 = createSprite(random(SCENE_W)-(SCENE_W/2),heightSinglePerson,200,100);
-  //     s1.friction = random(0.001, 0.05);
-  //     //s1.shapeColor = color(200,0,50);
-  //     s1.maxSpeed = 12;
-  //     //ANIMARE
-  //     s1.addAnimation('singleContact_1_R_animate', '../img/SingleContact/SingleContact-SW-R-1.png','../img/SingleContact/SingleContact-SW-R-10.png');
-  //     s1.addAnimation('singleContact_2_R_animate', '../img/SingleContact/SingleContact-Verblichen-R-1.png','../img/SingleContact/SingleContact-Verblichen-R-10.png');
-  //     s1.addAnimation('singleContact_3_R_animate', '../img/SingleContact/SingleContact-Bunt-R-1.png','../img/SingleContact/SingleContact-Bunt-R-10.png');
-  //     s1.addAnimation('singleContact_4_R_animate', '../img/SingleContact/SingleContact-Halb-R-1.png','../img/SingleContact/SingleContact-Halb-R-10.png');
-  //     s1.addAnimation('singleContact_5_R_animate', '../img/SingleContact/SingleContact-Detail-R-1.png','../img/SingleContact/SingleContact-Detail-R-10.png');
-  //     singlepeople.add(s1);
-  
-  //     s2 = createSprite(random(SCENE_W)-(SCENE_W/2),heightSinglePerson,200,100);
-  //     s2.friction = random(0.001, 0.03);
-  //     s2.shapeColor = color(0,0,50);
-  //     s2.maxSpeed = 12;
-  //     s2.addAnimation('singleContact_1_L_animate', '../img/SingleContact/SingleContact-SW-L-1.png','../img/SingleContact/SingleContact-SW-L-10.png');
-  //     s2.addAnimation('singleContact_2_L_animate', '../img/SingleContact/SingleContact-Verblichen-L-1.png','../img/SingleContact/SingleContact-Verblichen-L-10.png');
-  //     s2.addAnimation('singleContact_3_L_animate', '../img/SingleContact/SingleContact-Bunt-L-1.png','../img/SingleContact/SingleContact-Bunt-L-10.png');
-  //     s2.addAnimation('singleContact_4_L_animate', '../img/SingleContact/SingleContact-Halb-L-1.png','../img/SingleContact/SingleContact-Halb-L-10.png');
-  //     s2.addAnimation('singleContact_5_L_animate', '../img/SingleContact/SingleContact-Detail-L-1.png','../img/SingleContact/SingleContact-Detail-R-10.png');
-  //     singlepeople2.add(s2);
-  //   }
 
 
   //Distancing
-  distancing_1_animate = loadAnimation('../img/Distancing/Distancing-SW-1.png','../img/Distancing/Distancing-SW-7.png');
-  distancing_2_col1_animate = loadAnimation('../img/Distancing/Distancing-Ausgeblichen-ColorA-1.png','../img/Distancing/Distancing-Ausgeblichen-ColorA-3.png');
-  distancing_2_col2_animate = loadAnimation('../img/Distancing/Distancing-Ausgeblichen-ColorB-1.png','../img/Distancing/Distancing-Ausgeblichen-ColorB-7.png');
-  distancing_2_col3_animate = loadAnimation('../img/Distancing/Distancing-Ausgeblichen-ColorC-1.png','../img/Distancing/Distancing-Ausgeblichen-ColorC-7.png');
-  distancing_3_col1_animate = loadAnimation('../img/Distancing/Distancing-Bunt-ColorA-1.png','../img/Distancing/Distancing-Bunt-ColorA-3.png');
-  distancing_3_col2_animate = loadAnimation('../img/Distancing/Distancing-Bunt-ColorB-1.png','../img/Distancing/Distancing-Bunt-ColorB-7.png');
-  distancing_3_col3_animate = loadAnimation('../img/Distancing/Distancing-Bunt-ColorC-1.png','../img/Distancing/Distancing-Bunt-ColorC-7.png');
-  distancing_4_col1_animate = loadAnimation('../img/Distancing/Distancing-Halb-ColorA-1.png','../img/Distancing/Distancing-Halb-ColorA-3.png');
-  distancing_4_col2_animate = loadAnimation('../img/Distancing/Distancing-Halb-ColorB-1.png','../img/Distancing/Distancing-Halb-ColorB-7.png');
-  distancing_4_col3_animate = loadAnimation('../img/Distancing/Distancing-Halb-ColorC-1.png','../img/Distancing/Distancing-Halb-ColorC-7.png');
-  distancing_5_col1_animate = loadAnimation('../img/Distancing/Distancing-Detail-ColorA-1.png','../img/Distancing/Distancing-Detail-ColorA-3.png');
-  distancing_5_col2_animate = loadAnimation('../img/Distancing/Distancing-Detail-ColorB-1.png','../img/Distancing/Distancing-Detail-ColorB-7.png');
-  distancing_5_col3_animate = loadAnimation('../img/Distancing/Distancing-Detail-ColorC-1.png','../img/Distancing/Distancing-Detail-ColorC-7.png');
 
   distancing_1_img = loadImage('../img/Distancing/Distancing-SW-2.png');
   distancing_2_col1_img = loadImage('../img/Distancing/Distancing-Ausgeblichen-ColorA-2.png');
@@ -308,6 +287,8 @@ function setup() {
   // FLYING AND GRAVITY AREA 
   flyingArea = createSprite(0,(SCENE_H/6),SCENE_W,SCENE_H/3);
   flyingArea.visible = false;
+  middleArea = createSprite(0,SCENE_H/2,SCENE_W,SCENE_H/3);
+  middleArea.visible = false;
   gravityArea = createSprite(0,(SCENE_H)-(SCENE_H/3),SCENE_W,SCENE_H/1.5);
   gravityArea.visible = false;
 
@@ -366,7 +347,7 @@ function setup() {
   //maskPosition.addAnimation('schnur-maske', '..img/schnur/schnur-1.png', '..img/schnur-12.png');
   maskPosition.addImage(schnur_Mask_img);
   
-  maskPosition.setCollider("circle",0,130,100);
+  maskPosition.setCollider("rectangle",0,150,100,200);
   invisibleGroundCheck = createSprite(0,(SCENE_H/3)*2,SCENE_W,60);  
   invisibleGroundCheck.visible = false;//for collision with middleGround for maskCheck
 
@@ -390,7 +371,6 @@ function setup() {
   
     s1 = createSprite(random(SCENE_W)-(SCENE_W/2),heightSinglePerson,200,100);
     s1.friction = random(0.001, 0.05);
-    //s1.shapeColor = color(200,0,50);
     s1.maxSpeed = 12;
     //ANIMARE
     s1.addAnimation('singleContact_1_R_animate', '../img/SingleContact/SingleContact-SW-R-1.png','../img/SingleContact/SingleContact-SW-R-10.png');
@@ -402,7 +382,6 @@ function setup() {
 
     s2 = createSprite(random(SCENE_W)-(SCENE_W/2),heightSinglePerson,200,100);
     s2.friction = random(0.001, 0.03);
-    s2.shapeColor = color(0,0,50);
     s2.maxSpeed = 12;
     s2.addAnimation('singleContact_1_L_animate', '../img/SingleContact/SingleContact-SW-L-1.png','../img/SingleContact/SingleContact-SW-L-10.png');
     s2.addAnimation('singleContact_2_L_animate', '../img/SingleContact/SingleContact-Verblichen-L-1.png','../img/SingleContact/SingleContact-Verblichen-L-10.png');
@@ -442,11 +421,6 @@ function setup() {
   //ADD ALL PLAYER ANIMATIONS FITST HERE
   //player1.addAnimation('playerAnimation', '../img/Detailbubble-1.png','../img/Detailbubble-11.png');
   player1.setCollider("rectangle",0,50,65,115);
-  // player1.addImage(playerMaskImg);
-  // player1.addImage(playerImg);
-  
- 
-  
 
 
 } // end Set up
@@ -578,6 +552,7 @@ if (running){//if game is not on pause
     }
   }
 
+
   if(maskOn){
     maskPosition.addImage(schnur_img);
   }else{
@@ -586,7 +561,95 @@ if (running){//if game is not on pause
 
   
   pop();
+
+  // ADDING SOUNDS
+  if(player1.overlap(middleArea) && !middleAreaSoundOn){
+    middleAreaSoundOn = true;
+    flyingAreaSoundOn = false;
+    isolationAreaSoundOn = false;
+    middleArea_sound.play();
+    middleArea_sound.loop();
+    middleArea_sound.setVolume(0.6);
+    flyingArea_sound.stop();
+    isolationArea_sound.stop();
+  }else if(player1.overlap(flyingArea) && !flyingAreaSoundOn){
+    middleAreaSoundOn = false;
+    flyingAreaSoundOn = true;
+    middleArea_sound.stop();
+    flyingArea_sound.play();
+    flyingArea_sound.loop();
+    middleArea_sound.setVolume(0.6);
+  }else if(player1.overlap(isolationArea) && !isolationAreaSoundOn){
+    middleAreaSoundOn = false;
+    isolationAreaSoundOn = true;
+    middleArea_sound.stop();
+    isolationArea_sound.play();
+    isolationArea_sound.loop();
+    isolationArea_sound.setVolume(0.6);
+  }
+
+  if(player1.overlap(hygieneArea) && !hygieneAreaSoundOn){
+    hygieneAreaSoundOn = true;
+    hygiene_sound.play();
+    isolationArea_sound.setVolume(0.6);
+  }else if(player1.overlap(hygieneArea) === false){
+    hygieneAreaSoundOn = false;
+    hygiene_sound.stop();
+  }
+
+  if(player1.overlap(zoomArea) && !zoomAreaSoundOn){
+    zoomAreaSoundOn = true;
+    zoom_sound.play();
+    zoom_sound.loop();
+    zoom_sound.setVolume(0.2);
+  }else if(player1.overlap(zoomArea) === false){
+    zoom_sound.stop();
+    zoomAreaSoundOn = false;
+  }
   
+  if(player1.overlap(teleportArea) && !teleportAreaSoundOn){
+    teleportAreaSoundOn = true;
+    teleport_sound.play();
+  }else if(player1.overlap(teleportArea) === false){
+    teleportAreaSoundOn = false;
+  }
+  if(player1.overlap(teleportArea1) && !teleportAreaSoundOn){
+    teleportArea1SoundOn = true;
+    teleport_sound.play();
+  }else if(player1.overlap(teleportArea1) === false){
+    teleportArea1SoundOn = false;
+  }
+
+  if(player1.overlap(maskPosition) && !maskSoundOn){
+    mask_sound.play();
+    maskSoundOn = true;
+  }else if(player1.overlap(maskPosition) && !maskSoundOn){
+    mask_sound.play();
+    maskSoundOn = true;
+  }else if(player1.overlap(maskPosition)=== false){
+    maskSoundOn = false;
+  }
+
+  // if(player1.overlap(singlepeople2) && !singleContactSoundOn){
+  //   singleContact_sound.play();
+  //   singleContactSoundOn = true;
+  //   console.log('HEJSKUDHSKJBKA')
+  // }else if(player1.overlap(singlepeople2) === false){
+  //   singleContactSoundOn = false;
+  // }
+  // if(player1.overlap(singlepeople) && !singleContactSoundOn){
+  //   singleContact_sound.play();
+  //   singleContactSoundOn = true;
+  // }else if(player1.overlap(singlepeople) === false){
+  //   singleContactSoundOn = false;
+  // }
+
+  // if(player1.overlap(distancing_group)){
+
+  // }
+
+
+
   //back - background mapped to playermovement 
   for(let i = -1910 ; i < player1.position.x; i++){
     bg_back.position.x = -(i/10);
@@ -603,6 +666,7 @@ if (running){//if game is not on pause
   } 
   bg_clouds1.position.x += -0.5;
   bg_clouds2.position.x += -0.5;
+
 
   // C A M E R A 
   //limit camera movements on edges
@@ -626,6 +690,7 @@ if (running){//if game is not on pause
 
   //NOCHMAL PRÜFEN  ////////////////////////////////////////////////////////////////////////////////////////////////////////
   if(player1.overlap(gravityArea)){
+    player1.rotation = 0;
     enteringFlyingArea = true;
     if (player1.overlap(gravityArea) && enteringGravityArea === false){
       camera.position.y = player1.position.y - (windowHeight/4);
@@ -690,8 +755,7 @@ if (running){//if game is not on pause
   teleportArea.debug = mouseIsPressed;
   teleportArea1.debug = mouseIsPressed;
   
-
-  
+ 
 
 
   // ALLLES WAS DANACH KOMMT WIRD GEHÖRT NICHT IN DIE WELT
@@ -773,57 +837,93 @@ if (running){//if game is not on pause
     collectiveScore = 100;
   }
 
-  textSize(40);
-  text(individualScore, 0, 100);
-  text(collectiveScore, 0, 200);
 
-  // mapping für die Farbe und Länge der Balken in den Scores
-  let m = map(individualScore, 0, 100, 20, windowWidth/5);
-  let c1 = map(individualScore, 0, 100, 250, 0);
-  let c2 = map(individualScore, 0, 100, 0, 200);
-  let c3 = map(individualScore,0, 100, 100, 150);
-
-  let m2 = map(collectiveScore, 0, 100, 20, windowWidth/5);
-  let c4 = map(collectiveScore, 0, 100, 230, 0);
-  let c5 = map(collectiveScore, 0, 100, 0, 200);
-  let c6 = map(collectiveScore,0, 100, 100, 150);
-
-
+  //debugging
+  // textSize(40);
+  // text(individualScore, 0, 100);
+  // text(collectiveScore, 0, 200);
 
   push();
 
   // DISPLAYING SCORES 
 
   let r = 10; //radius Scores
+  const widthScoreDisplay = windowWidth/5;
+  const heightScoreDisplay = windowHeight/14;
+
+  // mapping für die Farbe und Länge der Balken in den Scores
+  let m = map(individualScore, 0, 100, 20, widthScoreDisplay);
+  let c1 = map(individualScore, 0, 100, 250, 0);
+  let c2 = map(individualScore, 0, 100, 0, 200);
+  let c3 = map(individualScore,0, 100, 100, 150);
+
+  let m2 = map(collectiveScore, 0, 100, 20, widthScoreDisplay);
+  let c4 = map(collectiveScore, 0, 100, 230, 0);
+  let c5 = map(collectiveScore, 0, 100, 0, 200);
+  let c6 = map(collectiveScore,0, 100, 100, 150);
+
+
   // inneres
   noStroke();
   fill(c1,c2,c3);
-  rect(20,20, m, (windowWidth/5)/4, r); //individual 
+  rect(20,20, m, heightScoreDisplay, r); //individual 
   fill(c4,c5,c6);
-  rect(40 + windowWidth/5,20, m2, (windowWidth/5)/4, r); //collective
+  rect(20,40 + heightScoreDisplay, m2, heightScoreDisplay, r); //collective
 
   //äußeres
   stroke(fbS_I_r, fbS_I_g, fbS_I_b);
-  strokeWeight(3);
+  strokeWeight(4);
   noFill();
-  rect(20,20, windowWidth/5, (windowWidth/5)/4, r); //individual
+  rect(20,20, widthScoreDisplay, heightScoreDisplay, r); //individual
+  strokeWeight(1.5);
+  line(20+(widthScoreDisplay*0.9),20, 20+(widthScoreDisplay*0.9),20+heightScoreDisplay);
+  line(20+(widthScoreDisplay*0.1),20, 20+(widthScoreDisplay*0.1),20+heightScoreDisplay);
 
+  strokeWeight(4);
   stroke(fbS_C_r, fbS_C_g, fbS_C_b);
-  rect(40 + windowWidth/5, 20, windowWidth/5, (windowWidth/5)/4,r ); //collective
+  rect(20, 40 + heightScoreDisplay, widthScoreDisplay, heightScoreDisplay,r ); //collective
+  strokeWeight(1.5);
+  line(20+(widthScoreDisplay*0.1),40 + heightScoreDisplay, 20+(widthScoreDisplay*0.1),40 + (heightScoreDisplay*2));
+  line(20+(widthScoreDisplay*0.9),40 + heightScoreDisplay, 20+(widthScoreDisplay*0.9),40 + (heightScoreDisplay*2));
+
 
   //text
   noStroke();
   fill(fbS_I_r, fbS_I_g, fbS_I_b);
   textAlign(CENTER);
   textSize(windowHeight/40);
-  text("Individual", 20 + windowWidth/10, 20 + windowWidth/35);
+  text("Individual", 20 + windowWidth/10, 20+(heightScoreDisplay/2)+(windowHeight/120));
 
   fill(fbS_C_r, fbS_C_g, fbS_C_b);
-  text("Collective", 40 + windowWidth/5 + windowWidth/10, 20 + windowWidth/35);
+  text("Collective", 20 + windowWidth/10, 40+(heightScoreDisplay*1.5)+(windowHeight/120));
 
 
+
+  // INFORMATION ABOUT AREA
+  textSize(windowHeight/40);
+  fill(255);
+  text(updateUserInfo, windowWidth/2, 20+(heightScoreDisplay/2)+(windowHeight/120));
+  if(maskOn){
+    updateUserInfo='You are wearing a mask';
+  }else{
+    updateUserInfo='You are not wearing a mask';
+  }
   
-  
+  if(touchedPerson){
+    updateUserInfo='You met somebody';
+  }else if(player1.overlap(hygieneArea)){
+    updateUserInfo='You are desinfected';
+  }else if(touchedGroup){
+    updateUserInfo='You met a group of people';
+  }else if(player1.overlap(zoomArea)){
+    updateUserInfo='You are using digital media';
+  }else if(player1.overlap(flyingArea)){
+    updateUserInfo='Feel free to fly';
+  }else if(player1.overlap(isolationArea)){
+    updateUserInfo='You entered your home';
+  }
+
+
   // BUTTONS
 
   //Shadows Buttons
@@ -922,9 +1022,11 @@ function playerMovement(){
     //left right
     if (keyIsDown(RIGHT_ARROW) && player1.position.x <= (SCENE_W/2)-100) {
       player1.position.x += 10;
+      player1.rotation = -5;
     }
     if (keyIsDown(LEFT_ARROW) && player1.position.x >= (-(SCENE_W/2))+100) {
       player1.position.x -= 10;
+      player1.rotation = 5;
     }
     
     //how to make player facing right direction // different animations?
@@ -951,6 +1053,7 @@ function playerMovement(){
     //wenn space, innerhalb gravity area und gerade am Boden war, dann jumpen
     if(keyWentDown(' ') && playerGroundCheck && player1.overlap(gravityArea))
     {
+      jump_sound.play();
       player1.velocity.y = -jump;
       playerGroundCheck = false;
     }
@@ -995,17 +1098,49 @@ function flying(){
   player1.velocity.y += gravity;
   isJumping = true;
 
+
   if (keyIsDown(RIGHT_ARROW) && player1.position.x <= (SCENE_W/2)-100) {
     player1.position.x += 7;
+    if(player1.rotation <= 90 && player1.rotation >= 0){
+      player1.rotation += 3.5;
+    }else if(player1.rotation <= 0 && player1.rotation > -90){
+      player1.rotation += 3.5;
+    }else if(player1.rotation >= 90 && player1.rotation < 180){
+      player1.rotation -= 3.5;
+    }else if(player1.rotation <= -90 && player1.rotation > -180){
+      player1.rotation -= 3.5;
+      if(player1.rotation <= -180){player1.rotation = 179}
+    }
   }
   if (keyIsDown(LEFT_ARROW) && player1.position.x >= (-(SCENE_W/2))+100) {
     player1.position.x -= 7;
+    if(player1.rotation <= 90 && player1.rotation >= 0){
+      player1.rotation -= 3.5;
+    }else if(player1.rotation <= 0 && player1.rotation > -90){
+      player1.rotation -= 3.5;
+    }else if(player1.rotation <= -90 && player1.rotation > -180){
+      player1.rotation += 3.5;
+    }else if(player1.rotation >= 90 && player1.rotation < 180){
+      player1.rotation += 3.5;
+      if(player1.rotation >= 180){player1.rotation = -179}
+    }
+    
   }
   if (keyIsDown(UP_ARROW) && player1.position.y > 50) {
     player1.position.y -= 7;
+    if(player1.rotation < 180 && player1.rotation > 0){
+      player1.rotation -= 2.6;
+    }else if(player1.rotation > -180 && player1.rotation < 0){
+      player1.rotation += 2.6;
+    }
   }
   if (keyIsDown(DOWN_ARROW)) {
     player1.position.y += 7;
+    if(player1.rotation < 180 && player1.rotation > 0){
+      player1.rotation += 2.6;
+    }else if(player1.rotation > -180 && player1.rotation < 0){
+      player1.rotation -= 2.6;
+    }
   }
 
 }
@@ -1029,23 +1164,23 @@ function feedbackUpScoreI(){
   //setTimeout(function(){maskFback.remove()}, 500);
   fbS_I_g = 200;
   fbS_I_b = 150;
-  setTimeout(function(){fbS_I_g = 0; fbS_I_b = 0;}, 500);
+  setTimeout(function(){fbS_I_g = 255; fbS_I_b = 255;}, 500);
 }
 
 function feedbackDownScoreI(){
   fbS_I_r = 220;
   fbS_I_b = 60;
-  setTimeout(function(){fbS_I_r = 0; fbS_I_b = 0;}, 500);
+  setTimeout(function(){fbS_I_r = 255; fbS_I_b = 255;}, 500);
 }
 function feedbackUpScoreC(){
   fbS_C_g = 200;
   fbS_C_b = 150;
-  setTimeout(function(){fbS_C_g = 0; fbS_C_b = 0;}, 500);
+  setTimeout(function(){fbS_C_g = 255; fbS_C_b = 255;}, 500);
 }
 function feedbackDownScoreC(){
   fbS_C_r = 220;
   fbS_C_b = 60;
-  setTimeout(function(){fbS_C_r = 0; fbS_C_b = 0;}, 500);
+  setTimeout(function(){fbS_C_r = 255; fbS_C_b = 255;}, 500);
 }
 
 
@@ -1141,7 +1276,7 @@ function movingHygieneArea(){
   }else if (movingHygieneB <= -SCENE_W/2){
     hDir2 = 1;
   }
-  movingHygieneB += hDir2;
+  movingHygieneB += hDir;
   
 }
 
@@ -1186,8 +1321,9 @@ function zoomScore() {
   }
 
   if(insideZoomArea){
-      //ADD ANIMATION
+
       
+
       //10 = not boring, 1 = boring
       boring *= 0.999; //es wird immer langweiliger
       maxZoomC += 0.01; //maximale Zunahme des collective Werts für den Bereich
@@ -1207,6 +1343,7 @@ function zoomScore() {
         feedbackDownScoreI();
       }
   }else{
+        
       boring *= 1.001; //lässt boring wieder hoch gehen
       maxZoomC -= 0.01; //lässt maxZoom wieder runter gehen
   }
@@ -1264,6 +1401,7 @@ let touchedPerson = false;
 
       if (player1.overlap(singlepeople2) && !touchedPerson || player1.overlap(singlepeople) && !touchedPerson){
         touchedPerson = true;
+        singleContact_sound.play();
         setTimeout(function(){touchedPerson = false;},5000);
         feedbackUpScoreI();
         feedbackDownScoreC();
@@ -1352,6 +1490,7 @@ function swarmFollowAttraction(distancing_group, attraction_pointX, attraction_p
   if(player1.overlap(distancing_group) && touchedGroup === false){
     feedbackUpScoreI();
     feedbackDownScoreC();
+    distancing_sound.play();
     individualScore += 10;
     collectiveScore -= 10;
     touchedGroup = true;
