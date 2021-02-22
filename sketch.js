@@ -3,7 +3,7 @@ let running = true;
 
 //player
 let player1;
-let s1, s2;
+let s1, s2, distance1;
 let isJumping = true;
 
 //Animation
@@ -52,8 +52,8 @@ let maskOn = true;
 let maskGroundCheck = true;
 let teleportColliderSize = 400;
 let directionSingle = 5;
-let movingHygieneA = 0;
-let movingHygieneB = SCENE_W/6;
+let movingHygieneA = 800;
+let movingHygieneB = 800+SCENE_W/6;
 let hDir = 1;
 let hDir2 = 1;
 
@@ -78,17 +78,29 @@ let maxSpeed = 3;
 
 function preload(){
   //background images
-  bgImg1 = loadImage("../img/bg-test-1.png");
-  bgImg2 = loadImage("../img/bg-test-2.png");
-  bgImg3 = loadImage("../img/world-highR.png");
-  bgImg4 = loadImage("../img/world-highR.png");
-  bgImg5 = loadImage("../img/world-highR.png");
-  bgImg6 = loadImage("../img/world-highR.png");
-  bgImg7 = loadImage("../img/world-highR.png"); //world
+  // bgImg1 = loadImage("../img/bg-test-1.png");
+  // bgImg2 = loadImage("../img/bg-test-2.png");
+  // bgImg3 = loadImage("../img/world-highR.png");
+  // bgImg4 = loadImage("../img/world-highR.png");
+  // bgImg5 = loadImage("../img/world-highR.png");
+  // bgImg6 = loadImage("../img/world-highR.png");
+  // bgImg7 = loadImage("../img/world-highR.png"); //world
   bgImg8 = loadImage("../img/sky.png"); // BG 
-  middleCity = loadImage("../img/middleCity.png"); // middleCity
+  // middleCity = loadImage("../img/middleCity.png"); // middleCity
+
+
   clouds1 = loadImage("../img/wolken-highR.png");
 
+  bg_vorne_1 = loadImage('../img/bg-vorne-1.png');
+  bg_hinten_1 = loadImage('../img/bg-hinten-1.png');
+  bg_vorne_2 = loadImage('../img/bg-vorne-2.png');
+  bg_hinten_2 = loadImage('../img/bg-hinten-2.png');
+  bg_vorne_3 = loadImage('../img/bg-vorne-3.png');
+  bg_hinten_3 = loadImage('../img/bg-hinten-3.png');
+  bg_vorne_4 = loadImage('../img/bg-vorne-4.png');
+  bg_hinten_4 = loadImage('../img/bg-hinten-4.png');
+  bg_vorne_5 = loadImage('../img/bg-vorne-5.png');
+  bg_hinten_5 = loadImage('../img/bg-hinten-5.png');
 
   schnur_Mask_img = loadImage("../img/schnur/schnur-maske-7.png");
   schnur_img = loadImage("../img/schnur/schnur-7.png");
@@ -159,19 +171,32 @@ function preload(){
 
   //Distancing
   distancing_1_animate = loadAnimation('../img/Distancing/Distancing-SW-1.png','../img/Distancing/Distancing-SW-7.png');
-  distancing_2_col1_animate = loadAnimation('../img/Distancing/Distancing-Ausgeblichen-ColorA-1.png','../img/Distancing/Distancing-Ausgeblichen-ColorA-7.png');
+  distancing_2_col1_animate = loadAnimation('../img/Distancing/Distancing-Ausgeblichen-ColorA-1.png','../img/Distancing/Distancing-Ausgeblichen-ColorA-3.png');
   distancing_2_col2_animate = loadAnimation('../img/Distancing/Distancing-Ausgeblichen-ColorB-1.png','../img/Distancing/Distancing-Ausgeblichen-ColorB-7.png');
   distancing_2_col3_animate = loadAnimation('../img/Distancing/Distancing-Ausgeblichen-ColorC-1.png','../img/Distancing/Distancing-Ausgeblichen-ColorC-7.png');
-  distancing_3_col1_animate = loadAnimation('../img/Distancing/Distancing-Bunt-ColorA-1.png','../img/Distancing/Distancing-Bunt-ColorA-7.png');
+  distancing_3_col1_animate = loadAnimation('../img/Distancing/Distancing-Bunt-ColorA-1.png','../img/Distancing/Distancing-Bunt-ColorA-3.png');
   distancing_3_col2_animate = loadAnimation('../img/Distancing/Distancing-Bunt-ColorB-1.png','../img/Distancing/Distancing-Bunt-ColorB-7.png');
   distancing_3_col3_animate = loadAnimation('../img/Distancing/Distancing-Bunt-ColorC-1.png','../img/Distancing/Distancing-Bunt-ColorC-7.png');
-  distancing_4_col1_animate = loadAnimation('../img/Distancing/Distancing-Halb-ColorA-1.png','../img/Distancing/Distancing-Halb-ColorA-7.png');
+  distancing_4_col1_animate = loadAnimation('../img/Distancing/Distancing-Halb-ColorA-1.png','../img/Distancing/Distancing-Halb-ColorA-3.png');
   distancing_4_col2_animate = loadAnimation('../img/Distancing/Distancing-Halb-ColorB-1.png','../img/Distancing/Distancing-Halb-ColorB-7.png');
   distancing_4_col3_animate = loadAnimation('../img/Distancing/Distancing-Halb-ColorC-1.png','../img/Distancing/Distancing-Halb-ColorC-7.png');
-  distancing_5_col1_animate = loadAnimation('../img/Distancing/Distancing-Detail-ColorA-1.png','../img/Distancing/Distancing-Detail-ColorA-7.png');
+  distancing_5_col1_animate = loadAnimation('../img/Distancing/Distancing-Detail-ColorA-1.png','../img/Distancing/Distancing-Detail-ColorA-3.png');
   distancing_5_col2_animate = loadAnimation('../img/Distancing/Distancing-Detail-ColorB-1.png','../img/Distancing/Distancing-Detail-ColorB-7.png');
   distancing_5_col3_animate = loadAnimation('../img/Distancing/Distancing-Detail-ColorC-1.png','../img/Distancing/Distancing-Detail-ColorC-7.png');
 
+  distancing_1_img = loadImage('../img/Distancing/Distancing-SW-2.png');
+  distancing_2_col1_img = loadImage('../img/Distancing/Distancing-Ausgeblichen-ColorA-2.png');
+  distancing_2_col2_img = loadImage('../img/Distancing/Distancing-Ausgeblichen-ColorB-2.png');
+  distancing_2_col3_img = loadImage('../img/Distancing/Distancing-Ausgeblichen-ColorC-2.png');
+  distancing_3_col1_img = loadImage('../img/Distancing/Distancing-Bunt-ColorA-2.png');
+  distancing_3_col3_img = loadImage('../img/Distancing/Distancing-Bunt-ColorB-2.png');
+  distancing_3_col3_img = loadImage('../img/Distancing/Distancing-Bunt-ColorC-2.png');
+  distancing_4_col1_img = loadImage('../img/Distancing/Distancing-Halb-ColorA-2.png');
+  distancing_4_col2_img = loadImage('../img/Distancing/Distancing-Halb-ColorB-2.png');
+  distancing_4_col3_img = loadImage('../img/Distancing/Distancing-Halb-ColorC-2.png');
+  distancing_5_col1_img = loadImage('../img/Distancing/Distancing-Detail-ColorA-2.png');
+  distancing_5_col2_img = loadImage('../img/Distancing/Distancing-Detail-ColorB-2.png');
+  distancing_5_col3_img = loadImage('../img/Distancing/Distancing-Detail-ColorC-2.png');
 
   //playerAnimation = loadAnimation('../img/Detailbubble-1.png','../img/Detailbubble-11.png');
   //distancingAnimation = loadAnimation('../img/Distancing/DistancingDetail-1.png','../img/Distancing/DistancingDetail-7.png');
@@ -243,23 +268,25 @@ function setup() {
 
   
   bg_back = createSprite(0, SCENE_H/2, SCENE_W+300, SCENE_H); //Hintergrund, der sich anders bewegt (muss ein größeres Bild sein)
-  bg_middle = createSprite(0, SCENE_H/2, SCENE_W+300, SCENE_H); //Vrdergrund 
+  //bg_middle = createSprite(0, SCENE_H/2, SCENE_W+300, SCENE_H); //Vrdergrund 
   bg = createSprite(0, SCENE_H/2, SCENE_W, SCENE_H); //Vrdergrund 
   bg_clouds1 = createSprite(SCENE_W/2, SCENE_H/2, SCENE_W, SCENE_H);
   bg_clouds2 = createSprite(-SCENE_W/2, SCENE_H/2, SCENE_W, SCENE_H);
 
-  bg_back.addImage(bgImg8);
-  bg_middle.addImage(middleCity);
+  //bg_back.addImage(bgImg8);
+  //bg_middle.addImage(middleCity);
   bg_clouds1.addImage(clouds1);
   bg_clouds2.addImage(clouds1);
   
   // hier müssen die transparenzen auferufen werden, weil es in draw zu lange laden muss
   // Tipp: https://forum.processing.org/two/discussion/19438/image-transparency-alpha-via-tint-is-very-slow
-  const pg = createGraphics(bgImg1.width, bgImg1.height);
-  pg.tint(0, 153, 204, 126);
-  pg.image(bgImg1, 0,0);
- 
-  transp = pg.get();
+  // const pg = createGraphics(bgImg1.width, bgImg1.height);
+  // pg.tint(0, 153, 204, 126);
+  // pg.image(bgImg1, 0,0);
+  // transp = pg.get();
+
+
+
 
   // C O L L I D E R S
 
@@ -470,24 +497,30 @@ if (running){//if game is not on pause
   push();
   
   //ANIMARE
+  //ICKB
   if (collectiveScore < 20){ 
-    bg.addImage(bgImg3);
-    singlepeople.changeAnimation('singleContact_1_R_animate');
+    bg_back.addImage(bg_hinten_1);
+    bg.addImage(bg_vorne_1);
+    s1.changeAnimation('singleContact_1_R_animate');
     s2.changeAnimation('singleContact_1_L_animate');
   }else if (collectiveScore > 20 && collectiveScore < 40){
-    bg.addImage(bgImg3);
+    bg_back.addImage(bg_hinten_2);
+    bg.addImage(bg_vorne_2);
     s1.changeAnimation('singleContact_2_R_animate');
     s2.changeAnimation('singleContact_2_L_animate');
   }else if (collectiveScore > 40 && collectiveScore < 60){
-    bg.addImage(bgImg3);
+    bg_back.addImage(bg_hinten_3);
+    bg.addImage(bg_vorne_3);
     s1.changeAnimation('singleContact_3_R_animate');
     s2.changeAnimation('singleContact_3_L_animate');
   } else if (collectiveScore > 60 && collectiveScore < 80){
-    bg.addImage(bgImg3);
+    bg_back.addImage(bg_hinten_4);
+    bg.addImage(bg_vorne_4);
     s1.changeAnimation('singleContact_4_R_animate');
     s2.changeAnimation('singleContact_4_L_animate');
   }else if(collectiveScore > 80 && collectiveScore < 100){
-    bg.addImage(bgImg3);
+    bg_back.addImage(bg_hinten_5);
+    bg.addImage(bg_vorne_5);
     s1.changeAnimation('singleContact_5_R_animate');
     s2.changeAnimation('singleContact_5_L_animate');
    
@@ -557,7 +590,7 @@ if (running){//if game is not on pause
   //back - background mapped to playermovement 
   for(let i = -1910 ; i < player1.position.x; i++){
     bg_back.position.x = -(i/10);
-    bg_middle.position.x = -(i/20);
+    //bg_middle.position.x = -(i/20);
 
   }
 
@@ -708,12 +741,15 @@ if (running){//if game is not on pause
     //att_points[i].show();
     swarmFollowAttraction(distancing_groups[i], att_points[i].positionX, att_points[i].positionY);
   }
+
+  
   
   for (i = 0; i < rain.length; i++) {
     rain[i].dropRain();
     rain[i].splash();
   }
   
+
 
 
   // --------- G U I ---------------
@@ -874,7 +910,7 @@ function zoomInOut(){
   if(mouseIsPressed){
     camera.zoom = windowWidth/SCENE_H;
   }else{
-    camera.zoom = 0.1;
+    camera.zoom = 1;
   }
 }
 
@@ -1241,19 +1277,26 @@ let touchedPerson = false;
 
 // ---- DISTANCING ----
 
+//ICKBIN
 // CREATING SWARM
 function createSwarm(distancing_group, attraction_pointX, attraction_pointY){
   for (let e = 0; e < amount_of_characters; e++ ){
-    c1 = createSprite(random(-SCENE_W/2, SCENE_W/2), random(SCENE_H/3), 44, 34);
-    c1.shapeColor = color(random(0,200),20,random(0,200));
+    distance1 = createSprite(random(-SCENE_W/2, SCENE_W/2), random(SCENE_H/3), 44, 34);
+    distance1.shapeColor = color(random(0,200),20,random(0,200));
 
     let cntRandom = random(1);
     //ANIMARE 
     //hier die animationen dem Sprite hinzufügen und bei draw mit change animation ändern
     
-    
-      c1.addAnimation('distancing_1_animate', '../img/Distancing/Distancing-SW-1.png','../img/Distancing/Distancing-SW-7.png');
+    // distance1.addImage(distancing_1_img);
+    // distance1.addImage(distancing_2_col1_img);
+    // distance1.addImage(distancing_3_col1_img);
+    // distance1.addImage(distancing_4_col1_img);
+    // distance1.addImage(distancing_5_col1_img);
 
+    //c1.addAnimation('distancing_1_animate', '../img/Distancing/Distancing-SW-1.png','../img/Distancing/Distancing-SW-7.png');
+    
+      
 
     // c1.addAnimation('distancing_2_col1_animate', '../img/Distancing/Distancing-Ausgeblichen-ColorA-1.png','../img/Distancing/Distancing-Ausgeblichen-ColorA-7.png');
     // c1.addAnimation('distancing_3_col1_animate', '../img/Distancing/Distancing-Bunt-ColorA-1.png','../img/Distancing/Distancing-Bunt-ColorA-7.png');
@@ -1272,11 +1315,11 @@ function createSwarm(distancing_group, attraction_pointX, attraction_pointY){
   
     //c1.maxSpeed = 15;
     //camera.setSpeed = random(1,15);
-    c1.friction = random(0.07, 0.18);
-    c1.rotation = 180;
-    c1.rotateToDirection = true;
-    c1.attractionPoint(29, attraction_pointX, attraction_pointY);
-    distancing_group.add(c1);
+    distance1.friction = random(0.07, 0.18);
+    distance1.rotation = 180;
+    distance1.rotateToDirection = true;
+    distance1.attractionPoint(29, attraction_pointX, attraction_pointY);
+    distancing_group.add(distance1);
   }
 }
 
@@ -1288,6 +1331,21 @@ function swarmFollowAttraction(distancing_group, attraction_pointX, attraction_p
   for (let i = 0; i < amount_of_characters; i++){
     distancing_group[i].attractionPoint(random(0.08, 0.2), attraction_pointX, attraction_pointY);
     distancing_group[i].setCollider("circle", 0, 0, 20);
+
+    if(collectiveScore < 20){
+      distancing_group[i].addImage(distancing_1_img);
+    }else if(collectiveScore > 20 && collectiveScore < 40){
+      distancing_group[i].addImage(distancing_2_col1_img);
+    }else if(collectiveScore > 40 && collectiveScore < 60){
+      distancing_group[i].addImage(distancing_3_col1_img); 
+    }else if(collectiveScore > 60 && collectiveScore < 80){
+      distancing_group[i].addImage(distancing_4_col1_img);
+    }else if(collectiveScore > 80){
+      distancing_group[i].addImage(distancing_5_col1_img); 
+    }
+
+
+    
     distancing_group.collide(distancing_group[i]);
   }
 
