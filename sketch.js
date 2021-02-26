@@ -1,15 +1,20 @@
-let running = true;
-
+let running = false;
+let startingPage = true;
+let explainPage = false;
 
 //player
 let player1;
 
+
+//
+let mouseClickCheck = true;
 
 //Animation
 let s1, s2, distance1;
 let isJumping = true;
 
 //Sound-Checks
+let muted = false;
 let middleAreaSoundOn = false;
 let flyingAreaSoundOn = false;
 let isolationAreaSoundOn = false;
@@ -109,6 +114,9 @@ function preload(){
   
   // middleCity = loadImage("../img/middleCity.png"); // middleCity
 
+  docu_img = loadImage('../img/explain.png');
+  docu_bg_img = loadImage('../img/docu_bg.png');
+  docu_clouds_img = loadImage('../img/docu_clouds.png');
 
   clouds1 = loadImage("../img/wolken-highR.png");
 
@@ -252,6 +260,7 @@ function setup() {
   bg_clouds1 = createSprite(SCENE_W/2, SCENE_H/2, SCENE_W, SCENE_H);
   bg_clouds2 = createSprite(-SCENE_W/2, SCENE_H/2, SCENE_W, SCENE_H);
 
+ 
   //bg_back.addImage(bgImg8);
   //bg_middle.addImage(middleCity);
   bg_clouds1.addImage(clouds1);
@@ -264,6 +273,12 @@ function setup() {
   // pg.image(bgImg1, 0,0);
   // transp = pg.get();
 
+
+  // D O C U // STARTING PAGE
+  docu_clouds = createSprite(0,0,windowWidth,windowHeight);
+  docu_clouds.addImage(docu_clouds_img);
+  docu = createSprite(windowWidth/2,windowHeight/2,800,600);
+  docu.addImage(docu_img);
 
 
 
@@ -294,7 +309,7 @@ function setup() {
 
   // STAIRS
   stairs_1 = new Group();
-  for (let i = 0; i < (jumpHeight*3); i+=jumpHeight/1.5){
+  for (let i = 200; i < (jumpHeight*3); i+=jumpHeight/1.5){
     let stairHeight = 30;
     let stair = createSprite(-(SCENE_W/4)-i,(SCENE_H/3)+i, 300, stairHeight);
     stair.setCollider("rectangle", 0, -(stairHeight/2)+1, 250, 0); //making the collider only on top of stair, so player can still jump an walk infront of it 
@@ -357,7 +372,7 @@ function setup() {
 
   
   //ZOOM
-  zoomArea = createSprite(-(SCENE_W/10),SCENE_H-(SCENE_H/4),SCENE_W/3,SCENE_H/2);
+  zoomArea = createSprite(-(SCENE_W/8.5),SCENE_H-(SCENE_H/4),SCENE_W/3.3,SCENE_H/2);
   zoomArea.visible = false;
 
   //ISOLATION
@@ -429,6 +444,7 @@ function setup() {
 // PAUSE FUNCTION
 function mousePressed(){
   if(mouseX > 20 && mouseX < 20 + windowWidth/10 && mouseY > windowHeight - (windowHeight/10) && mouseY < windowHeight - (windowHeight/20)) {
+    button_sound.play();
     running = !running; // flip the boolean
     fill('rgba(0,0,0,0.9)');
     rect(0,0,SCENE_W,SCENE_H);
@@ -440,13 +456,30 @@ function mousePressed(){
     text("Continue", 20 + windowWidth/20, windowHeight - (windowHeight/15));
   }
   if(mouseX > windowWidth - windowWidth/10 && mouseY < 20 + windowWidth/15){
+    button_sound.play();
     running = !running; // flip the boolean
-    fill('rgba(0,0,0,0.9)');
+
+    push();
+
+    fill('rgba(5,0,30,0.9)');
     rect(0,0,SCENE_W,SCENE_H);
-    fill(255);
-    textAlign(CENTER);
-    textSize(windowHeight/10);
-    text("Erklärung", windowWidth/2, windowHeight/2);
+
+    
+    drawSprite(docu);
+  pop();
+
+  if(mouseIsPressed && mouseClickCheck){
+    mouseClickCheck = false;
+    explainPage = false;
+    running = true;
+    //setTimeout(function(){mouseClickCheck = true;}, 500);
+  }
+    //image(docu_img, 0, 0);
+    
+    // fill(255);
+    // textAlign(CENTER);
+    // textSize(windowHeight/10);
+    // text("Erklärung", windowWidth/2, windowHeight/2);
   }
  
 }
@@ -456,13 +489,66 @@ function mousePressed(){
 
 function draw() {
 
+if(startingPage){
+    push();
+    // let scaleBy = windowWidth*0.0008;
+    // scale(scaleBy);
+    // let hallo = (docu_img.height - windowHeight)/2;
+    // let hallo2 = (docu_img.width - windowWidth)/2;
+    background(docu_bg_img);
+   
+    
+    fill(255);
+    textFont('Avenir');
+    textAlign(CENTER);
+    textSize(windowHeight/3);
+    text("FREEDOM", windowWidth/2,windowHeight/2);
+    textSize(windowHeight/40);
+    text("Click to start", windowWidth/2,windowHeight/2+100);
+    if (docu_clouds.position.x <= -900){
+      docu_clouds.position.x = 2300;
+    }
+    console.log(docu_clouds.position.x);
+    docu_clouds.position.x -= 0.5;
+    drawSprite(docu_clouds);
+    pop();
+    if(mouseIsPressed && mouseClickCheck){
+      mouseClickCheck = false;
+      setTimeout(function(){startingPage = false;explainPage = true;}, 100);
+      setTimeout(function(){mouseClickCheck = true;}, 500);
+    }
+}
+
+if(explainPage){
+  push();
+    background(docu_bg_img);
+
+    if (docu_clouds.position.x <= -900){
+      docu_clouds.position.x = 2300;
+    }
+    console.log(docu_clouds.position.x);
+    docu_clouds.position.x -= 0.5;
+
+    drawSprite(docu_clouds);
+    drawSprite(docu);
+  pop();
+
+  if(mouseIsPressed && mouseClickCheck){
+    mouseClickCheck = false;
+    explainPage = false;
+    running = true;
+    //setTimeout(function(){mouseClickCheck = true;}, 500);
+  }
+}
+
 if (running){//if game is not on pause
 
   
 
   //----- B G  A N D  C A M E R A ------
   background(0); //BG outside of frame 
- 
+  removeSprite(docu);
+  removeSprite(docu_clouds);
 
  
 
@@ -952,6 +1038,12 @@ if (running){//if game is not on pause
   
   //sound
   rect(windowWidth - windowWidth/20 - 20 ,windowHeight - (windowHeight/10), windowWidth/20, windowHeight/20, 20);
+  if(mouseX > windowWidth - windowWidth/20 - 20 && 
+    mouseX < windowWidth - 20 && 
+    mouseY > windowHeight - (windowHeight/10) && 
+    mouseY < windowHeight - (windowHeight/40) - 20){
+    playPauseSound();
+  }
 
   //questionmark
   ellipse(windowWidth - windowWidth/20, 20 + windowWidth/35, windowWidth/20);
@@ -963,6 +1055,7 @@ if (running){//if game is not on pause
   text("Sound", windowWidth - windowWidth/20, windowHeight - (windowHeight/15));
   text("Pause", 20 + windowWidth/20, windowHeight - (windowHeight/15));
   text("Zoom", 40 + windowWidth/10 + windowWidth/20, windowHeight - (windowHeight/15));
+  //questionmark Button
   text("?", windowWidth - windowWidth/20, 20 + windowWidth/30)
 
   pop();
@@ -1010,7 +1103,21 @@ function zoomInOut(){
   if(mouseIsPressed){
     camera.zoom = windowWidth/SCENE_H;
   }else{
-    camera.zoom = 1;
+    camera.zoom = 0.4;
+  }
+}
+
+function playPauseSound(){
+  if(mouseIsPressed && !muted){
+    flyingArea_sound.setVolume(0.0);
+    isolationArea_sound.setVolume(0.0);
+    middleArea_sound.setVolume(0.0);
+    setTimeout(function(){muted=true},100);
+  }else if(mouseIsPressed && muted){
+    flyingArea_sound.setVolume(0.6);
+    isolationArea_sound.setVolume(0.6);
+    middleArea_sound.setVolume(0.6);
+    setTimeout(function(){muted=false},100);
   }
 }
 
@@ -1078,7 +1185,7 @@ function playerMovement(){
     }
     player1.position.y += 1;  //OHNE VIBRIERT DAS BILD WIESO AUCH IMMER -> ich glaube wegen overlap bei groundcheck
 
-    if(player1.overlap(stairs_1)){
+    if(player1.overlap(stairs_1) || player1.overlap(podest1)){
       playerGroundCheck = true;
     }//das muss einzeln hinter dem debug hier drüber, damit ein GroundCheck stattfindet
 
