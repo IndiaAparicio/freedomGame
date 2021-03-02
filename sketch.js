@@ -537,11 +537,11 @@ function draw() {
             maskPosition.addImage(schnur_Mask_img);
           }
 
-    pop();
+      pop();
 
 
     
-    //MUSIC CHANGE
+    //M U S I C  C H A N G E
           if(player1.overlap(middleArea) && !middleAreaSoundOn){
               middleAreaSoundOn = true;
               flyingAreaSoundOn = false;
@@ -568,8 +568,8 @@ function draw() {
           }
 
 
-    // SOUNDS CHANGE
-        
+    // S O U N D S   C H A N G E
+      
           //Hygiene
           if(player1.overlap(hygieneArea) && !hygieneAreaSoundOn){
               hygieneAreaSoundOn = true;
@@ -618,146 +618,123 @@ function draw() {
 
      
 
+    //E N V I R O N M E N T
 
-
-      //back - background mapped to playermovement 
-      for(let i = -1910 ; i < player1.position.x; i++){
-        bg_back.position.x = -(i/10);
-        //bg_middle.position.x = -(i/20);
-
-      }
-
-      //lässt Wolken wieder bei 0 starteb, nachdem sie aus dem Bild sind
-      if(bg_clouds1.position.x < -SCENE_W-50){
-        bg_clouds1.position.x = SCENE_W+50; 
-      }
-      if(bg_clouds2.position.x < -SCENE_W-50){
-        bg_clouds2.position.x = SCENE_W+50; 
-      } 
-      bg_clouds1.position.x += -0.5;
-      bg_clouds2.position.x += -0.5;
-
-
-      // C A M E R A 
-      //limit camera movements on edges
-      let ScreenPlayerRelation = width/2;
-      let ScreenPlayerRelationH = height/2;
-
-      if (player1.position.x >= EDGE_R - ScreenPlayerRelation){
-        camera.position.x = camera.position.x;
-      }else if(player1.position.x <= EDGE_L + ScreenPlayerRelation){
-        camera.position.x = camera.position.x;
-      }else{
-        camera.position.x = player1.position.x;
-      }
-
-
-      
-
-
-      //NOCHMAL PRÜFEN  ////////////////////////////////////////////////////////////////////////////////////////////////////////
-      if(player1.overlap(gravityArea)){
-        player1.rotation = 0;
-        enteringFlyingArea = true;
-        if (player1.overlap(gravityArea) && enteringGravityArea === false){
-          camera.position.y = player1.position.y - (windowHeight/4);
+        //BG mapped on playerMovement
+        for(let i = -1910 ; i < player1.position.x; i++){
+          bg_back.position.x = -(i/10);
         }
-        if(camera.position.y >= player1.position.y && enteringGravityArea){
-          while (camera.position.y > player1.position.y - (windowHeight/4)){
-            camera.position.y -= 1;
-          }
+
+        //Clouds Movement
+        //lässt Wolken wieder bei 0 starteb, nachdem sie aus dem Bild sind
+        if(bg_clouds1.position.x < -SCENE_W-50){
+          bg_clouds1.position.x = SCENE_W+50; 
+        }
+        if(bg_clouds2.position.x < -SCENE_W-50){
+          bg_clouds2.position.x = SCENE_W+50; 
         } 
-        if(camera.position.y = player1.position.y - (windowHeight/4)){
-          camera.position.y = player1.position.y - (windowHeight/4);
-          //enteringGravityArea = false;
-        }
-      }
-
-      if(player1.overlap(flyingArea)){
-        enteringGravityArea = true;
-        if(camera.position.y < player1.position.y-5 && enteringFlyingArea){//wenn camera kleiner und entering
-          while (camera.position.y < height/2){
-            camera.position.y += 1;
-          }
-        }else if (camera.position.y < player1.position.y-5 && enteringFlyingArea === false){//wenn camera kleiner aber nicht entering
-          camera.position.y = player1.position.y;
-        }
-        if(camera.position.y >= player1.position.y){//wenn camera gleich, verfolge Player und entering falsch
-          camera.position.y = player1.position.y;
-          enteringFlyingArea = false;
-        }
-        
-        //can only go to edge
-        if (player1.position.y <= ScreenPlayerRelationH ){
-          camera.position.y = ScreenPlayerRelationH;
-        }
-        
-        
-        
-      }
-      
-      
-      //camera.position.y = player1.position.y - (windowHeight/4);
-      // windowHeight/4 = 777
+        bg_clouds1.position.x += -0.5;
+        bg_clouds2.position.x += -0.5;
 
 
-    
-      
-      // ------ P L A Y E R 1  M O V E M E N T -------
 
-    
-      //GRAVITY AREA
-      if (player1.overlap(gravityArea)){
-        playerMovement();
-      }else if (player1.overlap(flyingArea)){
-        flying();
-      }
-      
+    // C A M E R A 
 
-      // debugging
-      // maskPosition.debug = mouseIsPressed; //so werden die collider visualisiert
-      // invisibleGroundCheck.debug = mouseIsPressed;
-      // stairs_1.debug = mouseIsPressed;
-      // player1.debug = mouseIsPressed;
-      // teleportArea.debug = mouseIsPressed;
-      // teleportArea1.debug = mouseIsPressed;
-      
-    
+      //LIMITATIONS X-AXIS
+        let ScreenPlayerRelation = width/2;
+        let ScreenPlayerRelationH = height/2;
 
-
-      // ALLLES WAS DANACH KOMMT WIRD GEHÖRT NICHT IN DIE WELT
-    drawSprites();  
-      
-
-      
-      // DIGITAL MEDIA SCREENS
-
-
-      // SCREENS DIE ANIMATIONEN MACHEN IN ZOOM BEREICHEN
-      let att_animation_middle = map(player1.position.x, -1060, 140, 600, 1800);
-      let att_animation_ground = map(player1.position.x, -840, -100, 600, 1000);
-
-
-      push();
-        let randomizer = random(1);
-        if(randomizer > 0.5){
-          image(lights_unten_img,-SCENE_W/2,0);
-          image(lights_oben_img,-SCENE_W/2,0);
+        if (player1.position.x >= EDGE_R - ScreenPlayerRelation){
+          camera.position.x = camera.position.x;
+        }else if(player1.position.x <= EDGE_L + ScreenPlayerRelation){
+          camera.position.x = camera.position.x;
         }else{
-          image(lights_unten_2_img,-SCENE_W/2,0);
-          image(lights_oben_2_img,-SCENE_W/2,0);
+          camera.position.x = player1.position.x;
         }
-      pop();
-      graphicsScreen(zoomScreenMiddle, -1080, SCENE_H/2-100, att_animation_middle, 480, 255, 200, 0, 150);
-      graphicsScreen(zoomScreenGroundBig, -870, 2215, att_animation_ground, 425, 255, 0, 100, 150);
 
-
-
-      for(let i = 0; i<301; i += 150){
-        for(let y = 0; y < 1000; y += 980){
-          graphicsScreen(zoomScreenGround, -1015+y, 2215+i, 125, 125, 255, 0, 100, 150);
+      //LIMITATIONS GRAVITYAREA Y-AXIS
+                //NOCHMAL PRÜFEN  ////////////////////////////////////////////////////////////////////////////////////////////////////////
+        if(player1.overlap(gravityArea)){
+            player1.rotation = 0;
+            enteringFlyingArea = true;
+            if (player1.overlap(gravityArea) && enteringGravityArea === false){
+              camera.position.y = player1.position.y - (windowHeight/4);
+            }
+            if(camera.position.y >= player1.position.y && enteringGravityArea){
+                while (camera.position.y > player1.position.y - (windowHeight/4)){
+                  camera.position.y -= 1;
+                }
+            } 
+            if(camera.position.y = player1.position.y - (windowHeight/4)){
+              camera.position.y = player1.position.y - (windowHeight/4);
+              //enteringGravityArea = false;
+            }
         }
-      }
+
+      //LIMITATIONS GRAVITYAREA Y-AXIS
+        if(player1.overlap(flyingArea)){
+            enteringGravityArea = true;
+            if(camera.position.y < player1.position.y-5 && enteringFlyingArea){//wenn camera kleiner und entering
+                while (camera.position.y < height/2){
+                  camera.position.y += 1;
+                }
+            }else if (camera.position.y < player1.position.y-5 && enteringFlyingArea === false){//wenn camera kleiner aber nicht entering
+              camera.position.y = player1.position.y;
+            }
+            if(camera.position.y >= player1.position.y){//wenn camera gleich, verfolge Player und entering falsch
+              camera.position.y = player1.position.y;
+              enteringFlyingArea = false;
+            }
+            
+            //can only go to edge
+            if (player1.position.y <= ScreenPlayerRelationH ){
+              camera.position.y = ScreenPlayerRelationH;
+            }
+        }
+      
+      
+      
+    // P L A Y E R   M O V E M E N T
+
+      //Flying or walking
+        if (player1.overlap(gravityArea)){
+          playerMovement();
+        }else if (player1.overlap(flyingArea)){
+          flying();
+        }
+      
+  
+    // D R A W   S P R I T E S
+        drawSprites();  
+      
+
+      
+    // D I G I T A L   M E D I A   S C R E E N S
+
+        // Attraction points, for animation following player
+        let att_animation_middle = map(player1.position.x, -1060, 140, 600, 1800);
+        let att_animation_ground = map(player1.position.x, -840, -100, 600, 1000);
+
+        //Flacker Effect
+        push();
+            let randomizer = random(1);
+            if(randomizer > 0.5){
+                image(lights_unten_img,-SCENE_W/2,0);
+                image(lights_oben_img,-SCENE_W/2,0);
+            }else{
+                image(lights_unten_2_img,-SCENE_W/2,0);
+                image(lights_oben_2_img,-SCENE_W/2,0);
+            }
+        pop();
+
+        //Display Screens Function
+        graphicsScreen(zoomScreenMiddle, -1080, SCENE_H/2-100, att_animation_middle, 480, 255, 200, 0, 150);
+        graphicsScreen(zoomScreenGroundBig, -870, 2215, att_animation_ground, 425, 255, 0, 100, 150);
+        for(let i = 0; i<301; i += 150){
+            for(let y = 0; y < 1000; y += 980){
+                graphicsScreen(zoomScreenGround, -1015+y, 2215+i, 125, 125, 255, 0, 100, 150);
+            }
+        }
 
       
     
@@ -947,6 +924,13 @@ function draw() {
 
       camera.on();
 
+      // debugging
+      // maskPosition.debug = mouseIsPressed; //so werden die collider visualisiert
+      // invisibleGroundCheck.debug = mouseIsPressed;
+      // stairs_1.debug = mouseIsPressed;
+      // player1.debug = mouseIsPressed;
+      // teleportArea.debug = mouseIsPressed;
+      // teleportArea1.debug = mouseIsPressed;
   }//end running
 }//end draw
 
