@@ -135,3 +135,53 @@ Creating the **interaction** illustrations and animations
 * [ ] zoom animation loop
 * [ ] teleporting animation loop
 
+
+//ANIMATIONS:
+[fertig gemalt] [eingepflegt]
+- Player (Maße: 199 x 322 px)
+  - [] [] Detailed mask
+  - [] [] Detailed
+  - [] [] halb Detailed mask
+  - [] [] halb Detailed
+  - [] [] bunt mask
+  - [] [] bunt 
+  - [] [] azsgeblichen mask
+  - [] [] ausgeblichen 
+  - [] [] S/W mask
+  - [] [] S/W 
+- Distancing (Maße: 44 x 34 px)
+  - [] [] detailed Color1
+  - [] [] detailed Color2
+  - [] [] detailed Color3
+  - [] [] bunt Color1
+  - [] [] bunt Color2
+  - [] [] bunt Color3
+  - [] [] S/W Color1
+  - [] [] S/W Color2
+  - [] [] S/W Color3
+- Single Contact (Maße: 133 x 178 px) TESTEN
+  - [] [] detailed R Color1
+  - [] [] detailed R Color2
+  - [] [] detailed R Color3
+  - [] [] detailed L Color1
+  - [] [] detailed L Color2
+  - [] [] detailed L Color3
+  - [] [] bunt R Color1
+  - [] [] bunt R Color2
+  - [] [] bunt R Color3
+  - [] [] bunt L Color1
+  - [] [] bunt L Color2
+  - [] [] bunt L Color3
+  - [] [] S/W R Color1
+  - [] [] S/W R Color2
+  - [] [] S/W R Color3
+  - [] [] S/W L Color1
+  - [] [] S/W L Color2
+  - [] [] S/W L Color3
+- BG
+  - [] [] detailed
+  - [] [] halb
+  - [] [] bunt
+  - [] [] ausgeblichen
+  - [] [] S/W
+
