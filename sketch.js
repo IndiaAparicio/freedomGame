@@ -78,7 +78,7 @@ let hDir2 = 1;
 //Bildschirme in ZoomArea
 let zoomScreenMiddle;
 let zoomScreenGround;
-let move1 = 50;
+let move1 = 5;
 
 //SingleContact
 let heightSinglePerson = (SCENE_H/5)*3.15;
@@ -97,6 +97,8 @@ let updateUserInfo = 'Welcome to the game';
 
 
 function preload(){
+
+  // SOUNDS
   
   jump_sound = loadSound('../audio/jump.mp3');
   distancing_sound = loadSound('../audio/swoosh.mp3');
@@ -109,16 +111,36 @@ function preload(){
 
   flyingArea_sound = loadSound('../audio/gone_short_audiohub.mp3');
   isolationArea_sound = loadSound('../audio/morning-memory-short-audiohub.mp3');
-  middleArea_sound = loadSound('../audio/heartbeat-short-audiohub.mp3');
+  middleArea_sound = loadSound('../audio/middleSoundMusic.mp3');
   
   
-  // middleCity = loadImage("../img/middleCity.png"); // middleCity
+  //ICONS
+
+  sound_icon = loadImage('../img/icons/volume.svg');
+  sound_hover_icon = loadImage('../img/icons/volume-hover.svg');
+  play_icon = loadImage('../img/icons/play.svg');
+  play_hover_icon = loadImage('../img/icons/play-hover.svg');
+  pause_icon = loadImage('../img/icons/pause.svg');
+  pause_hover_icon = loadImage('../img/icons/pause-hover.svg');
+  zoom_icon = loadImage('../img/icons/zoom.svg');
+  zoom_hover_icon = loadImage('../img/icons/zoom-hover.svg');
+
+
+  // STARTING PAGE
 
   docu_img = loadImage('../img/explain.png');
   docu_bg_img = loadImage('../img/docu_bg.png');
   docu_clouds_img = loadImage('../img/docu_clouds.png');
 
   clouds1 = loadImage("../img/wolken-highR.png");
+
+  clouds_1_img = loadImage("../img/clouds-1.png");
+  clouds_2_img = loadImage("../img/clouds-2.png");
+  clouds_3_img = loadImage("../img/clouds-3.png");
+  clouds_4_img = loadImage("../img/clouds-4.png");
+  clouds_5_img = loadImage("../img/clouds-5.png");
+
+
 
   bg_vorne_1 = loadImage('../img/bg-vorne-1.png');
   bg_hinten_1 = loadImage('../img/bg-hinten-1.png');
@@ -134,8 +156,10 @@ function preload(){
   schnur_Mask_img = loadImage("../img/schnur/schnur-maske-7.png");
   schnur_img = loadImage("../img/schnur/schnur-7.png");
 
-  // test1 = loadImage('../img/testtst.png');
-  // test2 = loadImage('../img/testtest.png');
+  lights_oben_img = loadImage("../img/lights-oben.png");
+  lights_unten_img = loadImage("../img/lights-unten.png");
+  lights_oben_2_img = loadImage("../img/lights-oben-2.png");
+  lights_unten_2_img = loadImage("../img/lights-unten-2.png");
 
   //  A N I M A T I O N S
   //Player:
@@ -185,63 +209,9 @@ function preload(){
   distancing_5_col2_img = loadImage('../img/Distancing/Distancing-Detail-ColorB-2.png');
   distancing_5_col3_img = loadImage('../img/Distancing/Distancing-Detail-ColorC-2.png');
 
-  //playerAnimation = loadAnimation('../img/Detailbubble-1.png','../img/Detailbubble-11.png');
-  //distancingAnimation = loadAnimation('../img/Distancing/DistancingDetail-1.png','../img/Distancing/DistancingDetail-7.png');
-  //singlePeopleAnimation = loadAnimation('../img/SingleContact-1.png','../img/SingleContact-10.png');
 }
 
-/*
-//ANIMATIONS:
-[fertig gemalt] [eingepflegt]
-- Player (Maße: 199 x 322 px)
-  - [] [] Detailed mask
-  - [] [] Detailed
-  - [] [] halb Detailed mask
-  - [] [] halb Detailed
-  - [] [] bunt mask
-  - [] [] bunt 
-  - [] [] azsgeblichen mask
-  - [] [] ausgeblichen 
-  - [] [] S/W mask
-  - [] [] S/W 
-- Distancing (Maße: 44 x 34 px)
-  - [] [] detailed Color1
-  - [] [] detailed Color2
-  - [] [] detailed Color3
-  - [] [] bunt Color1
-  - [] [] bunt Color2
-  - [] [] bunt Color3
-  - [] [] S/W Color1
-  - [] [] S/W Color2
-  - [] [] S/W Color3
-- Single Contact (Maße: 133 x 178 px) TESTEN
-  - [] [] detailed R Color1
-  - [] [] detailed R Color2
-  - [] [] detailed R Color3
-  - [] [] detailed L Color1
-  - [] [] detailed L Color2
-  - [] [] detailed L Color3
-  - [] [] bunt R Color1
-  - [] [] bunt R Color2
-  - [] [] bunt R Color3
-  - [] [] bunt L Color1
-  - [] [] bunt L Color2
-  - [] [] bunt L Color3
-  - [] [] S/W R Color1
-  - [] [] S/W R Color2
-  - [] [] S/W R Color3
-  - [] [] S/W L Color1
-  - [] [] S/W L Color2
-  - [] [] S/W L Color3
-- BG
-  - [] [] detailed
-  - [] [] halb
-  - [] [] bunt
-  - [] [] ausgeblichen
-  - [] [] S/W
 
-
-*/
 
 /* ----------- S E T  U P ------------- */
 
@@ -255,7 +225,6 @@ function setup() {
 
   
   bg_back = createSprite(0, SCENE_H/2, SCENE_W+300, SCENE_H); //Hintergrund, der sich anders bewegt (muss ein größeres Bild sein)
-  //bg_middle = createSprite(0, SCENE_H/2, SCENE_W+300, SCENE_H); //Vrdergrund 
   bg = createSprite(0, SCENE_H/2, SCENE_W, SCENE_H); //Vrdergrund 
   bg_clouds1 = createSprite(SCENE_W/2, SCENE_H/2, SCENE_W, SCENE_H);
   bg_clouds2 = createSprite(-SCENE_W/2, SCENE_H/2, SCENE_W, SCENE_H);
@@ -263,15 +232,9 @@ function setup() {
  
   //bg_back.addImage(bgImg8);
   //bg_middle.addImage(middleCity);
-  bg_clouds1.addImage(clouds1);
-  bg_clouds2.addImage(clouds1);
+  bg_clouds1.addImage(clouds_3_img);
+  bg_clouds2.addImage(clouds_3_img);
   
-  // hier müssen die transparenzen auferufen werden, weil es in draw zu lange laden muss
-  // Tipp: https://forum.processing.org/two/discussion/19438/image-transparency-alpha-via-tint-is-very-slow
-  // const pg = createGraphics(bgImg1.width, bgImg1.height);
-  // pg.tint(0, 153, 204, 126);
-  // pg.image(bgImg1, 0,0);
-  // transp = pg.get();
 
 
   // D O C U // STARTING PAGE
@@ -443,58 +406,35 @@ function setup() {
 
 // PAUSE FUNCTION
 function mousePressed(){
-  if(mouseX > 20 && mouseX < 20 + windowWidth/10 && mouseY > windowHeight - (windowHeight/10) && mouseY < windowHeight - (windowHeight/20)) {
-    button_sound.play();
-    running = !running; // flip the boolean
-    fill('rgba(0,0,0,0.9)');
-    rect(0,0,SCENE_W,SCENE_H);
-    fill(200,0,50);
-    rect(20 ,windowHeight - (windowHeight/10), windowWidth/10, windowHeight/20, 20);
-    fill(0);
-    textAlign(CENTER);
-    textSize(windowHeight/40);
-    text("Continue", 20 + windowWidth/20, windowHeight - (windowHeight/15));
-  }
-  if(mouseX > windowWidth - windowWidth/10 && mouseY < 20 + windowWidth/15){
-    button_sound.play();
-    running = !running; // flip the boolean
-
-    push();
-
-    fill('rgba(5,0,30,0.9)');
-    rect(0,0,SCENE_W,SCENE_H);
-
-    
-    drawSprite(docu);
-  pop();
-
-  if(mouseIsPressed && mouseClickCheck){
-    mouseClickCheck = false;
-    explainPage = false;
-    running = true;
-    //setTimeout(function(){mouseClickCheck = true;}, 500);
-  }
-    //image(docu_img, 0, 0);
-    
-    // fill(255);
-    // textAlign(CENTER);
-    // textSize(windowHeight/10);
-    // text("Erklärung", windowWidth/2, windowHeight/2);
-  }
- 
+  if(mouseX > windowWidth - windowWidth/20 - 20 &&
+    mouseX < (windowWidth - windowWidth/20 - 20) + play_icon.width &&
+    mouseY > windowWidth/35 &&
+    mouseY < windowWidth/35 + (play_icon.height)/10){
+      button_sound.play();
+      running = !running; // flip the boolean
+      background(docu_bg_img);
+      //not in a loop daher klappt es nicht
+      displayIcons(play_icon,play_hover_icon,windowWidth - windowWidth/20 - 20, windowWidth/35);
+      imageMode(CENTER);
+      image(docu_img,windowWidth/2,windowHeight/2);
+      imageMode(CORNER);
+    }
 }
 
 
 /* ----------------- D R A W ------------------- */ 
 
+
+
 function draw() {
 
 if(startingPage){
+    if(!middleAreaSoundOn){
+      middleAreaSoundOn = true;
+      middleArea_sound.play();
+    }
+    
     push();
-    // let scaleBy = windowWidth*0.0008;
-    // scale(scaleBy);
-    // let hallo = (docu_img.height - windowHeight)/2;
-    // let hallo2 = (docu_img.width - windowWidth)/2;
     background(docu_bg_img);
    
     
@@ -503,8 +443,11 @@ if(startingPage){
     textAlign(CENTER);
     textSize(windowHeight/3);
     text("FREEDOM", windowWidth/2,windowHeight/2);
+
     textSize(windowHeight/40);
     text("Click to start", windowWidth/2,windowHeight/2+100);
+
+    docu_clouds.position.y = windowHeight/2;
     if (docu_clouds.position.x <= -900){
       docu_clouds.position.x = 2300;
     }
@@ -526,7 +469,6 @@ if(explainPage){
     if (docu_clouds.position.x <= -900){
       docu_clouds.position.x = 2300;
     }
-    console.log(docu_clouds.position.x);
     docu_clouds.position.x -= 0.5;
 
     drawSprite(docu_clouds);
@@ -542,7 +484,7 @@ if(explainPage){
 }
 
 if (running){//if game is not on pause
-
+  
   
 
   //----- B G  A N D  C A M E R A ------
@@ -557,30 +499,39 @@ if (running){//if game is not on pause
   push();
   
   //ANIMARE
-  //ICKB
   if (collectiveScore < 20){ 
     bg_back.addImage(bg_hinten_1);
     bg.addImage(bg_vorne_1);
+    bg_clouds1.addImage(clouds_1_img);
+    bg_clouds2.addImage(clouds_1_img);
     s1.changeAnimation('singleContact_1_R_animate');
     s2.changeAnimation('singleContact_1_L_animate');
   }else if (collectiveScore > 20 && collectiveScore < 40){
     bg_back.addImage(bg_hinten_2);
     bg.addImage(bg_vorne_2);
+    bg_clouds1.addImage(clouds_2_img);
+    bg_clouds2.addImage(clouds_2_img);
     s1.changeAnimation('singleContact_2_R_animate');
     s2.changeAnimation('singleContact_2_L_animate');
   }else if (collectiveScore > 40 && collectiveScore < 60){
     bg_back.addImage(bg_hinten_3);
     bg.addImage(bg_vorne_3);
+    bg_clouds1.addImage(clouds_3_img);
+    bg_clouds2.addImage(clouds_3_img);
     s1.changeAnimation('singleContact_3_R_animate');
     s2.changeAnimation('singleContact_3_L_animate');
   } else if (collectiveScore > 60 && collectiveScore < 80){
     bg_back.addImage(bg_hinten_4);
     bg.addImage(bg_vorne_4);
+    bg_clouds1.addImage(clouds_4_img);
+    bg_clouds2.addImage(clouds_4_img);
     s1.changeAnimation('singleContact_4_R_animate');
     s2.changeAnimation('singleContact_4_L_animate');
   }else if(collectiveScore > 80 && collectiveScore < 100){
     bg_back.addImage(bg_hinten_5);
     bg.addImage(bg_vorne_5);
+    bg_clouds1.addImage(clouds_5_img);
+    bg_clouds2.addImage(clouds_5_img);
     s1.changeAnimation('singleContact_5_R_animate');
     s2.changeAnimation('singleContact_5_L_animate');
    
@@ -769,10 +720,7 @@ if (running){//if game is not on pause
 
 
   
-  //zoom changing on Button zoom
-  if(mouseX > 40 + windowWidth/10 && mouseX < 40 + windowWidth/5 && mouseY > windowHeight - (windowHeight/10) && mouseY < windowHeight - (windowHeight/20)) { 
-    zoomInOut();
-  } 
+
 
   //NOCHMAL PRÜFEN  ////////////////////////////////////////////////////////////////////////////////////////////////////////
   if(player1.overlap(gravityArea)){
@@ -834,12 +782,12 @@ if (running){//if game is not on pause
   
 
   // debugging
-  maskPosition.debug = mouseIsPressed; //so werden die collider visualisiert
-  invisibleGroundCheck.debug = mouseIsPressed;
-  stairs_1.debug = mouseIsPressed;
-  player1.debug = mouseIsPressed;
-  teleportArea.debug = mouseIsPressed;
-  teleportArea1.debug = mouseIsPressed;
+  // maskPosition.debug = mouseIsPressed; //so werden die collider visualisiert
+  // invisibleGroundCheck.debug = mouseIsPressed;
+  // stairs_1.debug = mouseIsPressed;
+  // player1.debug = mouseIsPressed;
+  // teleportArea.debug = mouseIsPressed;
+  // teleportArea1.debug = mouseIsPressed;
   
  
 
@@ -849,20 +797,32 @@ if (running){//if game is not on pause
   
 
   
+  // DIGITAL MEDIA SCREENS
+
 
   // SCREENS DIE ANIMATIONEN MACHEN IN ZOOM BEREICHEN
   let att_animation_middle = map(player1.position.x, -1060, 140, 600, 1800);
   let att_animation_ground = map(player1.position.x, -840, -100, 600, 1000);
 
 
-  graphicsScreen(zoomScreenMiddle, -1080, SCENE_H/2-100, att_animation_middle, 480, 200, 250, 0, 50);
-  graphicsScreen(zoomScreenGroundBig, -870, 2215, att_animation_ground, 425, 0, 0, 100, 150);
+  push();
+    let randomizer = random(1);
+    if(randomizer > 0.5){
+      image(lights_unten_img,-SCENE_W/2,0);
+      image(lights_oben_img,-SCENE_W/2,0);
+    }else{
+      image(lights_unten_2_img,-SCENE_W/2,0);
+      image(lights_oben_2_img,-SCENE_W/2,0);
+    }
+  pop();
+  graphicsScreen(zoomScreenMiddle, -1080, SCENE_H/2-100, att_animation_middle, 480, 255, 200, 0, 150);
+  graphicsScreen(zoomScreenGroundBig, -870, 2215, att_animation_ground, 425, 255, 0, 100, 150);
 
 
 
   for(let i = 0; i<301; i += 150){
     for(let y = 0; y < 1000; y += 980){
-      graphicsScreen(zoomScreenGround, -1015+y, 2215+i, 125, 125,0, 0, 100, 150);
+      graphicsScreen(zoomScreenGround, -1015+y, 2215+i, 125, 125, 255, 0, 100, 150);
     }
   }
 
@@ -1012,51 +972,15 @@ if (running){//if game is not on pause
 
   // BUTTONS
 
-  //Shadows Buttons
-  push();
-    translate(3, 3);
-    noStroke();
-    fill('rgba(0,0,0,0.5)');
-    rect(20 ,windowHeight - (windowHeight/10), windowWidth/10, windowHeight/20, 20);
-    rect(40 + windowWidth/10 ,windowHeight - (windowHeight/10), windowWidth/10, windowHeight/20, 20);
-    rect(windowWidth - windowWidth/20 - 20 ,windowHeight - (windowHeight/10), windowWidth/20, windowHeight/20, 20);
-    ellipse(windowWidth - windowWidth/20, 20 + windowWidth/35, windowWidth/20);
-  pop();
-
-
-  //Buttons
-  fill(255);
-  noStroke();
-  //pause
-  rect(20 ,windowHeight - (windowHeight/10), windowWidth/10, windowHeight/20, 20);
-  //funktion ist am anfang von draw
- 
-
-  //zoom
-  rect(40 + windowWidth/10 ,windowHeight - (windowHeight/10), windowWidth/10, windowHeight/20, 20);
-  
+  //pause 
+  displayIcons(pause_icon,pause_hover_icon,windowWidth - windowWidth/20 - 20, windowWidth/35);
   
   //sound
-  rect(windowWidth - windowWidth/20 - 20 ,windowHeight - (windowHeight/10), windowWidth/20, windowHeight/20, 20);
-  if(mouseX > windowWidth - windowWidth/20 - 20 && 
-    mouseX < windowWidth - 20 && 
-    mouseY > windowHeight - (windowHeight/10) && 
-    mouseY < windowHeight - (windowHeight/40) - 20){
-    playPauseSound();
-  }
+  displayIcons(sound_icon,sound_hover_icon,windowWidth - windowWidth/20 - 20,windowHeight - (windowHeight/10));
 
-  //questionmark
-  ellipse(windowWidth - windowWidth/20, 20 + windowWidth/35, windowWidth/20);
-  
-  //text buttons
-  fill(0);
-  textAlign(CENTER);
-  textSize(windowHeight/40);
-  text("Sound", windowWidth - windowWidth/20, windowHeight - (windowHeight/15));
-  text("Pause", 20 + windowWidth/20, windowHeight - (windowHeight/15));
-  text("Zoom", 40 + windowWidth/10 + windowWidth/20, windowHeight - (windowHeight/15));
-  //questionmark Button
-  text("?", windowWidth - windowWidth/20, 20 + windowWidth/30)
+  //zoom
+  displayIcons(zoom_icon,zoom_hover_icon,20,windowHeight - (windowHeight/10));
+
 
   pop();
 
@@ -1097,29 +1021,7 @@ if (running){//if game is not on pause
 
 
 
-/* ------------------- I N T E R A T C T I O N S --------------------- */
 
-function zoomInOut(){
-  if(mouseIsPressed){
-    camera.zoom = windowWidth/SCENE_H;
-  }else{
-    camera.zoom = 0.4;
-  }
-}
-
-function playPauseSound(){
-  if(mouseIsPressed && !muted){
-    flyingArea_sound.setVolume(0.0);
-    isolationArea_sound.setVolume(0.0);
-    middleArea_sound.setVolume(0.0);
-    setTimeout(function(){muted=true},100);
-  }else if(mouseIsPressed && muted){
-    flyingArea_sound.setVolume(0.6);
-    isolationArea_sound.setVolume(0.6);
-    middleArea_sound.setVolume(0.6);
-    setTimeout(function(){muted=false},100);
-  }
-}
 
 // ---- PLAYER1 MOVEMENT -----
 function playerMovement(){
@@ -1529,35 +1431,7 @@ function createSwarm(distancing_group, attraction_pointX, attraction_pointY){
     distance1 = createSprite(random(-SCENE_W/2, SCENE_W/2), random(SCENE_H/3), 44, 34);
     distance1.shapeColor = color(random(0,200),20,random(0,200));
 
-    let cntRandom = random(1);
-    //ANIMARE 
-    //hier die animationen dem Sprite hinzufügen und bei draw mit change animation ändern
-    
-    // distance1.addImage(distancing_1_img);
-    // distance1.addImage(distancing_2_col1_img);
-    // distance1.addImage(distancing_3_col1_img);
-    // distance1.addImage(distancing_4_col1_img);
-    // distance1.addImage(distancing_5_col1_img);
-
-    //c1.addAnimation('distancing_1_animate', '../img/Distancing/Distancing-SW-1.png','../img/Distancing/Distancing-SW-7.png');
-    
-      
-
-    // c1.addAnimation('distancing_2_col1_animate', '../img/Distancing/Distancing-Ausgeblichen-ColorA-1.png','../img/Distancing/Distancing-Ausgeblichen-ColorA-7.png');
-    // c1.addAnimation('distancing_3_col1_animate', '../img/Distancing/Distancing-Bunt-ColorA-1.png','../img/Distancing/Distancing-Bunt-ColorA-7.png');
-    // c1.addAnimation('distancing_4_col1_animate', '../img/Distancing/Distancing-Halb-ColorA-1.png','../img/Distancing/Distancing-Halb-ColorA-7.png');
-    // c1.addAnimation('distancing_5_col1_animate', '../img/Distancing/Distancing-Detail-ColorA-1.png','../img/Distancing/Distancing-Detail-ColorA-7.png');   
-    //  c1.addAnimation('distancing_2_col2_animate', '../img/Distancing/Distancing-Ausgeblichen-ColorB-1.png','../img/Distancing/Distancing-Ausgeblichen-ColorB-7.png');
-    //  c1.addAnimation('distancing_3_col2_animate', '../img/Distancing/Distancing-Bunt-ColorB-1.png','../img/Distancing/Distancing-Bunt-ColorB-7.png'); 
-    //  c1.addAnimation('distancing_4_col2_animate', '../img/Distancing/Distancing-Halb-ColorB-1.png','../img/Distancing/Distancing-Halb-ColorB-7.png');
-    //  c1.addAnimation('distancing_5_col2_animate', '../img/Distancing/Distancing-Detail-ColorB-1.png','../img/Distancing/Distancing-Detail-ColorB-7.png'); 
-    //  c1.addAnimation('distancing_2_col3_animate', '../img/Distancing/Distancing-Ausgeblichen-ColorC-1.png','../img/Distancing/Distancing-Ausgeblichen-ColorC-7.png'); 
-    //  c1.addAnimation('distancing_3_col3_animate', '../img/Distancing/Distancing-Bunt-ColorC-1.png','../img/Distancing/Distancing-Bunt-ColorC-7.png');
-    //  c1.addAnimation('distancing_4_col3_animate', '../img/Distancing/Distancing-Halb-ColorC-1.png','../img/Distancing/Distancing-Halb-ColorC-7.png');
-    //  c1.addAnimation('distancing_5_col3_animate', '../img/Distancing/Distancing-Detail-ColorC-1.png','../img/Distancing/Distancing-Detail-ColorC-7.png');
-    
-    
-  
+ 
     //c1.maxSpeed = 15;
     //camera.setSpeed = random(1,15);
     distance1.friction = random(0.07, 0.18);
@@ -1703,31 +1577,108 @@ function Rain(x,y){
 
 
 
-  function graphicsScreen(graphics, x, y, w, h, bg, r, g, b){
+
+  function graphicsScreen(graphics, x, y, w, h, stroke, r, g, b){
 
 
-      graphics.background(bg);
-      graphics.noFill();
+    graphics.background(stroke);
+    graphics.noFill();
+    if(collectiveScore < 20){
+      graphics.stroke(50,50,50);
+    }else if(collectiveScore > 20 && collectiveScore < 40){
+      graphics.stroke(50 + r/4, 50 + g/4, 50 + b/4);
+    }else if(collectiveScore > 40 && collectiveScore < 60){
+      graphics.stroke(r/2,g/2,b/2);
+    }else if(collectiveScore > 60 && collectiveScore < 80){
+      graphics.stroke(r/1.5,g/1.5,b/1.5);
+    }else if(collectiveScore > 80){
       graphics.stroke(r,g,b);
-      graphics.strokeWeight(5);
-      graphics.rectMode(CENTER);
+    }
+    
+    graphics.strokeWeight(2);
+    graphics.rectMode(CENTER);
 
-      if(move1 <= 500){
-          for(let i = 0; i < 600; i+=50){
-            graphics.rect(w/2,h/2,move1-i,move1-i); ////hier statt 250 die Hälfte von er graphics Größe
-          }
-          for(let i = 0; i < 500; i+=50){
-          graphics.rect(w/2,h/2,move1+i,move1+i);
-          }
-      }else{
-        move1 = 50;
-      }
-      
-      move1 += 1;
-      image(graphics, x, y);//Ort
+    if(move1 <= 500){
+        for(let i = 0; i < 200; i+=20){
+          graphics.rect(w/2,h/2,move1-i,move1-i); ////hier statt 250 die Hälfte von er graphics Größe
+        }
+        for(let i = 0; i < 200; i+=5){
+        graphics.rect(w/2,h/2,move1+i,move1+i);
+        }
+    }else{
+      move1 = 50;
+    }
+    
+    move1 += 0.1;
+    image(graphics, x, y);//Ort
+}
+
+
+  /* ------------------- I N T E R A T C T I O N S --------------------- */
+let hasClickedSound = false;
+let hasClickedSound2 = false;
+
+function zoomInOut(){
+  if(mouseIsPressed){
+    if(!hasClickedSound){
+      button_sound.play();
+      hasClickedSound = true;
+    }
+    camera.zoom = windowWidth/SCENE_H;
+  }else{
+    camera.zoom = 1;
+    hasClickedSound = false;
   }
+}
 
+function playPauseSound(){
+  if(mouseIsPressed && !muted){
+    if(!hasClickedSound2){
+      button_sound.play();
+      hasClickedSound2 = true;
+    }
+    flyingArea_sound.setVolume(0.0);
+    isolationArea_sound.setVolume(0.0);
+    middleArea_sound.setVolume(0.0);
+    setTimeout(function(){muted=true},100);
+  }else if(mouseIsPressed && muted){
+    if(!hasClickedSound2){
+      button_sound.play();
+      hasClickedSound2 = true;
+    }
+    button_sound.play();
+    flyingArea_sound.setVolume(0.6);
+    isolationArea_sound.setVolume(0.6);
+    middleArea_sound.setVolume(0.6);
+    setTimeout(function(){muted=false},100);
+  }else{
+    //PIERRE
+    hasClickedSound2 = false;
+  }
+}
 
+  function displayIcons(img,img_hover,w,h){
+    push();
+      scale(0.1)
+      let currentImg = img; 
+      image(currentImg,w*10,h*10);
+    pop();
+
+    if(mouseX > w && 
+      mouseX < w + (img.width)/10 && 
+      mouseY > h && 
+      mouseY < h + (img.height)/10){
+      push();
+        scale(0.1)
+        image(img_hover, w*10,h*10);
+      pop();
+      if(currentImg === sound_icon){
+        playPauseSound();
+      }else if(currentImg === zoom_icon){
+        zoomInOut();
+      }
+    } 
+  }
 
 
 
@@ -1739,6 +1690,3 @@ function Rain(x,y){
   //wenn key gedrückt +individual, -collective
   //wenn kein key gedrückt -individual, +collective 
   //so kann der wert durch nichts drücken nicht auf 0 sinken
-
-
-  //test mit der Transparenz der Bilder, damit weniger geladen werden muss
