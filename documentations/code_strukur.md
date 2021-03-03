@@ -46,7 +46,7 @@
 * Player Collider 
 
 ## Draw
-#### 365 
+#### 365 - 936
 * StartingPage
 * InfoPage
 * Running (everything folloing is inside running:)
@@ -68,4 +68,58 @@
 * * *Limitations Y-Axis Gravityarea*
 * * *Limitations Y-Axis Flyingarea*
 * Player Movement
+* * **--> calling playerMovement();**
 * Draw Sprites
+* Digital Media Screens
+* * **--> calling graphicScreen();**
+* Draw Sprites
+* Adding Interactions
+* * **--> calling teleporting();**
+* * **--> calling maskOnOff();**
+* * **--> calling movingHygeineArea();**
+* * **--> calling hygieneScore();**
+* * **--> calling zoomScore();**
+* * **--> calling isolationScore();**
+* * **--> calling singlePeopleWalking();**
+* * **--> calling swarmFollowAttraction();**
+* Rain
+* * **--> calling rain[].dropRain();**
+* * **--> calling rain[].splash();**
+* GUI
+* * *Scoring System Min Max*
+* * *Displaying Scores*
+* * *User Info*
+* * *Buttons*
+* * **--> calling displayIcons();**
+* * *Endings*
+* Debugging
+
+
+## playerMovement()
+Key Interactions, Walking Around, Jumping
+
+## flying()
+Takes away gravity, User Input all 4 arrows, rotation to direction
+
+## teleporting()
+Puts player in other position
+
+## Score Feedback (feedbackUpScore... 4 Functions)
+The four functions change apperance of Scores
+
+## Mask (5 Functions, 1 main: maskOnOff())
+Checks if player wears mask and influence score
+
+## Hygiene(2 functions)
+### movingHygieneArea()
+lässt die Area sich bewegen
+###  hygieneScore()
+Einfluss auf Score bei Hygiene
+
+## zoomScore()
+Lässt zoomScore beeinflussen, mit einem relativen Wert (boring)
+
+## isolationScore()
+Lässt isolationScore beeinflussen, mit einem relativen Wert (lonely)
+
+## singlePeopleWalking()
