@@ -1,22 +1,28 @@
-# DOCUMENTATION 
-## A game about freedom
+DOCUMENTATION
 
 
-- [DOCUMENTATION](#documentation)
-  - [A game about freedom](#a-game-about-freedom)
 - [Short Discription](#short-discription)
 - [November](#november)
-  - [Link zu Presentation im November](#link-zu-presentation-im-november)
+  - [Mid-term presentation](#mid-term-presentation)
 - [Dezember](#dezember)
-  - [Link zu Projektplan und Aufgaben](#link-zu-projektplan-und-aufgaben)
 - [Januar](#januar)
-    - [Start Coding:](#start-coding)
-      - [Viewport, Background and Camera](#viewport-background-and-camera)
-      - [Collider](#collider)
-      - [Gruppe in p5 play](#gruppe-in-p5-play)
-      - [Player](#player)
-      - [Distancing](#distancing)
+    - [Start Coding](#start-coding)
+    - [Viewport, Background and Camera](#viewport-background-and-camera)
+    - [Collider](#collider)
+    - [Gruppe in p5 play](#gruppe-in-p5-play)
+    - [Player](#player)
+      - [Maske](#maske)
+      - [Player Movement](#player-movement)
+    - [Distancing](#distancing)
     - [GUI](#gui)
+      - [Display Scores/Buttons](#display-scoresbuttons)
+      - [Feedback through color](#feedback-through-color)
+      - [Pause](#pause)
+    - [Second Background](#second-background)
+    - [More interactive elements](#more-interactive-elements)
+    - [Scoring System](#scoring-system)
+      - [Hygiene](#hygiene)
+      - [Isolation and Zoom](#isolation-and-zoom)
 - [Februar](#februar)
 - [März](#märz)
 
@@ -27,43 +33,63 @@ At the beginning of the project the plan was to develop a storytelling website a
 
 The player finds himself in a world in which he can move freely. Two values are displayed to the player: *Individual Freedom* and *Collective Freedom*. The values change depending on how the player moves in the world. After a while of trial and error, the player should figure out how the values are affected and can specifically try to achieve a certain score. There are six objects/areas in the world, which are meant to symbolize Corona-related limitations: *Mask, Single Contacts, Distance, Hygiene Regulation, Isolation, Zoom*. The six interactions were arranged differently in space. Here, the Y-axis reflects the differences in individual freedom (Top: flying, many contacts, sky -> much freedom. Bottom: Isolation, basement -> little freedom). The room has three different floors and is altogether larger than the viewport. Different value changes are planned for the interactions and through affordance/signifier and feedback the player should understand which objects are interactive.
 
-![Interaction table](./media/interactionsTable.png)
-![Interactions in world](./media/interactionsInWorld.png) 
+
 
 The overall style is intended to appear dreamy and abstract, and the six interaction areas are intended to be represented metaphorically. (For example, the mask appears like a small cage around the player -> see image) The look and feel was made vivid in a moodboard:
 
-![Example Player Mask](./media/playerExample.png)
-![Moodboard](./media/moodboard.png)
+![Example Player Mask](./media/player-example-small.png)
+![Moodboard](./media/moodboard-small.png)
 
 The design of the game changes depending on how high the current values are. At a high collective value the background becomes more detailed and at a high individual value the player's image becomes more detailed. Thus the "value of freedom" is directly reflected in the visualization. 
 
-![Example of Design Change](./media/design-differences.png)
+![Example of Design Change](./media/design-example.png)
 
 Finally, the game can end up in four different scenarios: Both values are at 100%, One value is at 100% and the other is below 10% (and vice versa), Both values are below 10%. The game starts at 50% for both values. For each ending, a theoretical background on individual and collective freedom and the user's choices should be displayed.
 
 
 
+____
 
 
 # November
 
-## Link zu Presentation im November
-Read more [here](./presentations/mid-term-presentation.pdf)
+## Mid-term presentation
 
-![November](./media/video-jan-3.mp4)
-![November](./media/img-jan-3.png)
+In November I developed the concept further and narrowed it down a lot. While at the beginning of the semester the plan was to create a scrollitelling website about philosophy and religion, the plan became more concrete in November. I also prepared [presentation](./presentations/mid-term-presentation.pdf) for the mid-term presentation.
 
+
+
+
+
+
+
+
+
+____
 
 
 # Dezember
 
-## Link zu Projektplan und Aufgaben
-Read more [here](./timetable.md)
-Read more [here](./To-Do.md)
-Read more [here](./Best_Worst_Case.md)
+Im Dezember habe ich begonnen die Szene für das Spiel zu skizieren und zu planen. Ich habe mir verschiedene Interaktionen ausgedacht und diese in die Szene integriert. 
+Ich habe folgende List erstellt, die die Interaktionen – und ihre Auswikung – visualisiert:
+
+![Interaction table](./media/interactionsTable.png)
+![Interactions in world](./media/interactionsInWorld.png) 
 
 
-Habe mich für p5 play entschieden und die Dokumentationen erstmal studiert. Während des gesamten Projekt habe ich ständig diese zwei Dokumentation verwendet.:
+Außerdem habe ich den [Projektplan] erstellt. Passend zum Projektplan, habe ich für einen besseren Überblick, alle [To-Dos] aufgelistet. Für die Zielsetzung haben wir die [Best und Worst Case Scenarios] definiert.
+
+
+
+Ich habe mich dazu entschieden das Spiel mit der p5-play-library zu erstellen, da es sich um ein Spiel handeln sollte, welches im Browser gespielt werden kann. Den Rest des Dezembers habe ich dafür genutzt mich mit den [p5-play-library] auseinanderzusetzen. Während des gesamten Projekt habe ich ständig diese zwei Dokumentation verwendet.:
+
+
+
+
+
+
+
+____
 
 
 # Januar
@@ -71,12 +97,20 @@ Habe mich für p5 play entschieden und die Dokumentationen erstmal studiert. Wä
 ![Dezember](./media/video-jan-3.mp4)
 ![Dezember](./media/img-jan-3.png)
 
-### Start Coding: 
+### Start Coding
 
-#### Viewport, Background and Camera
-Im Januar habe ich mit der Arbeit am Code begonnen. Als erstes sollte die Spielwelt erschaffen werden. Dazu wurde die zuvor erstellte [Zeichnung](./media/) als Hintergrundbild verwendet. 
-
+In January during the project week I had the conception of the project mostly ready, so I sat down to the code for the first time. Since it is my first big coding project, I tried to make a plan for the project week. The sequence of the project was as follows:
+- Create scene
+- Insert background 
+- Add camera 
+- Add all interactive elements 
+- Player Movement
+  
 *Mein Stand [Anfang Januar](../sketch-jan-5.js)*
+
+### Viewport, Background and Camera
+In January I started working on the code. The first thing to do was to create the game world. For this the previously created [drawing](./media/) was used as background image.
+
 
 ```javascript
 function preload(){
@@ -90,8 +124,9 @@ function draw() {
 }
 ```
 
-Da der Viewport `createCanvas(windowWidth, windowHeight);` jedoch kleiner sein sollte als die gesamte Szene `bg = createSprite(0, SCENE_H/2, SCENE_W, SCENE_H);`, habe ich für den Hintergrund ein *sprite* erstellt, welchem ich unterschiedliche Bilder hinzufügen konnte. Mit einer virtual camera konnte dann der Ausschnitt bestimmt werden, welcher sichtbar ist. Dieser Ausschnitt wurde dann an das Verhalten des Players geknüpft, sodass der Player immer in der Mitte des Viewports bleibt – außer der Player kommt zu nah an der Bildschirmrand, dann bleibt die Kamera stehen.
-*Mein Stand [Anfang Januar](../sketch-jan-10.js)*
+Since the viewport `createCanvas(windowWidth, windowHeight);` should be smaller than the whole scene `bg = createSprite(0, SCENE_H/2, SCENE_W, SCENE_H);`, I created a *sprite* for the background, to which I could add different images. With a virtual camera it was then possible to determine the section which is visible. This section was then linked to the behavior of the player, so that the player always stays in the middle of the viewport - unless the player gets too close to the edge of the screen, then the camera stops.
+*My state [early January](../sketch-jan-10.js)*
+
 
 ```javascript
 let SCENE_W = 4000;
@@ -122,22 +157,23 @@ function draw() {
 ```
 
 
-#### Collider
+### Collider
 
-Für alle Plattformen und andere Objekte, mit denen der Spieler interagieren kann, habe ich weitere *sprites* erstellt. Es wurden für folgende Objekte sprites erstellt:
-* Boden (Collider mit Player)
-* Mittlere Plattform (Collider mit Player)
-* Treppen (Collider mit Player)
-* Flying Area (Durch Overlapping mit Player wird Score verändert)
-* Gravity Area (Durch Overlapping mit Player setzt Gravity ein)
-* Teleport Area 1 und 2 (Durch Overlapping mit Player wird player.position verändert)
-* Maske (Durch Overlapping mit Player wird Score verändert)
-* Hygiene Area (Durch Overlapping mit Player wird Score verändert)
-* Zoom Area (Durch Overlapping mit Player wird Score verändert)
-* Isolation Area (Durch Overlapping mit Player wird Score verändert)
-* Einzelpersonen (Durch Overlapping mit Player wird Score verändert)
-* Gruppenpersonen (Durch Overlapping mit Player wird Score verändert)
-Die meisten *sprites* bleiben bei dem Spiel dabei unsichtbar.
+For all platforms and other objects the player can interact with, I created more *sprites*. Sprites were created for the following objects:
+* Ground (collider with player)
+* Middle platform (collider with player)
+* Stairs (Collider with Player)
+* Flying Area (Overlapping with player changes score)
+* Gravity Area (Overlapping with Player sets Gravity)
+* Teleport Area 1 and 2 (Overlapping with Player changes player.position)
+* Mask (Overlapping with player changes score)
+* Hygiene Area (Overlapping with player changes score)
+* Zoom Area (Overlapping with player changes score)
+* Isolation Area (Overlapping with player changes score)
+* Individuals (score is changed by overlapping with player)
+* Group persons (score is changed by overlapping with player)
+Most *sprites* remain invisible in the game.
+
 
 ```javascript
 function setup() {
@@ -165,9 +201,9 @@ function draw() {
     ...
 }
 ```
-#### Gruppe in p5 play
+### Gruppe in p5 play
 
-Für die einzelnen Kontakte und für die distancing-groups mussten p5-play-Gruppen erstellt werden. So konnten vielen Elementen die gleichen Atribute gegeben werden. Für die unterschiedlichen Interaktions-Elemente habe ich Funktionen erstellt, wie hier zum Beispiel `singlePeopleWalking()` .
+For the individual contacts and for the distancing groups, p5-play groups had to be created. This way many elements could be given the same attributes. For the different interaction elements I created functions, like here `singlePeopleWalking()` .
 
 ```javascript
 function setup() {
@@ -200,9 +236,12 @@ function singlePeopleWalking(){
 
 
 
-#### Player
+### Player
 
-Für den Player wurde ebenfalls ein *sprite* erstellt, sodass der Player über einen Collider verfügt, welcher bei Berührung mit den anderen Colliders für die Events sorgt. Da der Player jedoch unterschiedlich aussehen sollte, je nachdem ob er eine Maske trägt, wurde dem *sprite* mehrere Bilder zugeordnet. Mit mehreren Boolean-Variabeln wurde dann geprüft, ob der Player die Maske trägt und ob er seit dem Anziehen der Maske den Boden nochmal berührt hat (weil sonst die Maske während der gesamten Zeit, in der der Player die Maske berührt, durchgehend an und ausgezogen wird.) Im gesamten Code für das Spiel habe ich dann sehr oft diese Boolean-Logik verwendet, um Events nur einmal (in einer bestimmten) im Draw-Loop auszulösen.
+#### Maske
+
+A *sprite* was also created for the player, so that the player has a collider that provides the events when it touches the other colliders. However, since the player should look different depending on whether it wears a mask, several images were assigned to the *sprite*. Several boolean variables were then used to check whether the player was wearing the mask and whether he had touched the ground again since putting on the mask (because otherwise the mask would be on and off continuously for the entire time the player was touching the mask). Throughout the code for the game, I then very often used this Boolean logic to trigger events only once (in a given) in the draw loop.
+
 
 ```javascript
 function preload(){
@@ -245,7 +284,10 @@ function maskOnOff(){
 }
 ```
 
-Um den Player sich bewegen zu lassen, habe ich einerseits das Player-Movement in der Gravity-Area und einmal in der Flying-Area programmiert. Um die Position des Players zu ändern musste lediglich bei beispielsweise `keyIsDown(RIGHT_ARROW)` die `player1.position.x` verändert werden. Beim Fliegen wurde in alle vier Richtungen das erlaubt. Für das Springen musste die `player.velocity.y` verändert werden. Dabei wurde wieder ein GroundCheck mit einer Boolean-Variabel verwendet, sodass der Player nicht durchgehend springen kann.
+#### Player Movement
+
+
+To make the player move, I programmed the player movement in the Gravity-Area on the one hand and in the Flying-Area on the other hand. To change the position of the player only the `player1.position.x` had to be changed at for example `keyIsDown(RIGHT_ARROW)`. For flying, this was allowed in all four directions. For jumping the `player.velocity.y` had to be changed. Again a GroundCheck with a Boolean variable was used, so that the player cannot jump continuously.
 
 ```javascript
 ...
@@ -279,10 +321,10 @@ function flying(){
 
 BIS HIER IST DIE VERSION VOM 10. JANUAR
 
-#### Distancing 
+### Distancing 
 
-Vor allem mit der Programmierung für die Distancing-Funktion hatte ich große Schwierigkeiten. Dafür sollte eine Gruppe erstellt werden, die einem Attraktion-Point folgt. Der Attractionpoint sollte danach unsichtbar sein, sodass es aussieht als bewegten sich die Gruppe in Schwärmen. Mit einer Gruppe hat es relativ schnell funktioniert, jedoch gab es viele Probleme und Fehlversuche, um mehrere Gruppen zu erstellt, die unterschiedlichen Punkten folgt. 
-Die erste Version sah so aus: ![Distancing-Version1](./media/)
+Especially with the programming for the distancing function I had great difficulties. For this, a group should be created that follows an attraction point. The attraction point should be invisible afterwards, so that it looks like the group is moving in swarms. With one group it worked relatively fast, but there were many problems and failed attempts to create multiple groups following different points. 
+The first version looked like this: ![Distancing-Version1](./media/)
 
 https://molleindustria.github.io/p5.play/examples/index.html?fileName=sprite4.js
 
@@ -330,7 +372,7 @@ function distancingFunction(){
 }
 ```
 
-Um mehrere Gruppen zu erstellen musste ich viele Versuche starten. Bei manchen Versionen haben sich die Attractionpoints immer gelich bewegt oder die Gruppen sind nur einem Punkt gefolgt. Um das Problem zu lösen, dass die Attractionpoints sich nicht immer gleich bewegen (also in die gleiche Richtung bewegen), habe ich eine Klasse erstellt `class Attraction_points`. So hat jedes Objekt der Klasse seine eigenen Attribute.
+To create multiple groups I had to make many attempts. In some versions the attraction points always moved in the same way or the groups followed only one point. To solve the problem that the attraction points do not always move the same way (i.e. in the same direction), I created a class `class Attraction_points`. So each object of the class has its own attributes.
 
 ```javascript
 let distancing_groups = [];
@@ -411,7 +453,9 @@ BIS ENDE JANUAR
 
 ### GUI
 
-Für die Userinterface-Elemente musste die camera mit `camera.off()` ausgeschaltet werden, sodass die Elemente auf dem Canvas absolut und nicht relativ in der Spielwelt angezeigt werden. Um die Farben der Scores zu ändern, je nachdem wie hoch der Score ist, habe ich mit der `map()`-Funktion Varibaeln gespeichert, welche gezielte Farbwerte für das Score-Interval von 0-100 speichern.
+#### Display Scores/Buttons
+
+For the userinterface elements the camera had to be turned off with `camera.off()`, so that the elements on the canvas are shown absolutely and not relatively in the game world. The buttons and elements I added with simple p5 functions like `rect` or `ellipse`. To change the colors of the scores depending on how high the score is, I used the `map()` function to store varibbles that store targeted color values for the score interval from 0-100.
 
 ```javascript
 function draw() {
@@ -440,7 +484,9 @@ function draw() {
 
 ```
 
-Damit der User ein Feedback erhält, wenn der Score sich positiv oder negativ verändert, habe ich für das Wort "individual" und "collective" sowie für die Kontur der Score-Abbildung die Variabeln `fbS_I_r` (feedbackScore_Individual_red) etc. erstellt. Bei Events, in denen die Scores sich verändern wird dann einer der vier Funktionen `feedbackUpScoreI()`,`feedbackDownScoreI()`,`feedbackUpScoreC()`,`feedbackDownScoreC()` aufgerufen, die den entsprechenden Score entweder rot oder grün färben. Nach 500 Millisekunden der Aktion werden die Farbwerte wieder zurückgesetzt. Dafür wurde von der `setTimeout()`-Funktion Gebrauch gemacht, welche ich später mehrfach wieder benutzt habe.
+#### Feedback through color
+
+To give the user feedback when the score changes positively or negatively, I created the variables `fbS_I_r` (feedbackScore_Individual_red) etc. for the word `individual` and `collective` as well as for the contour of the score image. For events in which the scores change, one of the four functions `feedbackUpScoreI()`,`feedbackDownScoreI()`,`feedbackUpScoreC()`,`feedbackDownScoreC()` is then called, coloring the corresponding score either red or green. After 500 milliseconds of action, the color values are reset. For this, use was made of the `setTimeout()` function, which I used again several times later.
 
 ```javascript
 function draw() {
@@ -473,11 +519,114 @@ function feedbackUpScoreI(){
 }
 
 ```
-- Zweiter Hintergrund
-- Scoring System
+
+#### Pause
+For the pause button function, I packed the entire contents of the draw function into an if-condition. When the button is pressed, I then set this condition to false so that the game cannot continue to run. Since the `mousePressed()` function I use to flip the boolean is outside the `draw()` function, the condition can be set back to true and the game continues.
+
+```javascript
+let running = true;
+
+function mousePressed(){
+    if(mouseX > 20 && mouseX < 20 + windowWidth/10 && mouseY > windowHeight - (windowHeight/10) && mouseY < windowHeight - (windowHeight/20)) {
+    running = !running; // flip the boolean
+    ...
+}
+function draw() {
+    if(running){
+        ...
+    }
+}
+```
+
+### Second Background 
+
+To create an illusion of depth, I decided to have the foreground and background move differently. So it appears that the foreground is closer to the player. The background (`bg_back`) now moves relative to the position of the player. However, to prevent the edge of the back image from protruding into the viewport when the player is at the edge of the playfield, the background image must be larger than the foreground. While the illustrations for the foreground should be 4000x3000px, the background must be 4300x3000px.
+
+```javascript
+function setup(){
+    bg_back = createSprite(0, SCENE_H/2, SCENE_W, SCENE_H);
+    bg = createSprite(0, SCENE_H/2, SCENE_W, SCENE_H);
+    }
+function draw() {
+    for(let i = -1910 ; i < player1.position.x; i++){
+        bg_back.position.x = -(i/10);
+    }
+}
+```
+
+### More interactive elements
+
+### Scoring System
+
+Now that all the interactive elements have been added, the influences of these on the scoring system had to be inserted. 
+
+#### Hygiene
+
+I coded many influences on the score by the `overlap()` method available in the p5-play-library. If the player is within a certain area, the score is affected accordingly. For a one-time boost, like in the hygiene area, I added a boolean varibael so that it only applies once. When leaving the area, the varibael is reset with `setTimeout()` after 20000 milliseconds, so that a new boost can take place.
+
+```javascript
+function draw() {
+    hygieneScore();
+}
+
+function hygieneScore(){
+    if (player1.overlap(hygieneArea) && boostHygine === false){
+      boostHygine = true;
+      feedbackUpScoreC();
+      feedbackDownScoreI();
+      collectiveScore += 20;
+      individualScore -= 10;
+    }else if (player1.overlap(hygieneArea) === false && boostHygine && !hasStartedTimeoutH){
+      hygieneBoostIntervall = setTimeout(function(){boostHygine = false; hasStartedTimeoutH = false;}, 20000); 
+      hasStartedTimeoutH = true;
+    }
+}
+```
+
+#### Isolation and Zoom
+
+Some values should not change statically, but for example should increase/decrease more and more. For example, when staying in the isolation area, the individual value should decrease more if the player has been there for a longer time. For this I introduced a variable `lonely`, which indicates how lonely the player already is. 1 would be in this case not lonely and 10 very lonely. The value is multiplied by 0.001 throughout, so that it increases faster and faster. 
+
+```javascript
+function draw() {
+    isolationScore();
+}
+let lonely = 1; //1= not lonely ; 10 = very lonely
+function isolationScore(){
+    let insideIsolationArea;
+    if (lonely <= 1){lonely = 1;}else if(lonely >= 10){lonely = 10;}
+    if (player1.overlap(isolationArea)){
+        insideIsolationArea = true;
+    }else{
+        insideIsolationArea = false;
+    }
+    if (insideIsolationArea){
+        feedbackDownScoreI();
+        lonely *= 1.001;
+        individualScore -= lonely * 0.001;
+        collectiveScore += lonely * 0.001;
+    }else{
+        lonely *= 0.999; 
+    }
+}
+```
+
+The same principle is used to influence the score within the zoom range. In this case the variable `boring` was introduced.
+
+
 - Rain
 
 # Februar
+
+Das Illustrieren aller Illustrationen und Animationen hat über 2 Wochen im Februar in Anspruch genommen. Eine Übersicht über alle nötigen Illustration findet man [hier] unter Animationen. 
+
+Die Illustrationen habe ich mit [procrate] auf meinem Tablet erstellt und als png-Dateien exportiert. 
+
+
+Insgesamt habe ich ... Einzelbilder gezeichnet und eingepflegt. 
+
+
+
 
 ![Januar](./media/video-jan-3.mp4)
 ![Januar](./media/img-jan-3.png)
