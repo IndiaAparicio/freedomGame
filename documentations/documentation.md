@@ -3,8 +3,13 @@ DOCUMENTATION
 
 - [Short Discription](#short-discription)
 - [November](#november)
-  - [Mid-term presentation](#mid-term-presentation)
+  - [First idea and concept](#first-idea-and-concept)
+  - [Ideenentwicklung](#ideenentwicklung)
+  - [Best Practice Beispiele](#best-practice-beispiele)
+  - [Update Concept 30. November](#update-concept-30-november)
 - [Dezember](#dezember)
+  - [Mid-term presentation](#mid-term-presentation)
+  - [Konrektisierung und Visualisierung](#konrektisierung-und-visualisierung)
 - [Januar](#januar)
     - [Start Coding](#start-coding)
     - [Viewport, Background and Camera](#viewport-background-and-camera)
@@ -53,12 +58,59 @@ ____
 
 # November
 
-## Mid-term presentation
+## First idea and concept 
 
-In November I developed the concept further and narrowed it down a lot. While at the beginning of the semester the plan was to create a scrollitelling website about philosophy and religion, the plan became more concrete in November. I also prepared [presentation](./presentations/mid-term-presentation.pdf) for the mid-term presentation.
+* Website that combines scrollitelling content and the genre of "interactive film“.
+* topic: philosophical/religious topics, such as God, morality, soul/the "I" etc. (Maybe just one topic for the project, because otherwise it would be too elaborate. Epistemology possibly with visualization of the Höhlengleichnis or morality with the Trolly problem)
+* Visualization of philosophical theories 
+* Target group: Children 
+* Goal: To show children the issues of that there are different realities and truths. Categorizations into right and wrong are subjective.
+
+* Since in schools and at home often only one point of view is taught
+During the scrollitelling and at the end of each path, information should be displayed that shows how different philosophical currents or religions stand on the topics
+* Vector-based style for animation. Similar to "in a nutshell
+
+
+## Ideenentwicklung
+
+* *Example topic* | **Digitalization**: Designing time - acceleration through digitalization // Why are so many people passively engaged with digital media, even though we lose time because of it (and everyone complains about having little time). // Experiment: Taking away a sense - Interview only (audio) vs Interview (video and audio): Which seems longer? // Solution: A mindfulness smartphone // By taking out stimuli, can you reduce addiction? Without removing functions?
+* *Example topic* | **Death**: the representation of death (visualization of something not visible) in animations // "Being dead" is in language a being. So an existing state. So in general death is seen as a kind of being?
+* *Example topic* | **Empathy**: Animation film: an artificial-human machine, more human than a non-sentient human due to acceleration?
+Example theme aesthetics: aesthetics as meaning of life. Reflecting as meaning. The beauty and the aesthetic sensation. Why? Because it is something unimportant for us/not important for survival and yet we see the value/desirable. Is it that what distinguishes humans from animals? That which goes beyond us and we do not understand but still somehow recognize.
+Or a game, which shows you all your effects (maybe you are in everyday life and everything you do gets more points and these points turn out in the end as an ecological footprint) points system of *the good place*, maybe also as a preoccupation with the question of freedom. Your freedom must include the freedom of others -> very exciting under current considerations of corona. People go to demonstrate against Corona, because they feel their freedom is affected, but it is about the freedom of all. -> In the Corona game it could start in a color world and the more colors are added, the more one pays attention to the freedom of the others in the decisions, so that in the end a life comes about that is much more colorful and "free" by understanding freedom as a collective concept. The big theme is "freedom" and it is demonstrated by the example of Corona // All in all because of the question why persons decide to be Corona opponents and act so self-centered. As if freedom is only related to one's own person.
+The game has two endings: once joined a conspiracy theory and once stayed at home (score how many people you infected (too macabre?))
+Using 2d and 3d?
+Maybe it is just one scene like a puzzle and more details get added the closer you get to the solution (like an interactive movie and the hint if you do something right or wrong is the amount of detail in the scene) -> like realizing what is true and what not (cave equation ) -> The background stays the same as we scroll and new UI elements 
+pop up and the background is transitioning -> If I make a mix with a real story the protagonist doesn't have to be like a human being, it can be a shape as well 
+
+## Best Practice Beispiele
+
+* Beautiful website example style: lusion.co
+* cineShader: https://cineshader.com
+* https://molleindustria.org/demsocsim/
+* Simulatot/Chain reactions
+* https://ncase.me/polygons/
+* https://github.com/periode/politics-of-code/blob/master/assets/readings/04-modeling/RhetoricVideoGames.pdf
+* https://www.molleindustria.org/
+* Every day the same dream: good example 
+* A game in which you can only use the arrow-keys and spacebar for interaction (vertical scrollitelling) of a story which is a loop but u need to to something differently to get further
 
 
 
+
+
+## Update Concept 30. November
+
+* Topic: Interactive visualization of the dependency of freedom between individual and collective -> Freedom as a thought that does not depend only on one subject, because freedom is a game between own freedom and letting others have freedom
+* Best Practice: Every day the same dream // democratic socialist // Grow
+* Principle: User can make decisions that influence two values (freedom collective and freedom individual) -> The goal is to get both values balanced over a certain minimum, the decisions influence the values and the values influence the other value 
+* Topic can be transferred to today's topic with Corona and a decision would be for example to wear masks
+* Scenery is like in the Best Practice example an everyday scene, which contains about 5 screen widths and the decisions to be made have to be found  Web-based it should be and you go through vertical scrolling and you can click the interactive states 
+* Design: Preferably rather abstract (like Pierre's example with the triangles and squares), but the two values should be visually recognizable by the richness of detail of the subject and the background  
+* Advanced: if decisions were made, they might also change the gaming behavior perhaps. For example, when a mask is put on, the subject becomes faster or something like that
+* things that you can interact with -> different „states“ that influence the two values -> mask (metaphor like maybe a cage, slowing someone down
+  * -> seeing people (where you stand, being next to someone else)
+  * -> washing/disinfecting hands (something that you have to do like every 1 minute)
 
 
 
@@ -69,6 +121,13 @@ ____
 
 
 # Dezember
+
+## Mid-term presentation
+
+In November I developed the concept further and narrowed it down a lot. While at the beginning of the semester the plan was to create a scrollitelling website about philosophy and religion, the plan became more concrete in November. I also prepared [presentation](./presentations/mid-term-presentation.pdf) for the mid-term presentation.
+
+
+## Konrektisierung und Visualisierung 
 
 Im Dezember habe ich begonnen die Szene für das Spiel zu skizieren und zu planen. Ich habe mir verschiedene Interaktionen ausgedacht und diese in die Szene integriert. 
 Ich habe folgende List erstellt, die die Interaktionen – und ihre Auswikung – visualisiert:
@@ -84,7 +143,7 @@ Außerdem habe ich den [Projektplan] erstellt. Passend zum Projektplan, habe ich
 Ich habe mich dazu entschieden das Spiel mit der p5-play-library zu erstellen, da es sich um ein Spiel handeln sollte, welches im Browser gespielt werden kann. Den Rest des Dezembers habe ich dafür genutzt mich mit den [p5-play-library] auseinanderzusetzen. Während des gesamten Projekt habe ich ständig diese zwei Dokumentation verwendet.:
 
 
-
+https://creative-coding.decontextualize.com/making-games-with-p5-play/
 
 
 
