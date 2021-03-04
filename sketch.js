@@ -6,6 +6,11 @@ let running = false;
 let startingPage = true;
 let explainPage = false;
 let mouseClickCheck = true; // StartingPage
+let ending_1 = false;
+let ending_2 = false;
+let ending_3 = false;
+let ending_4 = false;
+
 
 //player
 let player1;
@@ -359,7 +364,6 @@ function setup() {
       player1.setCollider("rectangle",0,50,65,115);
 
 
-
 } // end Set up
 
 
@@ -394,7 +398,7 @@ function draw() {
         //moving clouds
         docu_clouds.position.y = windowHeight/2;
           if (docu_clouds.position.x <= -900){
-            docu_clouds.position.x = 2300;
+              docu_clouds.position.x = 2300;
           }
         docu_clouds.position.x -= 0.5;
         drawSprite(docu_clouds);
@@ -553,7 +557,7 @@ function draw() {
               isolationAreaSoundOn = false;
               middleArea_sound.play();
               middleArea_sound.loop();
-              middleArea_sound.setVolume(0.6);
+              middleArea_sound.setVolume(0.6,0.05);
               flyingArea_sound.stop();
               isolationArea_sound.stop();
           }else if(player1.overlap(flyingArea) && !flyingAreaSoundOn){
@@ -562,7 +566,7 @@ function draw() {
               middleArea_sound.stop();
               flyingArea_sound.play();
               flyingArea_sound.loop();
-              middleArea_sound.setVolume(0.6);
+              middleArea_sound.setVolume(0.6,5);
           }else if(player1.overlap(isolationArea) && !isolationAreaSoundOn){
               middleAreaSoundOn = false;
               isolationAreaSoundOn = true;
@@ -579,7 +583,8 @@ function draw() {
           if(player1.overlap(hygieneArea) && !hygieneAreaSoundOn){
               hygieneAreaSoundOn = true;
               hygiene_sound.play();
-              isolationArea_sound.setVolume(0.6);
+              hygiene_sound.setVolume(0.4)
+              //isolationArea_sound.setVolume(0.4);
           }else if(player1.overlap(hygieneArea) === false){
               hygieneAreaSoundOn = false;
               hygiene_sound.stop();
@@ -613,9 +618,11 @@ function draw() {
           //Mask
           if(player1.overlap(maskPosition) && !maskSoundOn){
               mask_sound.play();
+              mask_sound.setVolume(0.6);
               maskSoundOn = true;
           }else if(player1.overlap(maskPosition) && !maskSoundOn){
               mask_sound.play();
+              mask_sound.setVolume(0.6);
               maskSoundOn = true;
           }else if(player1.overlap(maskPosition)=== false){
               maskSoundOn = false;
@@ -644,7 +651,8 @@ function draw() {
 
 
     // C A M E R A 
-
+    
+      
       //LIMITATIONS X-AXIS
         let ScreenPlayerRelation = width/2;
         let ScreenPlayerRelationH = height/2;
@@ -759,6 +767,7 @@ function draw() {
           hygieneScore();
           zoomScore();
           isolationScore();
+          flyingScore();
           singlePeopleWalking ();
 
           //DISTANCING 
@@ -809,25 +818,29 @@ function draw() {
 
                 // mapping für die Farbe und Länge der Balken in den Scores
                 let m = map(individualScore, 0, 100, 20, widthScoreDisplay);
-                let c1 = map(individualScore, 0, 100, 250, 0);
-                let c2 = map(individualScore, 0, 100, 0, 200);
-                let c3 = map(individualScore,0, 100, 100, 150);
+                let c1 = map(individualScore, 0, 100, 0, 250);
+                let c2 = map(individualScore, 0, 100, 0, 0);
+                let c3 = map(individualScore,0, 100, 0, 200);
 
                 let m2 = map(collectiveScore, 0, 100, 20, widthScoreDisplay);
-                let c4 = map(collectiveScore, 0, 100, 230, 0);
-                let c5 = map(collectiveScore, 0, 100, 0, 200);
-                let c6 = map(collectiveScore,0, 100, 100, 150);
+                let c4 = map(collectiveScore, 0, 100, 0, 250);
+                let c5 = map(collectiveScore, 0, 100, 0, 0);
+                let c6 = map(collectiveScore,0, 100, 0, 200);
 
 
                 // Inside
                 noStroke();
                 if(individualScore < 10){fill(0);}
-                else if (individualScore > 90){fill(255);}
+                else if (individualScore > 10 && individualScore < 35){fill(30+(c1/1), 30+(c2/1), 30+(c3/1));}
+                else if (individualScore > 35 && individualScore < 65){fill(60+(c1/2), 60+(c2/2), 60+(c3/2));}
+                else if (individualScore > 65 && individualScore < 90){fill(c1, 30+c2, c3);}
                 else{fill(c1,c2,c3);}
                 rect(20,20, m, heightScoreDisplay, r); //individual 
 
                 if(collectiveScore < 10){fill(0);}
-                else if (collectiveScore > 90){fill(255);}
+                else if (collectiveScore > 10 && collectiveScore < 35){fill(30+(c4/1), 30+(c5/1), 30+(c6/1));}
+                else if (collectiveScore > 35 && collectiveScore < 65){fill(60+(c4/2), 60+(c5/2), 60+(c6/2));}
+                else if (collectiveScore > 65 && collectiveScore < 90){fill(c4, 30+c5, c6);}
                 else{fill(c4,c5,c6);;}
                 rect(20,40 + heightScoreDisplay, m2, heightScoreDisplay, r); //collective
 
@@ -911,9 +924,7 @@ function draw() {
                   rect(0, 0, windowWidth, windowHeight);
               }
               if (individualScore > 90 && collectiveScore < 10){
-                  running = !running;
-                  fill(0,0,200);
-                  rect(0, 0, windowWidth, windowHeight);
+                  ending_1 = true;
               }
               if (individualScore < 10 && collectiveScore < 10){
                   running = !running;
@@ -946,6 +957,27 @@ function draw() {
 
 
   }//end running
+
+
+  if(ending_1){
+    camera.zoom = 0.3;
+    camera.position.x = 0;
+    camera.position.y = SCENE_H/2;
+   
+    //Sound ausschalten
+    camera.off();
+      push();
+        noStroke();
+        fill('rgba(0,0,0, 0.5)');
+        rect(0, 0, windowWidth, windowHeight);
+
+        fill(255);
+        textAlign(CENTER);
+        textSize(windowHeight/10);
+        text('Individual Freedom', windowWidth/2, windowHeight/2);
+      pop();
+    camera.on();
+  }
 }//end draw
 
 
@@ -985,6 +1017,7 @@ function playerMovement(){
         //wenn space, innerhalb gravity area und gerade am Boden war, dann jumpen
         if(keyWentDown(' ') && playerGroundCheck && player1.overlap(gravityArea)){
             jump_sound.play();
+            jump_sound.setVolume(0.6);
             player1.velocity.y = -jump;
             playerGroundCheck = false;
         }
@@ -1087,7 +1120,7 @@ function feedbackUpScoreI(){
     fbS_I_b = 180;
     if(fbS_I_g === 230){
       camera.off();
-      displayIcons(arrow_up_icon,zoom_hover_icon,windowWidth/5 + 30,20);
+      displayIcons(arrow_up_icon,arrow_up_icon,windowWidth/5 + 30,20);
       camera.on();
     }
     setTimeout(function(){fbS_I_r = 255; fbS_I_g = 255; fbS_I_b = 255;}, 500);
@@ -1099,7 +1132,7 @@ function feedbackDownScoreI(){
     fbS_I_b = 60;
     if(fbS_I_r === 220){
       camera.off();
-      displayIcons(arrow_down_icon,zoom_hover_icon,windowWidth/5 + 30,20);
+      displayIcons(arrow_down_icon,arrow_down_icon,windowWidth/5 + 30,20);
       camera.on();
     }
     setTimeout(function(){fbS_I_r = 255; fbS_I_g = 255; fbS_I_b = 255;}, 500);
@@ -1110,7 +1143,7 @@ function feedbackUpScoreC(){
     fbS_C_b = 180;
     if(fbS_C_g === 230){
       camera.off();
-      displayIcons(arrow_up_icon,zoom_hover_icon,windowWidth/5 + 30,40+(windowHeight/14)+(windowHeight/120));
+      displayIcons(arrow_up_icon,arrow_up_icon,windowWidth/5 + 30,40+(windowHeight/14)+(windowHeight/120));
       camera.on();
     }
     setTimeout(function(){fbS_C_r = 255; fbS_C_g = 255; fbS_C_b = 255;}, 500);
@@ -1121,7 +1154,7 @@ function feedbackDownScoreC(){
     fbS_C_b = 60;
     if(fbS_C_r === 220){
       camera.off();
-      displayIcons(arrow_down_icon,zoom_hover_icon,windowWidth/5 + 30,40+(windowHeight/14)+(windowHeight/120));
+      displayIcons(arrow_down_icon,arrow_down_icon,windowWidth/5 + 30,40+(windowHeight/14)+(windowHeight/120));
       camera.on();
     }
     setTimeout(function(){fbS_C_r = 255; fbS_C_g = 255; fbS_C_b = 255;}, 500);
@@ -1300,6 +1333,14 @@ function isolationScore(){
     }
 }
 
+// FLYING 
+function flyingScore(){
+  if(player1.overlap(flyingArea)){
+    feedbackUpScoreI();
+    individualScore += 0.001;
+  }
+}
+
 
 // ---- SINGLE CONTACT ----
 let touchedPerson = false;
@@ -1322,6 +1363,7 @@ function singlePeopleWalking () {
     if (player1.overlap(singlepeople2) && !touchedPerson || player1.overlap(singlepeople) && !touchedPerson){
         touchedPerson = true;
         singleContact_sound.play();
+        singleContact_sound.setVolume(3.0);
         setTimeout(function(){touchedPerson = false;},5000);
         feedbackUpScoreI();
         feedbackDownScoreC();
@@ -1373,8 +1415,10 @@ function swarmFollowAttraction(distancing_group, attraction_pointX, attraction_p
         feedbackUpScoreI();
         feedbackDownScoreC();
         distancing_sound.play();
+        distancing_sound.play();
+        distancing_sound.setVolume(3.0);
         individualScore += 10;
-        collectiveScore -= 10;
+        collectiveScore -= 30;
         touchedGroup = true;
     }
     if(player1.overlap(distancing_group) === false && touchedGroup && !hasStartedTimeoutS){
