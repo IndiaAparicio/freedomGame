@@ -4,36 +4,51 @@ DOCUMENTATION
 - [Short Discription](#short-discription)
 - [November](#november)
   - [First idea and concept](#first-idea-and-concept)
-  - [Ideenentwicklung](#ideenentwicklung)
+  - [Idea development](#idea-development)
   - [Best Practice Beispiele](#best-practice-beispiele)
   - [Update Concept 30. November](#update-concept-30-november)
 - [Dezember](#dezember)
   - [Mid-term presentation](#mid-term-presentation)
-  - [Konrektisierung und Visualisierung](#konrektisierung-und-visualisierung)
+  - [Concretization and visualization](#concretization-and-visualization)
+  - [First sketch](#first-sketch)
 - [Januar](#januar)
-    - [Start Coding](#start-coding)
-    - [Viewport, Background and Camera](#viewport-background-and-camera)
-    - [Collider](#collider)
-    - [Gruppe in p5 play](#gruppe-in-p5-play)
-    - [Player](#player)
-      - [Maske](#maske)
-      - [Player Movement](#player-movement)
-    - [Distancing](#distancing)
-    - [GUI](#gui)
-      - [Display Scores/Buttons](#display-scoresbuttons)
-      - [Feedback through color](#feedback-through-color)
-      - [Pause](#pause)
-    - [Second Background](#second-background)
-    - [More interactive elements](#more-interactive-elements)
-    - [Scoring System](#scoring-system)
-      - [Hygiene](#hygiene)
-      - [Isolation and Zoom](#isolation-and-zoom)
-- [Februar](#februar)
-  - [Animations and Illustrations 2 - 20 Feburary](#animations-and-illustrations-2---20-feburary)
-  - [Einbettung in das Spiel 20 Feb - 25 Feb](#einbettung-in-das-spiel-20-feb---25-feb)
+  - [Start Coding](#start-coding)
+  - [Viewport, Background and Camera](#viewport-background-and-camera)
+  - [Collider](#collider)
+  - [Group in p5 play](#group-in-p5-play)
+  - [Player](#player)
+    - [Mask](#mask)
+    - [Player Movement](#player-movement)
+  - [End of Projectweek](#end-of-projectweek)
+  - [Distancing](#distancing)
+  - [GUI](#gui)
+    - [Display Scores/Buttons](#display-scoresbuttons)
+    - [Feedback through color](#feedback-through-color)
+    - [Pause](#pause)
+  - [Second Background](#second-background)
+  - [Scoring System](#scoring-system)
+    - [Hygiene](#hygiene)
+    - [Isolation and Zoom](#isolation-and-zoom)
+  - [Rain](#rain)
+  - [The version at the end of January](#the-version-at-the-end-of-january)
+- [Feburary](#feburary)
+  - [Animations and Illustrations | 2. - 16. Feburary](#animations-and-illustrations--2---16-feburary)
+    - [Backgrounds and Clouds](#backgrounds-and-clouds)
+    - [Player](#player-1)
+  - [Embedding in the game | 16 Feb - 20 Feb](#embedding-in-the-game--16-feb---20-feb)
+    - [Embedding the player animation](#embedding-the-player-animation)
+  - [Creation of the screens (Digital Media Area)](#creation-of-the-screens-digital-media-area)
+  - [The version until February 20](#the-version-until-february-20)
+  - [Revision of the embedding of the illustrations](#revision-of-the-embedding-of-the-illustrations)
+  - [Insert flickering light](#insert-flickering-light)
+  - [Sounds](#sounds)
   - [Starting Screen](#starting-screen)
-  - [Überarbeitung der Buttons/Icons](#überarbeitung-der-buttonsicons)
-- [März](#märz)
+  - [Explaining Page](#explaining-page)
+  - [User-Information](#user-information)
+  - [Revision of the buttons/icons](#revision-of-the-buttonsicons)
+  - [Status after February](#status-after-february)
+- [March](#march)
+  - [Code ordnen](#code-ordnen)
 
 
 # Short Discription
@@ -75,7 +90,7 @@ During the scrollitelling and at the end of each path, information should be dis
 * Vector-based style for animation. Similar to "in a nutshell
 
 
-## Ideenentwicklung
+## Idea development
 
 * *Example topic* | **Digitalization**: Designing time - acceleration through digitalization // Why are so many people passively engaged with digital media, even though we lose time because of it (and everyone complains about having little time). // Experiment: Taking away a sense - Interview only (audio) vs Interview (video and audio): Which seems longer? // Solution: A mindfulness smartphone // By taking out stimuli, can you reduce addiction? Without removing functions?
 * *Example topic* | **Death**: the representation of death (visualization of something not visible) in animations // "Being dead" is in language a being. So an existing state. So in general death is seen as a kind of being?
@@ -131,25 +146,24 @@ ____
 In November I developed the concept further and narrowed it down a lot. While at the beginning of the semester the plan was to create a scrollitelling website about philosophy and religion, the plan became more concrete in November. I also prepared [presentation](./presentations/mid-term-presentation.pdf) for the mid-term presentation.
 
 
-## Konrektisierung und Visualisierung 
+## Concretization and visualization 
 
-Im Dezember habe ich begonnen die Szene für das Spiel zu skizieren und zu planen. Ich habe mir verschiedene Interaktionen ausgedacht und diese in die Szene integriert. 
-Ich habe folgende List erstellt, die die Interaktionen – und ihre Auswikung – visualisiert:
+In December, I started sketching and planning the scene for the game. I came up with various interactions and integrated them into the scene. 
+I created the following list that visualizes the interactions - and their impact:
 
 ![Interaction table](./media/interactionsTable.png)
 ![Interactions in world](./media/interactionsInWorld.png) 
 
 
-Außerdem habe ich den [Projektplan] erstellt. Passend zum Projektplan, habe ich für einen besseren Überblick, alle [To-Dos] aufgelistet. Für die Zielsetzung haben wir die [Best und Worst Case Scenarios] definiert.
+I have also created the [Project Plan](./Timetable.md). Matching the project plan, I listed all [To-Dos](./To-Do.md) for a better overview. For goal setting, we defined the [Best and Worst Case Scenarios](./Best_Worst_Case.md).
 
 
+I decided to create the game with the p5-play-library, because it should be a game that can be played in the browser. The rest of december I used to work with the [p5-play-library](https://molleindustria.github.io/p5.play/). During the whole project I used these three documentations all the time:
+* [molleindustria](https://molleindustria.github.io/p5.play/examples/index.html)
+* [creative coding](https://creative-coding.decontextualize.com/making-games-with-p5-play/)
+* [code.org](https://code-dot-org.github.io/p5.play/docs/modules/p5.play.html)
 
-Ich habe mich dazu entschieden das Spiel mit der p5-play-library zu erstellen, da es sich um ein Spiel handeln sollte, welches im Browser gespielt werden kann. Den Rest des Dezembers habe ich dafür genutzt mich mit den [p5-play-library] auseinanderzusetzen. Während des gesamten Projekt habe ich ständig diese zwei Dokumentation verwendet.:
-
-
-https://creative-coding.decontextualize.com/making-games-with-p5-play/
-
-
+## First sketch
 
 
 ____
@@ -157,21 +171,26 @@ ____
 
 # Januar
 
-### Start Coding
+## Start Coding
+
+On the first day of the project week, I first created a Github repository and connected it to my visual studio code. After that I downloaded the p5.play-library and created my file.
 
 In January during the project week I had the conception of the project mostly ready, so I sat down to the code for the first time. Since it is my first big coding project, I tried to make a plan for the project week. The sequence of the project was as follows:
+
 - Create scene
 - Insert background 
 - Add camera 
 - Add all interactive elements 
 - Player Movement
   
-*Mein Stand [Anfang Januar](../sketch-jan-5.js)*
-![Dezember](./media/video-jan-3.mp4)
-![Dezember](./media/img-jan-3.png)
+After the first day of the project week, my sketch looked [like this]((../sketch-jan-5.js)):
+![Januar](./media/video-jan-3.mp4)
+![Januar](./media/img-jan-3.png)
 
-### Viewport, Background and Camera
-In January I started working on the code. The first thing to do was to create the game world. For this the previously created [drawing](./media/) was used as background image.
+
+## Viewport, Background and Camera
+
+In January I started working on the code. The first thing to do was to create the game world. For this the previously created [drawing](./media/bg-test-6.png) was used as background image.
 
 
 ```javascript
@@ -188,6 +207,7 @@ function draw() {
 
 Since the viewport `createCanvas(windowWidth, windowHeight);` should be smaller than the whole scene `bg = createSprite(0, SCENE_H/2, SCENE_W, SCENE_H);`, I created a *sprite* for the background, to which I could add different images. With a virtual camera it was then possible to determine the section which is visible. This section was then linked to the behavior of the player, so that the player always stays in the middle of the viewport - unless the player gets too close to the edge of the screen, then the camera stops.
 
+![Virtual Camera](./media/virtual-camera.png)
 
 ```javascript
 let SCENE_W = 4000;
@@ -218,7 +238,7 @@ function draw() {
 ```
 
 
-### Collider
+## Collider
 
 For all platforms and other objects the player can interact with, I created more *sprites*. Sprites were created for the following objects:
 * Ground (collider with player)
@@ -234,6 +254,7 @@ For all platforms and other objects the player can interact with, I created more
 * Individuals (score is changed by overlapping with player)
 * Group persons (score is changed by overlapping with player)
 Most *sprites* remain invisible in the game.
+
 
 
 ```javascript
@@ -262,7 +283,7 @@ function draw() {
     ...
 }
 ```
-### Gruppe in p5 play
+## Group in p5 play
 
 For the individual contacts and for the distancing groups, p5-play groups had to be created. This way many elements could be given the same attributes. For the different interaction elements I created functions, like here `singlePeopleWalking()` .
 
@@ -294,15 +315,16 @@ function singlePeopleWalking(){
       }
 }
 ```
+![Collider](./media/collider.png)
 
 
+## Player
 
-### Player
-
-#### Maske
+### Mask
 
 A *sprite* was also created for the player, so that the player has a collider that provides the events when it touches the other colliders. However, since the player should look different depending on whether it wears a mask, several images were assigned to the *sprite*. Several boolean variables were then used to check whether the player was wearing the mask and whether he had touched the ground again since putting on the mask (because otherwise the mask would be on and off continuously for the entire time the player was touching the mask). Throughout the code for the game, I then very often used this Boolean logic to trigger events only once (in a given) in the draw loop.
 
+![Collider](./media/mask-change.png)
 
 ```javascript
 function preload(){
@@ -345,7 +367,7 @@ function maskOnOff(){
 }
 ```
 
-#### Player Movement
+### Player Movement
 
 
 To make the player move, I programmed the player movement in the Gravity-Area on the one hand and in the Flying-Area on the other hand. To change the position of the player only the `player1.position.x` had to be changed at for example `keyIsDown(RIGHT_ARROW)`. For flying, this was allowed in all four directions. For jumping the `player.velocity.y` had to be changed. Again a GroundCheck with a Boolean variable was used, so that the player cannot jump continuously.
@@ -380,14 +402,17 @@ function flying(){
 }
 ```
 
-*Mein Stand [Nach Projektwoche](../sketch-jan-10.js)*
-![Dezember](./media/video-jan-8.mp4)
+## End of Projectweek 
+
+After the project week the basic functions and the basic scene were coded. [Here](../sketch-jan-10.js) is the state of my sketch after the project week and [this](./media/video-jan-8.mp4) is a video of the game at that time.
+
 ![Dezember](./media/img-jan-8.png)
 
-### Distancing 
+## Distancing 
 
 Especially with the programming for the distancing function I had great difficulties. For this, a group should be created that follows an attraction point. The attraction point should be invisible afterwards, so that it looks like the group is moving in swarms. With one group it worked relatively fast, but there were many problems and failed attempts to create multiple groups following different points. 
-The first version looked like this: ![Distancing-Version1](./media/)
+The first version looked like this: ![Distancing-Version1]()
+
 
 https://molleindustria.github.io/p5.play/examples/index.html?fileName=sprite4.js
 
@@ -512,13 +537,13 @@ class Attraction_points {
 ```
 
 
-BIS ENDE JANUAR
 
-### GUI
+## GUI
 
-#### Display Scores/Buttons
+### Display Scores/Buttons
 
 For the userinterface elements the camera had to be turned off with `camera.off()`, so that the elements on the canvas are shown absolutely and not relatively in the game world. The buttons and elements I added with simple p5 functions like `rect` or `ellipse`. To change the colors of the scores depending on how high the score is, I used the `map()` function to store varibbles that store targeted color values for the score interval from 0-100.
+
 
 ```javascript
 function draw() {
@@ -547,7 +572,7 @@ function draw() {
 
 ```
 
-#### Feedback through color
+### Feedback through color
 
 To give the user feedback when the score changes positively or negatively, I created the variables `fbS_I_r` (feedbackScore_Individual_red) etc. for the word `individual` and `collective` as well as for the contour of the score image. For events in which the scores change, one of the four functions `feedbackUpScoreI()`,`feedbackDownScoreI()`,`feedbackUpScoreC()`,`feedbackDownScoreC()` is then called, coloring the corresponding score either red or green. After 500 milliseconds of action, the color values are reset. For this, use was made of the `setTimeout()` function, which I used again several times later.
 
@@ -582,8 +607,10 @@ function feedbackUpScoreI(){
 }
 
 ```
+![Score Display](./media/score-display.png)
 
-#### Pause
+
+### Pause
 For the pause button function, I packed the entire contents of the draw function into an if-condition. When the button is pressed, I then set this condition to false so that the game cannot continue to run. Since the `mousePressed()` function I use to flip the boolean is outside the `draw()` function, the condition can be set back to true and the game continues.
 
 ```javascript
@@ -600,8 +627,9 @@ function draw() {
     }
 }
 ```
+![Score Display](./media/pause-button.png)
 
-### Second Background 
+## Second Background 
 
 To create an illusion of depth, I decided to have the foreground and background move differently. So it appears that the foreground is closer to the player. The background (`bg_back`) now moves relative to the position of the player. However, to prevent the edge of the back image from protruding into the viewport when the player is at the edge of the playfield, the background image must be larger than the foreground. While the illustrations for the foreground should be 4000x3000px, the background must be 4300x3000px.
 
@@ -616,14 +644,13 @@ function draw() {
     }
 }
 ```
+![Second Background](./media/second-bg.png)
 
-### More interactive elements
-
-### Scoring System
+## Scoring System
 
 Now that all the interactive elements have been added, the influences of these on the scoring system had to be inserted. 
 
-#### Hygiene
+### Hygiene
 
 I coded many influences on the score by the `overlap()` method available in the p5-play-library. If the player is within a certain area, the score is affected accordingly. For a one-time boost, like in the hygiene area, I added a boolean varibael so that it only applies once. When leaving the area, the varibael is reset with `setTimeout()` after 20000 milliseconds, so that a new boost can take place.
 
@@ -646,7 +673,7 @@ function hygieneScore(){
 }
 ```
 
-#### Isolation and Zoom
+### Isolation and Zoom
 
 Some values should not change statically, but for example should increase/decrease more and more. For example, when staying in the isolation area, the individual value should decrease more if the player has been there for a longer time. For this I introduced a variable `lonely`, which indicates how lonely the player already is. 1 would be in this case not lonely and 10 very lonely. The value is multiplied by 0.001 throughout, so that it increases faster and faster. 
 
@@ -677,77 +704,446 @@ function isolationScore(){
 The same principle is used to influence the score within the zoom range. In this case the variable `boring` was introduced.
 
 
-- Rain
+## Rain 
+For disinfection, it should rain symbolically on the right side of the game world. When touching the rain, the player is thus disinfected. For this I have modified the code [from this page](https://editor.p5js.org/monicawen/sketches/HkU-BCJqm) and inserted it into my code.
 
 
-*Mein Stand [nach Januar](../sketch-feb-2.js)*
+## The version at the end of January
+By the end of January, I had all the basic functions ready. It was especially difficult to get the distancing function with all the swarms done. My sketch looked [like this](../sketch-feb-2.js) after January.
 ![Dezember](./media/video-febbb-2.mp4)
 ![Dezember](./media/img-feb-2.png)
 
-# Februar
+# Feburary
 
-## Animations and Illustrations 2 - 20 Feburary
+## Animations and Illustrations | 2. - 16. Feburary
 
-Das Illustrieren aller Illustrationen und Animationen hat über 2 Wochen im Februar in Anspruch genommen. Eine Übersicht über alle nötigen Illustration findet man [hier] unter Animationen. 
+The creation of all illustrations and animations took over 2 weeks in February. An overview of all necessary illustrations can be found [here](./To-Do.md) under animations. 
 
-Die Illustrationen habe ich mit [procrate](https://procreate.art) auf meinem Tablet erstellt und als png-Dateien exportiert. 
+I created the illustrations with [procrate](https://procreate.art) on my tablet and exported them as png files. 
 
-Für den Hintergrund der Spielwelt habe ich eine Illustration (4000x3000px) erstellt. Da der sich der Hintergrund unterschiedlich zum Vordergrund bewegen sollte, musste ich zwei getrennte Illustrationen anfertigen. Zusätzlich habe ich 5 unterschiedlich detaillierte Illustrationen für die Wolken angefertigt, da die Wolken sich unabhängig vom Hintergrund bewegen. Darüberhinaus habe ich die Spielwelt in fünf unterschiedlichen Detail-Grads erstellt. 
+### Backgrounds and Clouds 
 
-![Illustration Clouds](./media/illustrations/clouds-1.png)
-![Illustration Clouds](./media/illustrations/clouds-5.png)
-![Illustration BG](./media/illustrations/bg-hinten-1.png)
-![Illustration BG](./media/illustrations/bg-hinten-5.png)
-![Illustration BG](./media/illustrations/bg-vorne-1.png)
-![Illustration BG](./media/illustrations/bg-vorne-5.png)
+For the background of the game world I created an illustration (4000x3000px). Since I wanted the background to move differently from the foreground, I had to make two separate illustrations. Additionally I made 5 different detailed illustrations for the clouds, because the clouds move independently from the background. Furthermore, I created the game world in five different levels of detail: 
 
-Für die Player-Figur habe ich mich für eine Bubble-Animation entschieden. Da das gesamte Spiel eher symbolisch und abstrakt wirken soll, erschien mir eine nicht-menschliche Figur passend. Die Bubble verliert in einem Animationscycle ein kleines Bläschen. Dieser Prozess soll das Atmen des Menschen symbolisieren. Wenn der Player eine Maske trägt, ist das kleine Blässchen kleiner. Ich habe eine Animation für den Player mit und ohne Maske mit jeweils ein mal mit und ein mal ohne Schatten. Die Animation ohne Schatten sollte abgespielt werden wenn der Spieler springt oder fliegt. Diese vier unterschiedlichen Animationen habe ich für alle 5 Detail-Grade erstellt, sodass ich 20 verschiedene Player-Animationen erstellt habe. Da jede Animation aus 11 Einzelbildern besteht, habe ich für den Player insgesamt 220 Einzelbilder erstellt.
+![Illustration Clouds](./media/illustrations/all_clouds.png)
+![Illustration Clouds](./media/illustrations/all_bg.png)
+![Illustration BG](./media/illustrations/all_vg.png)
+
+
+### Player
+
+For the player figure I decided to use a bubble animation. Since the whole game is supposed to be rather symbolic and abstract, a non-human figure seemed appropriate to me. The bubble loses a small bubble in an animation cycle. This process is meant to symbolize human breathing. When the player wears a mask, the little bubble is smaller. I have an animation for the player with and without a mask with one time with shadow and one time without shadow. The animation without shadow should play when the player jumps or flies. I created these four different animations for all 5 detail levels, so I created 20 different player animations. Since each animation consists of 11 frames, I created a total of 220 frames for the player.
+
 
 ![Animation Cycle](./media/illustrations/player1-row.png)
 ![Animation Cycle](./media/illustrations/player5-mask-row.png)
 ![Animation Cycle](./media/illustrations/all-player-illustrations.png)
 
 
-Für die Einzelkontakte habe ich jeweils fünf Animationen für die, die nach rechts gehen und fünf für die, die nach links gehen angefertigt. Die Animationen konnten nicht einfach gespiegelt werden, da die Highlights sonst spiegelverkehrt gewesen wären. Die Animationscycles für die Einzelkontakte bestehen aus 10 Einzelbildern.
+For the single contacts, I made five animations each for those going to the right and five for those going to the left. The animations could not simply be mirrored because the highlights would have been mirrored otherwise. The animation cycles for the single contacts consist of 10 frames.
+
 
 ![Animation Cycle](./media/illustrations/singleContact.png)
 ![Animation Cycle](./media/illustrations/singleContact-cycle.png)
 
-Für die Gruppenkontakte (Schwärme im Himmel) habe ich ebenfalls Animationen angefertigt. Die Gruppen sollten aus drei verschiedenen Farben bestehen und jede Animation umfastte 7 Einzelbilder. Bei der Implementierung der Animationen in den Sketch hat es das Spiel – vermutlich aufgrund der hohen Zahl der *sprites* – sehr verlangsamt, sodass ich mich dazu entschieden habe nur Einzelbilder statt Aniamtionen zu verwenden. 
+For the group contacts (swarms in the sky) I also made animations. The groups should consist of three different colors and each animation comprised 7 frames. When implementing the animations in the sketch, it slowed down the game a lot - probably due to the high number of *sprites* - so I decided to use only frames instead of aniamtions. 
 
 ![Animation Cycle](./media/illustrations/distancing.png)
 
-Für das Favicon habe ich eine abgewandelte und optimierte Version einer der Player-Illustrationen verwendet.
+For the favicon I used a modified and optimized version of one of the player illustrations.
 
 ![Animation Cycle](./media/illustrations/favicon.png)
 
-Da die Zoom-/Digital-Media-Bereiche einem leuchtenden Screen ähneln sollte habe ich mich dazu entschieden außerdem mit procreate weichgezeichnete "Lichter" zu illustrieren. 
+Since I wanted the zoom/digital media areas to resemble a glowing screen, I also decided to use procreate to illustrate soft-drawn "lights". 
 
-Insgesamt habe ich ... Einzelbilder gezeichnet und eingepflegt.
-5 Hintergrund
-5 Vordergrund 
-5 Wolken
-220 Playerfigur
-100 Einzelkontakte 
-105 Distancing
-4 Lichter 
-1 Favicon 
+In total I have:
+* 5 illustrations for the background
+* 5 illustrations for the foreground 
+* 5 illustrations for the clouds
+* 220 illustrations for the player character
+* 100 illustrations for the single contacts 
+* 105 illustrations for the group contacts
+* 4 illustrations for the lights 
+* 1 illustration for the favicon 
+created. So 445 illustrations in total. 
+I tried to keep all illustrations as small as possible to keep the amount of data as small as possible.
 
 
-## Einbettung in das Spiel 20 Feb - 25 Feb
+## Embedding in the game | 16 Feb - 20 Feb
+
+After I created all the illustrations and animations, I started to embed the illustrations into the game. Before that I used a lot of placeholder images - but it the planned dimensions - to test if the way I create the files is compatible. 
+
+### Embedding the player animation
+To find out how to embed the animations correctly, I followed [this](https://molleindustria.github.io/p5.play/examples/index.html?fileName=animation.js) page. 
+* In `preload()` all images are loaded first. For this only the first and last frame must be named, all in between are added automatically (if numbered correctly).
+* In `setup()` the animation is assigned to a *sprite*.
+* In `draw()` the animations can be changed.
+I have embedded the animations as follows:
+
+```javascript
+function preload(){
+    ...
+    player_1_jump_animate = loadAnimation('../img/player/Player-SW-Jump-1.png','../img/player/Player-SW-Jump-11.png');
+    player_1_ground_animate = loadAnimation('../img/player/Player-SW-Ground-1.png','../img/player/Player-SW-Ground-11.png');
+    ...
+}
+function setup(){
+    ...
+    player1.addAnimation('player_1_ground_animate','../img/player/Player-SW-Ground-1.png','../img/player/Player-SW-Ground-11.png');
+    ...
+}
+function draw(){
+    ...
+    if(individualScore < 20){
+        player1.changeAnimation('player_1_ground_animate');
+    }else if(individualScore > 20 && individualScore < 40){
+        player1.changeAnimation('player_2_ground_animate');
+    }
+    ...
+  
+}
+```
+
+## Creation of the screens (Digital Media Area)
+
+In the zoom or digital media area I wanted to create an illusion of a glowing screen. In the image area of the screen an animation should play. I wanted to create the animation with p5, on the one hand to save memory (and loading time) and on the other hand to give it a digital style. For this I used the `createGraphics()` function. I could then treat this graphic like a custom canvas and project a new sketch onto it. I then assigned values to the new graphic in a function `graphicsScreen()` and created a simple animation with it. I could then call the function in `draw()` several times for all screens and assign different sizes and colors.
+
+```javascript
+function setup(){
+    ...
+    zoomScreenGround = createGraphics(125,125);
+    ...
+}
+function draw(){
+    ...
+    for(let i = 0; i<301; i += 150){
+        for(let y = 0; y < 1000; y += 980){
+            graphicsScreen(zoomScreenGround, -1015+y, 2215+i, 125, 125,0, 0, 100, 150);
+        }
+    }
+    ...
+  
+}
+function graphicsScreen(graphics, x, y, w, h, bg, r, g, b){
+    ...
+      graphics.rectMode(CENTER);
+
+      if(move1 <= 500){
+          for(let i = 0; i < 600; i+=50){
+            graphics.rect(w/2,h/2,move1-i,move1-i); 
+          }
+          for(let i = 0; i < 500; i+=50){
+          graphics.rect(w/2,h/2,move1+i,move1+i);
+          }
+      }else{
+        move1 = 50;
+      }
+      
+      move1 += 1;
+      image(graphics, x, y);//Ort
+  }
+```
+![Screens](./media/screens.png)
+
+
+## The version until February 20
+
+Until February 20, my sketch looked [like this](../sketch-feb-20.js). A video can be found [here](./media/video-feb-20.mp4).
+
+![February](./media/img-feb-20.png)
+
+## Revision of the embedding of the illustrations
+
+After the first attempt to embed the animations, the image stuttered a lot and the load time increased drastically. So I tried a bit and finally embedded the animations so that they are only loaded in preload and then called in draw. This way the setup step was skipped. At the beginning of `draw()` all possibilities (score, jump, mask etc.) are now weighed and the appropriate animation/illustration is displayed:
+
+```javascript
+function preload(){
+    ...
+    bg_vorne_1 = loadImage('../img/bg-vorne-1.png');
+    bg_hinten_1 = loadImage('../img/bg-hinten-1.png');
+    ...
+    player1.addAnimation('player_1_jump_animate', '../img/player/Player-SW-Jump-1.png','../img/player/Player-SW-Jump-11.png');
+    player1.addAnimation('player_1_ground_animate','../img/player/Player-SW-Ground-1.png','../img/player/Player-SW-Ground-11.png');
+    ...
+}
+
+function draw(){
+    ...
+    if (collectiveScore < 20){ 
+        bg_back.addImage(bg_hinten_1);
+        bg.addImage(bg_vorne_1);
+        bg_clouds1.addImage(clouds_1_img);
+        bg_clouds2.addImage(clouds_1_img);
+        s1.changeAnimation('singleContact_1_R_animate');
+        s2.changeAnimation('singleContact_1_L_animate');
+    }else if
+    ...
+    if(individualScore < 20){
+        if(maskOn && playerGroundCheck){
+            player1.changeAnimation('player_1_mask_jump_animate');
+        }else if(maskOn && !isJumping){
+            player1.changeAnimation('player_1_mask_ground_animate');
+        }else if(!maskOn && isJumping){
+            player1.changeAnimation('player_1_jump_animate');
+        }else if(!maskOn && !isJumping){
+            player1.changeAnimation('player_1_ground_animate');
+        }
+    }else if
+    ...
+  
+}
+```
+
+## Insert flickering light
+To achieve the illusion of a glowing screen in the zoom area, I made two illustrations for each of the two areas (zoom area in the middle layer and zoom area in the bottom layer). These are simply white, blurred areas around the screen with two degrees of transparency. Using a random variable between 0 and 1, I then randomize the images in `draw()` to create a flicker effect:
+
+```javascript
+function preload(){
+    ...
+    lights_oben_img = loadImage("../img/lights-oben.png");
+    lights_unten_img = loadImage("../img/lights-unten.png");
+    lights_oben_2_img = loadImage("../img/lights-oben-2.png");
+    lights_unten_2_img = loadImage("../img/lights-unten-2.png");
+    ...
+}
+
+function draw(){
+    ...
+    push();
+        let randomizer = random(1);
+        if(randomizer > 0.5){
+            image(lights_unten_img,-SCENE_W/2,0);
+            image(lights_oben_img,-SCENE_W/2,0);
+        }else{
+            image(lights_unten_2_img,-SCENE_W/2,0);
+            image(lights_oben_2_img,-SCENE_W/2,0);
+        }
+  pop();
+    ...
+}
+```
+
+![Flickering light](./media/flacker.png)
+
+## Sounds
+
+For the auditory background of the game I picked out sounds from [Soundbible](https://soundbible.com) and [Audiohub](https://audiohub.de), downloaded and implemented them. The music should provide a specific mood. At the same time, it is also an indicator for the change of statuses in the game. Since a different music is played in the upper and lower image areas, the player should notice that the image areas have an influence on the game. The other sounds are also supposed to serve as feedback as soon as the player causes a change in the score. A button and jump sound should also serve as feedback for an interaction. I needed the following sounds:
+
+* **Music for the upper screen area** | The music should have a positive and relaxing effect. The upper area represents the individual feeling of freedom, which is why the player can fly there. 
+* **Music for the middle image area** | The music should have a relatively neutral effect and still provide a mood of optimism. It is the music that is also played at the beginning of the game, so it should be motivating.
+* **Music for the lower screen area** | The music should sound a bit more aggressive and constricting. It is the music that is played in the isolation area.
+* **Rain sounds**
+* **Mask on/off sound**
+* **Teleporting sound**
+* **Swoosh when walking past people**.
+* **Electricity sound for zoom area**
+* **Jumping**
+* **Button sound**
+
+After I found suitable sounds, I embedded them directly into the game. The embedding was similar to the illustrations. In `preload()` all sounds are loaded and then called in draw at the appropriate action:
+
+```javascript
+function preload(){
+    ...
+    jump_sound = loadSound('../audio/jump.mp3');
+    ...
+    flyingArea_sound = loadSound('../audio/gone_short_audiohub.mp3');
+    ...
+}
+
+function draw(){
+    ...
+    if(keyWentDown(' ') && playerGroundCheck && player1.overlap(gravityArea))
+    {
+      jump_sound.play();
+      player1.velocity.y = -jump;
+      playerGroundCheck = false;
+    }
+    ...
+    if(player1.overlap(flyingArea) && !flyingAreaSoundOn){
+        middleAreaSoundOn = false;
+        flyingAreaSoundOn = true;
+        flyingArea_sound.play();
+    }
+    ...
+}
+```
+
+For the music in the Flying Area and the Isolation Area, I shortened the songs using [Adobe Premiere](https://www.adobe.com/de/products/premiere.html), since the player probably won't stay in the areas for more than a minute at a time anyway, and when it re-enters the areas, the songs start over again. This way I was able to save a little more memory. 
+  
 
 ## Starting Screen 
 
-## Überarbeitung der Buttons/Icons 
+Of course, when the user goes to the game's page, the game should not start immediately, but a splash screen should basically introduce the game. At the same time, the look and feel of the overall game should already be obvious. For the start screen, I therefore decided on the background for the sky (the background), in which the clouds pass by. The sky is symbolic of freedom and the word "freedom" is written large behind the clouds. So it is clear to the user from the beginning which theme the game is about. The images were loaded again in preload. I created the clouds with a *sprite*, which moves through the image from right to left. 
 
-![Januar](./media/video-jan-3.mp4)
-![Januar](./media/img-jan-3.png)
+```javascript
+function preload(){
+    ...
+    docu_bg_img = loadImage('../img/docu_bg.png');
+    docu_clouds_img = loadImage('../img/docu_clouds.png');
+    ...
+}
+function setup(){
+    ...
+    docu_clouds = createSprite(0,0,windowWidth,windowHeight);
+    docu_clouds.addImage(docu_clouds_img);
+    ...
+}
+
+function draw(){
+    if(startingPage){
+        if(!middleAreaSoundOn){
+            middleAreaSoundOn = true;
+            middleArea_sound.play();
+        }
+    
+        push();
+            background(docu_bg_img);
+            ...
+            text("FREEDOM", windowWidth/2,windowHeight/2);
+
+            ...
+
+            docu_clouds.position.y = windowHeight/2;
+            if (docu_clouds.position.x <= -900){
+                docu_clouds.position.x = 2300;
+            }
+            docu_clouds.position.x -= 0.5;
+            drawSprite(docu_clouds);
+        pop();
+
+      ...
+    }
+}   
+```
+![Starting Screen](./media/startingScreen.png)
+
+## Explaining Page 
+
+Nachdem die Grundfunktionen und die Animationen eingebaut waren, habe ich das Spiel mit ein paar Personen getestet. Dadruch und in Absprache mit Pierre, ist uns aufgefallen, dass durch das sofortige Starten des Spiels – ohne eine Einleitung – Verwirrrung entstehen kann. Daher habe ich eine zweite Seite erstellt, welche nach dem Startingscreen angezeigt werden soll. Auf dieser Seite wird eine kleine Einleitung in die Funktionen des Spiels gegeben. Die Reihenfolge in `draw()` ist dementsprechen folgendermaßen: 
 
 
-# März
+```javascript
+function draw(){
+    if(startingPage){
 
-![Februar](./media/video-jan-3.mp4)
-![Februar](./media/img-jan-3.png)
+        ...
+
+        if(mouseIsPressed && mouseClickCheck){
+            mouseClickCheck = false;
+            setTimeout(function(){startingPage = false;explainPage = true;}, 100);
+            setTimeout(function(){mouseClickCheck = true;}, 500);
+        }
+    }
+    if(explainPage){
+
+        ...
+
+        if(mouseIsPressed && mouseClickCheck){
+            mouseClickCheck = false;
+            explainPage = false;
+            running = true;
+
+        }
+    }
+    if (running){
+        ...
+
+        removeSprite(docu_clouds);
+        ...
+        
+    }
+}
+```
+![Explain Page](./media/explainPage.png)
+
+## User-Information
+
+To allow even less confusion and to offer more information to the user, I also created an `updateUserInfo` variable. Information is now displayed at the top of the screen to match the user's current situation. The following information can be displayed:
+* *You are wearing a mask*
+* *You are not wearing a mask*
+* *You met somebody*
+* *You are desinfected*
+* *You met a group of people*
+* *You are using digital media*
+* *Feel free to fly*
+* *You entered your home*
+  
+The information is added in `draw()`:
+
+```javascript
+function draw(){
+    ...
+    textSize(windowHeight/40);
+    fill(255);
+    text(updateUserInfo, windowWidth/2, 20+(heightScoreDisplay/2)+(windowHeight/120));
+    if(maskOn){
+        updateUserInfo='You are wearing a mask';
+    }else{
+        updateUserInfo='You are not wearing a mask';
+    }
+    ...
+}
+```
+
+![](./media/userInfo.png)
+
+## Revision of the buttons/icons 
+
+At the end of February I reworked the buttons again, because I found icons more suitable. They are very quick to understand and - because they are not large - do not look so conspicuous. 
+For this I found suitable icons on the page [flaticon](https://www.flaticon.com), downloaded them and imported them into the project. The icons are - like the illustrations - loaded in `preload()` and called in `draw()` via a separate function `displayIcons()`.
+
+```javascript
+function preload(){
+    ...
+    sound_icon = loadImage('../img/icons/volume.svg');
+    sound_hover_icon = loadImage('../img/icons/volume-hover.svg');
+    ...
+}
+
+function draw(){
+    ...
+    displayIcons(sound_icon,sound_hover_icon,windowWidth - windowWidth/20 - 20,windowHeight - (windowHeight/10));
+    ...
+}   
+
+function displayIcons(img,img_hover,w,h){
+    ...
+    push();
+      scale(0.1)
+      let currentImg = img; 
+      image(currentImg,w*10,h*10);
+    pop();
+
+    if(mouseX > w && 
+      mouseX < w + (img.width)/10 && 
+      mouseY > h && 
+      mouseY < h + (img.height)/10){
+        push();
+            scale(0.1)
+            image(img_hover, w*10,h*10);
+        pop();
+        if(currentImg === sound_icon){
+            playPauseSound();
+        }else if(currentImg === zoom_icon){
+            zoomInOut();
+        }
+    } 
+}
+```
+
+![Icons](./media/icons.png)
+
+## Status after February
+
+After February, my sketch looked [like this](./../sketch-march.js). A video of the version can be found [here](./media/video-march.mp4).
+
+
+
+# March
+
+## Code ordnen 
+
 
 
 
