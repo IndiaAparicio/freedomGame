@@ -5,13 +5,13 @@ DOCUMENTATION
 - [November](#november)
   - [First idea and concept](#first-idea-and-concept)
   - [Idea development](#idea-development)
-  - [Best Practice Beispiele](#best-practice-beispiele)
+  - [Best Practice Examples](#best-practice-examples)
   - [Update Concept 30. November](#update-concept-30-november)
-- [Dezember](#dezember)
+- [December](#december)
   - [Mid-term presentation](#mid-term-presentation)
   - [Concretization and visualization](#concretization-and-visualization)
   - [First sketch](#first-sketch)
-- [Januar](#januar)
+- [January](#january)
   - [Start Coding](#start-coding)
   - [Viewport, Background and Camera](#viewport-background-and-camera)
   - [Collider](#collider)
@@ -102,7 +102,7 @@ Using 2d and 3d?
 Maybe it is just one scene like a puzzle and more details get added the closer you get to the solution (like an interactive movie and the hint if you do something right or wrong is the amount of detail in the scene) -> like realizing what is true and what not (cave equation ) -> The background stays the same as we scroll and new UI elements 
 pop up and the background is transitioning -> If I make a mix with a real story the protagonist doesn't have to be like a human being, it can be a shape as well 
 
-## Best Practice Beispiele
+## Best Practice Examples
 
 * Beautiful website example style: lusion.co
 * cineShader: https://cineshader.com
@@ -139,7 +139,7 @@ pop up and the background is transitioning -> If I make a mix with a real story 
 ____
 
 
-# Dezember
+# December
 
 ## Mid-term presentation
 
@@ -169,7 +169,7 @@ I decided to create the game with the p5-play-library, because it should be a ga
 ____
 
 
-# Januar
+# January
 
 ## Start Coding
 
