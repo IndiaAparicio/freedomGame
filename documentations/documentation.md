@@ -29,6 +29,10 @@ DOCUMENTATION
       - [Hygiene](#hygiene)
       - [Isolation and Zoom](#isolation-and-zoom)
 - [Februar](#februar)
+  - [Animations and Illustrations 2 - 20 Feburary](#animations-and-illustrations-2---20-feburary)
+  - [Einbettung in das Spiel 20 Feb - 25 Feb](#einbettung-in-das-spiel-20-feb---25-feb)
+  - [Starting Screen](#starting-screen)
+  - [Überarbeitung der Buttons/Icons](#überarbeitung-der-buttonsicons)
 - [März](#märz)
 
 
@@ -153,9 +157,6 @@ ____
 
 # Januar
 
-![Dezember](./media/video-jan-3.mp4)
-![Dezember](./media/img-jan-3.png)
-
 ### Start Coding
 
 In January during the project week I had the conception of the project mostly ready, so I sat down to the code for the first time. Since it is my first big coding project, I tried to make a plan for the project week. The sequence of the project was as follows:
@@ -166,6 +167,8 @@ In January during the project week I had the conception of the project mostly re
 - Player Movement
   
 *Mein Stand [Anfang Januar](../sketch-jan-5.js)*
+![Dezember](./media/video-jan-3.mp4)
+![Dezember](./media/img-jan-3.png)
 
 ### Viewport, Background and Camera
 In January I started working on the code. The first thing to do was to create the game world. For this the previously created [drawing](./media/) was used as background image.
@@ -184,7 +187,6 @@ function draw() {
 ```
 
 Since the viewport `createCanvas(windowWidth, windowHeight);` should be smaller than the whole scene `bg = createSprite(0, SCENE_H/2, SCENE_W, SCENE_H);`, I created a *sprite* for the background, to which I could add different images. With a virtual camera it was then possible to determine the section which is visible. This section was then linked to the behavior of the player, so that the player always stays in the middle of the viewport - unless the player gets too close to the edge of the screen, then the camera stops.
-*My state [early January](../sketch-jan-10.js)*
 
 
 ```javascript
@@ -378,7 +380,9 @@ function flying(){
 }
 ```
 
-BIS HIER IST DIE VERSION VOM 10. JANUAR
+*Mein Stand [Nach Projektwoche](../sketch-jan-10.js)*
+![Dezember](./media/video-jan-8.mp4)
+![Dezember](./media/img-jan-8.png)
 
 ### Distancing 
 
@@ -675,17 +679,66 @@ The same principle is used to influence the score within the zoom range. In this
 
 - Rain
 
+
+*Mein Stand [nach Januar](../sketch-feb-2.js)*
+![Dezember](./media/video-febbb-2.mp4)
+![Dezember](./media/img-feb-2.png)
+
 # Februar
+
+## Animations and Illustrations 2 - 20 Feburary
 
 Das Illustrieren aller Illustrationen und Animationen hat über 2 Wochen im Februar in Anspruch genommen. Eine Übersicht über alle nötigen Illustration findet man [hier] unter Animationen. 
 
-Die Illustrationen habe ich mit [procrate] auf meinem Tablet erstellt und als png-Dateien exportiert. 
+Die Illustrationen habe ich mit [procrate](https://procreate.art) auf meinem Tablet erstellt und als png-Dateien exportiert. 
+
+Für den Hintergrund der Spielwelt habe ich eine Illustration (4000x3000px) erstellt. Da der sich der Hintergrund unterschiedlich zum Vordergrund bewegen sollte, musste ich zwei getrennte Illustrationen anfertigen. Zusätzlich habe ich 5 unterschiedlich detaillierte Illustrationen für die Wolken angefertigt, da die Wolken sich unabhängig vom Hintergrund bewegen. Darüberhinaus habe ich die Spielwelt in fünf unterschiedlichen Detail-Grads erstellt. 
+
+![Illustration Clouds](./media/illustrations/clouds-1.png)
+![Illustration Clouds](./media/illustrations/clouds-5.png)
+![Illustration BG](./media/illustrations/bg-hinten-1.png)
+![Illustration BG](./media/illustrations/bg-hinten-5.png)
+![Illustration BG](./media/illustrations/bg-vorne-1.png)
+![Illustration BG](./media/illustrations/bg-vorne-5.png)
+
+Für die Player-Figur habe ich mich für eine Bubble-Animation entschieden. Da das gesamte Spiel eher symbolisch und abstrakt wirken soll, erschien mir eine nicht-menschliche Figur passend. Die Bubble verliert in einem Animationscycle ein kleines Bläschen. Dieser Prozess soll das Atmen des Menschen symbolisieren. Wenn der Player eine Maske trägt, ist das kleine Blässchen kleiner. Ich habe eine Animation für den Player mit und ohne Maske mit jeweils ein mal mit und ein mal ohne Schatten. Die Animation ohne Schatten sollte abgespielt werden wenn der Spieler springt oder fliegt. Diese vier unterschiedlichen Animationen habe ich für alle 5 Detail-Grade erstellt, sodass ich 20 verschiedene Player-Animationen erstellt habe. Da jede Animation aus 11 Einzelbildern besteht, habe ich für den Player insgesamt 220 Einzelbilder erstellt.
+
+![Animation Cycle](./media/illustrations/player1-row.png)
+![Animation Cycle](./media/illustrations/player5-mask-row.png)
+![Animation Cycle](./media/illustrations/all-player-illustrations.png)
 
 
-Insgesamt habe ich ... Einzelbilder gezeichnet und eingepflegt. 
+Für die Einzelkontakte habe ich jeweils fünf Animationen für die, die nach rechts gehen und fünf für die, die nach links gehen angefertigt. Die Animationen konnten nicht einfach gespiegelt werden, da die Highlights sonst spiegelverkehrt gewesen wären. Die Animationscycles für die Einzelkontakte bestehen aus 10 Einzelbildern.
+
+![Animation Cycle](./media/illustrations/singleContact.png)
+![Animation Cycle](./media/illustrations/singleContact-cycle.png)
+
+Für die Gruppenkontakte (Schwärme im Himmel) habe ich ebenfalls Animationen angefertigt. Die Gruppen sollten aus drei verschiedenen Farben bestehen und jede Animation umfastte 7 Einzelbilder. Bei der Implementierung der Animationen in den Sketch hat es das Spiel – vermutlich aufgrund der hohen Zahl der *sprites* – sehr verlangsamt, sodass ich mich dazu entschieden habe nur Einzelbilder statt Aniamtionen zu verwenden. 
+
+![Animation Cycle](./media/illustrations/distancing.png)
+
+Für das Favicon habe ich eine abgewandelte und optimierte Version einer der Player-Illustrationen verwendet.
+
+![Animation Cycle](./media/illustrations/favicon.png)
+
+Da die Zoom-/Digital-Media-Bereiche einem leuchtenden Screen ähneln sollte habe ich mich dazu entschieden außerdem mit procreate weichgezeichnete "Lichter" zu illustrieren. 
+
+Insgesamt habe ich ... Einzelbilder gezeichnet und eingepflegt.
+5 Hintergrund
+5 Vordergrund 
+5 Wolken
+220 Playerfigur
+100 Einzelkontakte 
+105 Distancing
+4 Lichter 
+1 Favicon 
 
 
+## Einbettung in das Spiel 20 Feb - 25 Feb
 
+## Starting Screen 
+
+## Überarbeitung der Buttons/Icons 
 
 ![Januar](./media/video-jan-3.mp4)
 ![Januar](./media/img-jan-3.png)
