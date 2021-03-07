@@ -35,6 +35,9 @@ DOCUMENTATION
   - [Animations and Illustrations | 2. - 16. Feburary](#animations-and-illustrations--2---16-feburary)
     - [Backgrounds and Clouds](#backgrounds-and-clouds)
     - [Player](#player-1)
+    - [Single Contacts](#single-contacts)
+    - [Distancing Groups](#distancing-groups)
+    - [Others](#others)
   - [Embedding in the game | 16 Feb - 20 Feb](#embedding-in-the-game--16-feb---20-feb)
     - [Embedding the player animation](#embedding-the-player-animation)
   - [Creation of the screens (Digital Media Area)](#creation-of-the-screens-digital-media-area)
@@ -48,7 +51,12 @@ DOCUMENTATION
   - [Revision of the buttons/icons](#revision-of-the-buttonsicons)
   - [Status after February](#status-after-february)
 - [March](#march)
-  - [Code ordnen](#code-ordnen)
+  - [Structure code](#structure-code)
+  - [Improve little things](#improve-little-things)
+    - [Colors of Score Displays](#colors-of-score-displays)
+    - [Level volume](#level-volume)
+    - [Scoring System](#scoring-system-1)
+  - [Try and test Github Pages](#try-and-test-github-pages)
 
 
 # Short Discription
@@ -740,15 +748,23 @@ For the player figure I decided to use a bubble animation. Since the whole game 
 ![Animation Cycle](./media/illustrations/all-player-illustrations.png)
 
 
+### Single Contacts
+
 For the single contacts, I made five animations each for those going to the right and five for those going to the left. The animations could not simply be mirrored because the highlights would have been mirrored otherwise. The animation cycles for the single contacts consist of 10 frames.
 
 
 ![Animation Cycle](./media/illustrations/singleContact.png)
 ![Animation Cycle](./media/illustrations/singleContact-cycle.png)
 
+
+### Distancing Groups
+
 For the group contacts (swarms in the sky) I also made animations. The groups should consist of three different colors and each animation comprised 7 frames. When implementing the animations in the sketch, it slowed down the game a lot - probably due to the high number of *sprites* - so I decided to use only frames instead of aniamtions. 
 
 ![Animation Cycle](./media/illustrations/distancing.png)
+
+
+### Others
 
 For the favicon I used a modified and optimized version of one of the player illustrations.
 
@@ -1020,7 +1036,8 @@ function draw(){
 
 ## Explaining Page 
 
-Nachdem die Grundfunktionen und die Animationen eingebaut waren, habe ich das Spiel mit ein paar Personen getestet. Dadruch und in Absprache mit Pierre, ist uns aufgefallen, dass durch das sofortige Starten des Spiels – ohne eine Einleitung – Verwirrrung entstehen kann. Daher habe ich eine zweite Seite erstellt, welche nach dem Startingscreen angezeigt werden soll. Auf dieser Seite wird eine kleine Einleitung in die Funktionen des Spiels gegeben. Die Reihenfolge in `draw()` ist dementsprechen folgendermaßen: 
+After the basic functions and animations were installed, I tested the game with a few people. Through this and in consultation with Pierre, we noticed that by starting the game immediately - without an introduction - confusion can arise. Therefore I created a second page, which should be displayed after the startingscreen. On this page a small introduction to the functions of the game is given. The order in `draw()` is accordingly as follows: 
+
 
 
 ```javascript
@@ -1142,8 +1159,34 @@ After February, my sketch looked [like this](./../sketch-march.js). A video of t
 
 # March
 
-## Code ordnen 
+## Structure code
 
+Since the code has become very long and confusing in the meantime, I have organized and structured the code at the beginning of March. I made an [overview](./code_strukur.md) of all functions and code contents, so that I still understand the code even if I haven't worked on it for a long time.
+
+
+## Improve little things 
+
+### Colors of Score Displays
+
+Since the colors for the feedback did not work properly and sometimes resulted in unwanted colors, like beige, I have reworked the functions again and added icons that clearly show whether an event has a positive or negative impact on the scores.
+  
+### Level volume 
+  
+The music and sounds sounded disproportionately loud or quiet. So I used the `setVolume()` function to match all the sounds from volume to volume. It was important that all interaction/feedback sounds were loud enough so that they serve as a signal. 
+
+
+### Scoring System 
+
+I have revised the scoring system several times by playing the game and trying to reach all the endings so that no ending becomes impossible or too hard or too easy.
+
+
+## Try and test Github Pages 
+
+To upload the website to Github Pages, I first used [Adobe Photoshop](https://www.adobe.com/de/products/photoshop/bilder-bearbeiten.html) to compromise all the files to have the smallest amount of data that could be loaded quickly. After creating a new repository and changing the main branch to `gh-pages`, the website could be accessed, but no images or sounds were loaded. I spent some time researching to understand the problem. This page](https://www.elharony.com/images-not-displaying-in-github-pages/) helped me to find the problem. The assets could be loaded when I entered the path in the URL, so the problem had to be with the path. When the assets would load, it would search under `indiaaparicio.github.io/audio/jump.mp3`. However, in order to be found, the files had to be searched under `indiaaparicio.github.io/freedom/audio/jump.mp3`. 
+
+![GitHub Pages Bug](./media/gh-pages.png)
+
+In the code the files have been added to `../audio/jump.mp3`. However, at GitHub Pages the base is moved. I tried in the code once to put the files under `./audio/jump.mp3` and under `./freedom/audio.jump.mp3`. The first variant worked.
 
 
 
