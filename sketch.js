@@ -122,6 +122,7 @@ let arrayCheckZoomIndi = false;
 let arrayCheckIsolation = false;
 let arrayCheckClouds = false;
 let arrayCheckHygiene = false;
+let arrayCheckClean = false;
 let arrayCheckSinglePeople = false;
 let arrayCheckDistancing = false;
 
@@ -420,7 +421,8 @@ function setup() {
       iconGreenIsolation = new DisplayIcons_new(counterIconsCollective,isolation_green_icon,windowWidth/5 + 30,30+(windowHeight/14)+(windowHeight/120), 'GREEN ISOLATION');;
       iconRedIsolation = new DisplayIcons_new(counterIconsIndividual,isolation_red_icon,windowWidth/5 + 30,20, 'RED ISOLATION');
       iconGreenRain = new DisplayIcons_new(counterIconsCollective,rain_green_icon,windowWidth/5 + 30,30+(windowHeight/14)+(windowHeight/120), 'GREEN RAIN');
-      iconRedRain = new DisplayIcons_new(counterIconsIndividual,rain_red_icon,windowWidth/5 + 30,20, 'RED RAIN');;
+      iconRedRain = new DisplayIcons_new(counterIconsIndividual,rain_red_icon,windowWidth/5 + 30,20, 'RED RAIN');
+      iconRedRain_C = new DisplayIcons_new(counterIconsCollective,rain_red_icon,windowWidth/5 + 30,30+(windowHeight/14)+(windowHeight/120), 'RED MASK')
       iconRedMask_C = new DisplayIcons_new(counterIconsCollective,mask_red_icon,windowWidth/5 + 30,30+(windowHeight/14)+(windowHeight/120), 'RED MASK');
       iconRedMask_I = new DisplayIcons_new(counterIconsIndividual,mask_red_icon,windowWidth/5 + 30,20, 'RED MASK');
       iconGreenMask = new DisplayIcons_new(counterIconsCollective,mask_green_icon,windowWidth/5 + 30,30+(windowHeight/14)+(windowHeight/120), 'GREEN MASK');
@@ -872,7 +874,6 @@ function draw() {
           //DISTANCING 
           for (let i = 0; i < total_number_of_groups; i++){
               att_points[i].move();
-              //att_points[i].show(); //debugging
               swarmFollowAttraction(distancing_groups[i], att_points[i].positionX, att_points[i].positionY);
           }
 
@@ -890,8 +891,6 @@ function draw() {
     // G U I
 
       camera.off();
-      //always after all Sprites are drawn
-      //für unbewegliche UI Elemente
 
           // SCORING SYSTEM MIN MAX
               
@@ -984,6 +983,8 @@ function draw() {
                 
                 if(touchedPerson){
                     updateUserInfo='You met somebody';
+                }else if(clean < 0){
+                    updateUserInfo="You need to get desinfected";
                 }else if(player1.overlap(hygieneArea)){
                     updateUserInfo='You are desinfected';
                 }else if(touchedGroup){
@@ -1008,11 +1009,10 @@ function draw() {
                 //zoom
                 displayIcons(zoom_icon,zoom_hover_icon,20,windowHeight - (windowHeight/10));
                 
-                
-                
+              
                 
 
-           
+          // FEEDBACK ICONS
                 if(maskOn){
                   iconRedMask_I.display(); //I
                   iconGreenMask.display(); //C
@@ -1032,9 +1032,6 @@ function draw() {
                   }
                 }
 
-                
-
-                
                 if(player1.overlap(zoomArea) && boring > 5 && maxZoomC < 20){
                   iconGreenZoom.display();
                   iconGreenZoom_I.display();
@@ -1063,8 +1060,6 @@ function draw() {
                   }
                 }
 
-            
-
                 if(player1.overlap(isolationArea)){
                   iconRedIsolation.display();
                   iconGreenIsolation.display();
@@ -1081,11 +1076,10 @@ function draw() {
                     }
                   }
                 
-
                 if(player1.overlap(flyingArea)){
                   iconGreenClouds.display();
                   if(!arrayCheckClouds){
-                    iconGreenClouds.push('GREEN CLOUDS');
+                    iconGreenClouds.push();
                     arrayCheckClouds = true;
                   }
                 }else if(player1.overlap(flyingArea) === false){
@@ -1099,8 +1093,8 @@ function draw() {
                   iconRedRain.display();
                   iconGreenRain.display();
                   if(!arrayCheckHygiene){
-                    iconRedRain.push('RED RAIN');
-                    iconGreenRain.push('GREEN RAIN')
+                    iconRedRain.push();
+                    iconGreenRain.push();
                     arrayCheckHygiene = true;
                   }
                 }else if(player1.overlap(hygieneArea) === false){
@@ -1111,10 +1105,23 @@ function draw() {
                   }
                 }
 
+                if(clean < 0){
+                  iconRedRain_C.display();
+                  if(!arrayCheckClean){
+                    iconRedRain_C.push();
+                    arrayCheckClean= true;
+                  }
+                }else{
+                  if(arrayCheckClean){
+                    iconRedRain_C.pop();
+                    arrayCheckClean= false;
+                  }
+                }
+
                 if (player1.overlap(singlepeople2) || player1.overlap(singlepeople)){
                     iconGreenSingleContact.display();
                     if(!arrayCheckSinglePeople){
-                        iconGreenSingleContact.push('GREEN SINGLE CONTACT');
+                        iconGreenSingleContact.push();
                         arrayCheckSinglePeople = true;
                     }
                 }else{
@@ -1128,8 +1135,8 @@ function draw() {
                   iconRedDistancing.display();
                   iconGreenDistancing.display();
                   if(!arrayCheckDistancing){
-                      iconRedDistancing.push('RED DISTANCING');
-                      iconGreenDistancing.push('GREEN DISTANCING');
+                      iconRedDistancing.push();
+                      iconGreenDistancing.push();
                       arrayCheckDistancing = true;
                   }
                 }else{
@@ -1141,12 +1148,6 @@ function draw() {
                 }
               
                 console.log('I: ' + counterIconsIndividual, 'C: ' + counterIconsCollective);
-               
-
-
-              
-                
-
 
             pop();
 
@@ -1154,30 +1155,18 @@ function draw() {
           //ENDINGS
 
               if (individualScore < 10 && collectiveScore > 90){
-                  running = !running;
-                  fill(0,0,200);
-                  rect(0, 0, windowWidth, windowHeight);
+                  ending_2 = true;
               }
-              if (individualScore > 90 && collectiveScore < 10){
+              else if (individualScore > 90 && collectiveScore < 10){
                   ending_1 = true;
               }
-              if (individualScore < 10 && collectiveScore < 10){
-                  running = !running;
-                  fill(0,0,200);
-                  rect(0, 0, windowWidth, windowHeight);
+              else if (individualScore < 10 && collectiveScore < 10){
+                  ending_3 = true;
               }
-              if (individualScore > 90 && collectiveScore > 90){
-                  running = !running;
-                  fill(0,0,200);
-                  rect(0, 0, windowWidth, windowHeight);
+              else if (individualScore > 90 && collectiveScore > 90){
+                  ending_4 = true;
               }
 
-      
-
-          //DEBUGGING
-          // textSize(40);
-          // text(individualScore, 0, 100);
-          // text(collectiveScore, 0, 200);
 
           //FEedback Color Scores
               if(lastIndividualScore < individualScore){
@@ -1210,37 +1199,15 @@ function draw() {
 
     camera.on();
 
-      // DEBUGGING
-      // maskPosition.debug = mouseIsPressed; //so werden die collider visualisiert
-      // invisibleGroundCheck.debug = mouseIsPressed;
-      // stairs_1.debug = mouseIsPressed;
-      // player1.debug = mouseIsPressed;
-      // teleportArea.debug = mouseIsPressed;
-      // teleportArea1.debug = mouseIsPressed;
-
-
   }//end running
 
 
   if(ending_1){
-    camera.zoom = 0.3;
-    camera.position.x = 0;
-    camera.position.y = SCENE_H/2;
-   
-    //Sound ausschalten
-    camera.off();
-      push();
-        noStroke();
-        fill('rgba(0,0,0, 0.5)');
-        rect(0, 0, windowWidth, windowHeight);
-
-        fill(255);
-        textAlign(CENTER);
-        textSize(windowHeight/10);
-        text('Individual Freedom', windowWidth/2, windowHeight/2);
-      pop();
-    camera.on();
+    running = false;
+    window.location = './individual.html';
   }
+
+  console.log(clean, boring)
 }//end draw
 
 
@@ -1277,7 +1244,6 @@ function playerMovement(){
 
 
       //jumping
-        //wenn space, innerhalb gravity area und gerade am Boden war, dann jumpen
         if(keyWentDown(' ') && playerGroundCheck && player1.overlap(gravityArea)){
             jump_sound.play();
             jump_sound.setVolume(0.6);
@@ -1287,7 +1253,6 @@ function playerMovement(){
     
 
       //ground check
-        //wenn player boden berührt hat, dann ist der Ground check true
         if(player1.overlap(middleGround) || player1.overlap(ground)){
             playerGroundCheck = true;
             isJumping = false;
@@ -1415,8 +1380,6 @@ function maskOnOff(){
 
 // ----- HYGIENE -----
 let boostHygine = false;
-let hygieneBoostIntervall;
-let hasStartedTimeoutH = false;
 let clean = 5; //je nach dem wie Clean jemand ist (0 voll / 10 null)
 
 function movingHygieneArea(){
@@ -1445,22 +1408,21 @@ function movingHygieneArea(){
 }
 
 function hygieneScore() {
-  if(clean >= 10){ clean = 10; }else if(clean <= 1){clean = 1;}
-  
-  if (player1.overlap(hygieneArea) && boostHygine === false){
-      clean = 1;
-      boostHygine = true;
-      //scoring-system
-      collectiveScore += SS_HYGIENE_C;
-      individualScore -= SS_HYGIENE_I;
-  }else if (player1.overlap(hygieneArea) === false && boostHygine && !hasStartedTimeoutH){
-      hygieneBoostIntervall = setTimeout(function(){boostHygine = false; hasStartedTimeoutH = false;}, 20000); //wenn in der letzten Sekunde ein boost war
-      hasStartedTimeoutH = true;
-    }
+  //clean: 10 = desinfected // clean: -10 = dirty
+  if(clean >= 10){ clean = 10; }else if(clean <= -10){clean = -10;}
 
-  if(player1.overlap(hygieneArea) === false){
-    //clean *= 1.001; // wie schnell der Wert zurück au 10 fällt 
-    //collectiveScore -= clean * 0.001; // wie starken Impact clean auf den Score hat
+  if(player1.overlap(hygieneArea) && !boostHygine){
+    boostHygine = true;
+    individualScore -= SS_HYGIENE_I;
+    collectiveScore += SS_HYGIENE_C;
+    clean = 10;
+  }
+
+  clean -= 0.005;
+
+  if(clean < 0){
+    collectiveScore += (clean * 0.001);
+    boostHygine = false;
   }
 
 }
@@ -1870,7 +1832,4 @@ function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
 }
 
-  //wenn irgendein key gedrückt wird add 0.01 für den movement dings
-  //wenn key gedrückt +individual, -collective
-  //wenn kein key gedrückt -individual, +collective 
-  //so kann der wert durch nichts drücken nicht auf 0 sinken
+

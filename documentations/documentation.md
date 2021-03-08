@@ -1382,7 +1382,47 @@ function draw(){
 
 ```
 
+### Changed Hygiene Score System
 
+```javascript
+function hygieneScore() {
+  //clean: 10 = desinfected // clean: -10 = dirty
+  if(clean >= 10){ clean = 10; }else if(clean <= -10){clean = -10;}
+
+  if(player1.overlap(hygieneArea) && !boostHygine){
+    boostHygine = true;
+    individualScore -= SS_HYGIENE_I;
+    collectiveScore += SS_HYGIENE_C;
+    clean = 10;
+  }
+
+  clean -= 0.01;
+
+  if(clean < 0){
+    collectiveScore += (clean * 0.001);
+    boostHygine = false;
+  }
+  
+
+  
+  // if (player1.overlap(hygieneArea) && boostHygine === false){
+  //     clean = 1;
+  //     boostHygine = true;
+  //     //scoring-system
+  //     collectiveScore += SS_HYGIENE_C;
+  //     individualScore -= SS_HYGIENE_I;
+  // }else if (player1.overlap(hygieneArea) === false && boostHygine && !hasStartedTimeoutH){
+  //     hygieneBoostIntervall = setTimeout(function(){boostHygine = false; hasStartedTimeoutH = false;}, 20000); //wenn in der letzten Sekunde ein boost war
+  //     hasStartedTimeoutH = true;
+  //   }
+
+  // if(player1.overlap(hygieneArea) === false){
+  //   //clean *= 1.001; // wie schnell der Wert zurück au 10 fällt 
+  //   //collectiveScore -= clean * 0.001; // wie starken Impact clean auf den Score hat
+  // }
+
+}
+```
 
 
 ## Try and test Github Pages 

@@ -46,7 +46,7 @@
 * Player Collider 
 
 ## Draw
-#### 365 - 936
+#### 365 - 1236
 * StartingPage
 * InfoPage
 * Running (everything folloing is inside running:)
@@ -104,15 +104,12 @@ Takes away gravity, User Input all 4 arrows, rotation to direction
 ## teleporting()
 Puts player in other position
 
-## Score Feedback (feedbackUpScore... 4 Functions)
-The four functions change apperance of Scores
-
-## Mask (5 Functions, 1 main: maskOnOff())
+## maskOnOff()
 Checks if player wears mask and influence score
 
-## Hygiene(2 functions)
-### movingHygieneArea()
+## movingHygieneArea()
 lässt die Area sich bewegen
+
 ###  hygieneScore()
 Einfluss auf Score bei Hygiene
 
@@ -122,4 +119,27 @@ Lässt zoomScore beeinflussen, mit einem relativen Wert (boring)
 ## isolationScore()
 Lässt isolationScore beeinflussen, mit einem relativen Wert (lonely)
 
+## flyingScore()
+
 ## singlePeopleWalking()
+
+## createSwarm()
+## swarmFollowAttraction()
+
+## class Attraction_points
+
+## function Rain()
+
+## graphicsScreen()
+
+## zoomInOut()
+
+## playPauseSound()
+
+## displayIcons()
+
+## class DisplayIcons_new
+
+## mousePressed()
+
+## windowResized()
