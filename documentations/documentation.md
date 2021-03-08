@@ -1,7 +1,7 @@
 DOCUMENTATION
 
 
-- [Short Discription](#short-discription)
+- [Short Description](#short-description)
 - [November](#november)
   - [First idea and concept](#first-idea-and-concept)
   - [Idea development](#idea-development)
@@ -60,7 +60,7 @@ DOCUMENTATION
   - [Try and test Github Pages](#try-and-test-github-pages)
 
 
-# Short Discription
+# Short Description
 
 At the beginning of the project the plan was to develop a storytelling website about philosophy and religion. These very daring plans have become concrete in the last weeks. The subject area was narrowed down to the - still philosophical - topic of freedom. Due to the current restrictions caused by the Corona virus, many discussions about "freedom" have been started. How much freedom do I have to give away? Is it a violation of personal freedom or the freedom of others if I follow or break certain rules? A **balance between individual freedom and the freedom of the collective** follows. Based on this topic, a game-like application will be developed, which resembles a kind of simulation on the one hand and a puzzle principle on the other. The game will be implemented with **p5 and the p5.play library**.
 
