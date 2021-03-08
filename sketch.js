@@ -49,6 +49,24 @@ let fbS_I_b = 255; //feedback Score Individual color blue
 let fbS_C_r = 255; //feedback Score Collective color red
 let fbS_C_g = 255; //feedback Score Collective color green
 let fbS_C_b = 255; //feedback Score Collective color bliue
+let counterIconsIndividual = [];
+let counterIconsCollective = [];
+
+
+//Scoring-System
+let SS_DISTANCING_I = 10; //Boost once
+let SS_DISTANCING_C = -30; //Boost once
+let SS_MASK_C = 0.01; //every loop
+let SS_MASK_I = 0.01; //every loop
+let SS_HYGIENE_C = 20; //Boost once
+let SS_HYGIENE_I = 10; //Boost once
+let SS_ZOOM_C = 0.01; //every loop
+let SS_ZOOM_I = 0.001; //every loop times boring(1-10)
+let SS_ISOLATION_C = 0.001; //every loop times lonely(1-10)
+let SS_ISOLATION_I = 0.001; //every loop times lonely(1-10)
+let SS_FLYING_I = 0.001; //every loop
+let SS_SINGLECONTACT_C = -3; //Boost once
+let SS_SINGLECONTACT_I = 5; //Boost once
 
 
 
@@ -71,7 +89,7 @@ let teleportArea, teleportArea1;
 let middleArea;
 
 //interactions
-let maskOn = true;
+let maskOn = false;
 let maskGroundCheck = true;
 let teleportColliderSize = 400;
 let directionSingle = 5;
@@ -96,7 +114,27 @@ let maxSpeed = 3;
 //Text Information 
 let updateUserInfo = 'Welcome to the game';
 
+let arrayCheckMask= false;
+let arrayCheckZoom= false;
+let arrayCheckZoomIndi = false;
+let arrayCheckIsolation = false;
+let arrayCheckClouds = false;
+let arrayCheckHygiene = false;
+let arrayCheckSinglePeople = false;
+let arrayCheckDistancing = false;
 
+
+let iconGreenZoom;
+let iconRedZoom;
+let iconGreenIsolation;
+let iconRedIsolation;
+let iconGreenRain;
+let iconRedRain;
+let iconGreenMask;
+let iconGreenDistancing;
+let iconRedDistancing;
+let iconGreenSingleContact;
+let iconGreenClouds;
 
 
 function preload(){
@@ -127,6 +165,19 @@ function preload(){
       zoom_hover_icon = loadImage('../img/icons/zoom-hover.svg');
       arrow_up_icon = loadImage('../img/icons/arrow-up.svg');
       arrow_down_icon = loadImage('../img/icons/arrow-down.svg');
+
+      rain_green_icon = loadImage('../img/icons/rain-green.png');
+      rain_red_icon = loadImage('../img/icons/rain-red.png');
+      clouds_green_icon = loadImage('../img/icons/clouds-green.png');
+      isolation_green_icon = loadImage('../img/icons/isolation-green.png');
+      isolation_red_icon = loadImage('../img/icons/isolation-red.png');
+      zoom_green_icon = loadImage('../img/icons/zoom-green.png');
+      zoom_red_icon = loadImage('../img/icons/zoom-red.png');
+      mask_red_icon = loadImage('../img/icons/mask-red.png');
+      mask_green_icon = loadImage('../img/icons/mask-green.png');
+      distancing_red_icon = loadImage('../img/icons/distancing-red.png');
+      distancing_green_icon = loadImage('../img/icons/distancing-green.png');
+      singleContact_green_icon = loadImage('../img/icons/singleContact-green.png');
 
 
   // I M A G E S 
@@ -164,7 +215,7 @@ function preload(){
 
   //  A N I M A T I O N S
       //Player:
-          player1 = createSprite(400,1500);
+          player1 = createSprite(400,1700);
 
           player1.addAnimation('player_1_jump_animate', '../img/player/Player-SW-Jump-1.png','../img/player/Player-SW-Jump-11.png');
           player1.addAnimation('player_1_ground_animate','../img/player/Player-SW-Ground-1.png','../img/player/Player-SW-Ground-11.png');
@@ -358,6 +409,23 @@ function setup() {
               att_points[i] = new Attraction_points(random(-SCENE_W/2, SCENE_W/2), random(SCENE_H/3), random(-2,2), random(-2,2));
               createSwarm(distancing_groups[i], att_points[i].positionX, att_points[i].positionY);
             }
+
+    
+      //PIERRE
+      iconGreenZoom = new DisplayIcons_new(counterIconsCollective,zoom_green_icon,windowWidth/5 + 30,30+(windowHeight/14)+(windowHeight/120), 'GREEN ZOOM');
+      iconGreenZoom_I = new DisplayIcons_new(counterIconsIndividual,zoom_green_icon,windowWidth/5 + 30,20, 'GREEN ZOOM');
+      iconRedZoom = new DisplayIcons_new(counterIconsIndividual,zoom_red_icon,windowWidth/5 + 30,20, 'RED ZOOM');;
+      iconGreenIsolation = new DisplayIcons_new(counterIconsCollective,isolation_green_icon,windowWidth/5 + 30,30+(windowHeight/14)+(windowHeight/120), 'GREEN ISOLATION');;
+      iconRedIsolation = new DisplayIcons_new(counterIconsIndividual,isolation_red_icon,windowWidth/5 + 30,20, 'RED ISOLATION');
+      iconGreenRain = new DisplayIcons_new(counterIconsCollective,rain_green_icon,windowWidth/5 + 30,30+(windowHeight/14)+(windowHeight/120), 'GREEN RAIN');
+      iconRedRain = new DisplayIcons_new(counterIconsIndividual,rain_red_icon,windowWidth/5 + 30,20, 'RED RAIN');;
+      iconRedMask_C = new DisplayIcons_new(counterIconsCollective,mask_red_icon,windowWidth/5 + 30,30+(windowHeight/14)+(windowHeight/120), 'RED MASK');
+      iconRedMask_I = new DisplayIcons_new(counterIconsIndividual,mask_red_icon,windowWidth/5 + 30,20, 'RED MASK');
+      iconGreenMask = new DisplayIcons_new(counterIconsCollective,mask_green_icon,windowWidth/5 + 30,30+(windowHeight/14)+(windowHeight/120), 'GREEN MASK');
+      iconGreenDistancing = new DisplayIcons_new(counterIconsIndividual,distancing_green_icon,windowWidth/5 + 30,20, 'GREEN DISTANCING');
+      iconRedDistancing = new DisplayIcons_new(counterIconsCollective,distancing_red_icon,windowWidth/5 + 30,30+(windowHeight/14)+(windowHeight/120), 'RED DISTANCING');;
+      iconGreenSingleContact = new DisplayIcons_new(counterIconsIndividual,singleContact_green_icon,windowWidth/5 + 30,20, 'GREEN SINGLECONTACT');
+      iconGreenClouds = new DisplayIcons_new(counterIconsIndividual,clouds_green_icon,windowWidth/5 + 30,20, 'GREEN CLOUDS');;
   
 // P L A Y E R 
       //Player is last, so it stays in front
@@ -372,6 +440,14 @@ function setup() {
 
 
 function draw() {
+  let randomizer = random(1); 
+  let lastIndividualScore;
+  let lastCollectiveScore;
+  if(randomizer < 2){
+    lastIndividualScore = individualScore;
+    lastCollectiveScore = collectiveScore;
+  }
+
 
   //STARTING PAGE 
   if(startingPage){
@@ -730,7 +806,6 @@ function draw() {
 
         //Flacker Effect
         push();
-            let randomizer = random(1);
             if(randomizer > 0.5){
                 image(lights_unten_img,-SCENE_W/2,0);
                 image(lights_oben_img,-SCENE_W/2,0);
@@ -878,23 +953,23 @@ function draw() {
                 fill(255);
                 text(updateUserInfo, windowWidth/2, 20+(heightScoreDisplay/2)+(windowHeight/120));
                 if(maskOn){
-                  updateUserInfo='You are wearing a mask';
+                    updateUserInfo='You are wearing a mask';
                 }else{
-                  updateUserInfo='You are not wearing a mask';
+                    updateUserInfo='You are not wearing a mask';
                 }
                 
                 if(touchedPerson){
-                  updateUserInfo='You met somebody';
+                    updateUserInfo='You met somebody';
                 }else if(player1.overlap(hygieneArea)){
-                  updateUserInfo='You are desinfected';
+                    updateUserInfo='You are desinfected';
                 }else if(touchedGroup){
-                  updateUserInfo='You met a group of people';
+                    updateUserInfo='You met a group of people';
                 }else if(player1.overlap(zoomArea)){
-                  updateUserInfo='You are using digital media';
+                    updateUserInfo='You are using digital media';
                 }else if(player1.overlap(flyingArea)){
-                  updateUserInfo='Feel free to fly';
+                    updateUserInfo='Feel free to fly';
                 }else if(player1.overlap(isolationArea)){
-                  updateUserInfo='You entered your home';
+                    updateUserInfo='You entered your home';
                 }
 
 
@@ -908,8 +983,144 @@ function draw() {
 
                 //zoom
                 displayIcons(zoom_icon,zoom_hover_icon,20,windowHeight - (windowHeight/10));
+                
+                
+                
+                
 
+           
+                if(maskOn){
+                  iconRedMask_I.display(); //I
+                  iconGreenMask.display(); //C
+                  if(arrayCheckMask){
+                    iconRedMask_I.push();
+                    iconRedMask_C.pop();
+                    iconGreenMask.push();
+                    arrayCheckMask = false;
+                  }
+                }else{
+                  iconRedMask_C.display();
+                  if(!arrayCheckMask){
+                    iconGreenMask.pop();
+                    iconRedMask_C.push();
+                    iconRedMask_I.pop();
+                    arrayCheckMask = true;
+                  }
+                }
+
+                
+
+                
+                if(player1.overlap(zoomArea) && boring > 5 && maxZoomC < 20){
+                  iconGreenZoom.display();
+                  iconGreenZoom_I.display();
+                  if(!arrayCheckZoom){
+                      iconGreenZoom.push();
+                      iconGreenZoom_I.push();
+                      arrayCheckZoom = true;
+                  }
+                }else if(player1.overlap(zoomArea) && boring < 5){
+                    iconRedZoom.display();
+                    iconGreenZoom.display();
+                    if(!arrayCheckZoomIndi){
+                      iconGreenZoom_I.pop();
+                      iconRedZoom.push();
+                      arrayCheckZoomIndi = true;
+                    }
+                }else if(player1.overlap(zoomArea) === false){
+                  if(arrayCheckZoom){
+                      iconGreenZoom.pop();
+                      iconGreenZoom_I.pop();
+                      arrayCheckZoom = false;
+                  }else if(arrayCheckZoomIndi){
+                      iconRedZoom.pop();
+                      iconGreenZoom.pop();
+                      arrayCheckZoomIndi = false;
+                  }
+                }
+
+            
+
+                if(player1.overlap(isolationArea)){
+                  iconRedIsolation.display();
+                  iconGreenIsolation.display();
+                  if(!arrayCheckIsolation){
+                    iconRedIsolation.push();
+                    iconGreenIsolation.push();
+                    arrayCheckIsolation = true;
+                  }
+                }else if(player1.overlap(isolationArea) === false){
+                    if(arrayCheckIsolation){
+                      iconRedIsolation.pop();
+                      iconGreenIsolation.pop();
+                      arrayCheckIsolation = false;
+                    }
+                  }
+                
+
+                if(player1.overlap(flyingArea)){
+                  iconGreenClouds.display();
+                  if(!arrayCheckClouds){
+                    iconGreenClouds.push('GREEN CLOUDS');
+                    arrayCheckClouds = true;
+                  }
+                }else if(player1.overlap(flyingArea) === false){
+                  if(arrayCheckClouds){
+                    iconGreenClouds.pop();
+                    arrayCheckClouds = false;
+                  }
+                }
+
+                if(player1.overlap(hygieneArea)){
+                  iconRedRain.display();
+                  iconGreenRain.display();
+                  if(!arrayCheckHygiene){
+                    iconRedRain.push('RED RAIN');
+                    iconGreenRain.push('GREEN RAIN')
+                    arrayCheckHygiene = true;
+                  }
+                }else if(player1.overlap(hygieneArea) === false){
+                  if(arrayCheckHygiene){
+                    iconRedRain.pop();
+                    iconGreenRain.pop();
+                    arrayCheckHygiene = false;
+                  }
+                }
+
+                if (player1.overlap(singlepeople2) || player1.overlap(singlepeople)){
+                    iconGreenSingleContact.display();
+                    if(!arrayCheckSinglePeople){
+                        iconGreenSingleContact.push('GREEN SINGLE CONTACT');
+                        arrayCheckSinglePeople = true;
+                    }
+                }else{
+                  if(arrayCheckSinglePeople){
+                      iconGreenSingleContact.pop();
+                      arrayCheckSinglePeople = false;
+                  }
+                }
+
+                if(touchedGroup){
+                  iconRedDistancing.display();
+                  iconGreenDistancing.display();
+                  if(!arrayCheckDistancing){
+                      iconRedDistancing.push('RED DISTANCING');
+                      iconGreenDistancing.push('GREEN DISTANCING');
+                      arrayCheckDistancing = true;
+                  }
+                }else{
+                  if(arrayCheckDistancing){
+                    iconRedDistancing.pop();
+                    iconGreenDistancing.pop();
+                    arrayCheckDistancing = false;
+                  }
+                }
+              
+                console.log('I: ' + counterIconsIndividual, 'C: ' + counterIconsCollective);
                
+
+
+              
                 
 
 
@@ -944,6 +1155,34 @@ function draw() {
           // text(individualScore, 0, 100);
           // text(collectiveScore, 0, 200);
 
+          //FEedback Color Scores
+              if(lastIndividualScore < individualScore){
+                fbS_I_r = 0;
+                fbS_I_g = 230;
+                fbS_I_b = 180;
+              }else if(individualScore < lastIndividualScore){
+                fbS_I_r = 220;
+                fbS_I_g = 0;
+                fbS_I_b = 60;
+              }else{
+                fbS_I_r = 255;
+                fbS_I_g = 255;
+                fbS_I_b = 255;
+              }
+
+              if(lastCollectiveScore < collectiveScore){
+                fbS_C_r = 0;
+                fbS_C_g = 230;
+                fbS_C_b = 180;
+              }else if(collectiveScore < lastCollectiveScore){
+                fbS_C_r = 220;
+                fbS_C_g = 0;
+                fbS_C_b = 60;
+              }else{
+                fbS_C_r = 255;
+                fbS_C_g = 255;
+                fbS_C_b = 255;
+              }
 
     camera.on();
 
@@ -1113,90 +1352,19 @@ function teleporting(){
 
 
 
-// SCORE FEEDBACK
-function feedbackUpScoreI(){
-    fbS_I_r = 0;
-    fbS_I_g = 230;
-    fbS_I_b = 180;
-    if(fbS_I_g === 230){
-      camera.off();
-      displayIcons(arrow_up_icon,arrow_up_icon,windowWidth/5 + 30,20);
-      camera.on();
-    }
-    setTimeout(function(){fbS_I_r = 255; fbS_I_g = 255; fbS_I_b = 255;}, 500);
-}
 
-function feedbackDownScoreI(){
-    fbS_I_r = 220;
-    fbS_I_g = 0;
-    fbS_I_b = 60;
-    if(fbS_I_r === 220){
-      camera.off();
-      displayIcons(arrow_down_icon,arrow_down_icon,windowWidth/5 + 30,20);
-      camera.on();
-    }
-    setTimeout(function(){fbS_I_r = 255; fbS_I_g = 255; fbS_I_b = 255;}, 500);
-}
-function feedbackUpScoreC(){
-    fbS_C_r = 0;
-    fbS_C_g = 230;
-    fbS_C_b = 180;
-    if(fbS_C_g === 230){
-      camera.off();
-      displayIcons(arrow_up_icon,arrow_up_icon,windowWidth/5 + 30,40+(windowHeight/14)+(windowHeight/120));
-      camera.on();
-    }
-    setTimeout(function(){fbS_C_r = 255; fbS_C_g = 255; fbS_C_b = 255;}, 500);
-}
-function feedbackDownScoreC(){
-    fbS_C_r = 220;
-    fbS_C_g = 0;
-    fbS_C_b = 60;
-    if(fbS_C_r === 220){
-      camera.off();
-      displayIcons(arrow_down_icon,arrow_down_icon,windowWidth/5 + 30,40+(windowHeight/14)+(windowHeight/120));
-      camera.on();
-    }
-    setTimeout(function(){fbS_C_r = 255; fbS_C_g = 255; fbS_C_b = 255;}, 500);
-}
 
 
 
 // ---- MASK ----
 
-let maskOnInterval, maskOffInterval;
-function setMaskOnInterval (){
-    maskOnInterval = setInterval(function(){
-      // SCORE CHANGE WHILE MASK IS ON
-        collectiveScore += 0.1;
-        individualScore -= 0.1;
-    },500);//every 1000 milliseconds
-}
-function setMaskOffInterval (){
-    maskOffInterval = setInterval(function(){
-      // SCORE CHANGE WHILE MASK IS OFF
-        individualScore += 0.1; 
-        collectiveScore -= 0.1;
-    },500);//every 1000 milliseconds
-}
-  
-function stopMaskOnInterval(){
-    clearInterval(maskOnInterval);
-}
-function stopMaskOffInterval(){
-    clearInterval(maskOffInterval);
-}
 
 function maskOnOff(){
 
     //maske anziehen
       if(player1.overlap(maskPosition) && maskOn === false && maskGroundCheck){
-            feedbackUpScoreC();
-            feedbackDownScoreI();
             maskGroundCheck = false;
             maskOn = true; 
-            setMaskOnInterval();
-            stopMaskOffInterval();
       }
     //auf dem Boden gewesen 
       else if(player1.overlap(invisibleGroundCheck) && maskOn && maskGroundCheck === false){
@@ -1204,16 +1372,19 @@ function maskOnOff(){
       } 
     //maske ausziehen
       if (player1.overlap(maskPosition) && maskOn && maskGroundCheck){
-            feedbackUpScoreI();
-            feedbackDownScoreC();
             maskGroundCheck = false;
             maskOn = false;
-            setMaskOffInterval();
-            stopMaskOnInterval();
       }
   //auf dem Boden gewesen
     else if(player1.overlap(invisibleGroundCheck) && maskOn === false && maskGroundCheck === false){
             maskGroundCheck = true;
+    }
+
+    if(maskOn){
+      collectiveScore += SS_MASK_C;
+      individualScore -= SS_MASK_I;
+    }else{
+      collectiveScore -= SS_MASK_C;
     }
 }
 
@@ -1255,10 +1426,9 @@ function hygieneScore() {
   if (player1.overlap(hygieneArea) && boostHygine === false){
       clean = 1;
       boostHygine = true;
-      feedbackUpScoreC();
-      feedbackDownScoreI();
-      collectiveScore += 20;
-      individualScore -= 10;
+      //scoring-system
+      collectiveScore += SS_HYGIENE_C;
+      individualScore -= SS_HYGIENE_I;
   }else if (player1.overlap(hygieneArea) === false && boostHygine && !hasStartedTimeoutH){
       hygieneBoostIntervall = setTimeout(function(){boostHygine = false; hasStartedTimeoutH = false;}, 20000); //wenn in der letzten Sekunde ein boost war
       hasStartedTimeoutH = true;
@@ -1292,18 +1462,19 @@ function zoomScore() {
         maxZoomC += 0.01; //maximale Zunahme des collective Werts für den Bereich
 
         if(maxZoomC < 20){
-            collectiveScore += 0.01;
-            feedbackUpScoreC();
+          //scoring-system
+            collectiveScore += SS_ZOOM_C;
         }else{
             collectiveScore += 0;
         }
         
         if(boring > 5){
-            individualScore += boring * 0.001;
-            feedbackUpScoreI();
+          //scoring-system
+            SS_ZOOM_I = 0.001;
+            individualScore += boring * SS_ZOOM_I;
         }else{
-            individualScore += boring * -0.005;
-            feedbackDownScoreI();
+            SS_ZOOM_I = -0.005;
+            individualScore += boring * SS_ZOOM_I;
         }
     }else{  
         boring *= 1.001; //lässt boring wieder hoch gehen
@@ -1314,7 +1485,6 @@ function zoomScore() {
 // --- ISOLATION ----
 let lonely = 1; //1= not lonely ; 10 = very lonely
 function isolationScore(){
-    //console.log(lonely + "LONELY")
     let insideIsolationArea;
     if (lonely <= 1){lonely = 1;}else if(lonely >= 10){lonely = 10;}
     if (player1.overlap(isolationArea)){
@@ -1324,10 +1494,10 @@ function isolationScore(){
     }
 
     if (insideIsolationArea){
-        feedbackDownScoreI();
         lonely *= 1.001;
-        individualScore -= lonely * 0.001;
-        collectiveScore += lonely * 0.001;
+        //scoring-system
+        individualScore -= lonely * SS_ISOLATION_I;
+        collectiveScore += lonely * SS_ISOLATION_C;
     }else{
         lonely *= 0.999; //lässt außerhalb lonely wieder runter gehen
     }
@@ -1336,8 +1506,8 @@ function isolationScore(){
 // FLYING 
 function flyingScore(){
   if(player1.overlap(flyingArea)){
-    feedbackUpScoreI();
-    individualScore += 0.001;
+    //scoring-system
+    individualScore += SS_FLYING_I;
   }
 }
 
@@ -1365,10 +1535,9 @@ function singlePeopleWalking () {
         singleContact_sound.play();
         singleContact_sound.setVolume(3.0);
         setTimeout(function(){touchedPerson = false;},5000);
-        feedbackUpScoreI();
-        feedbackDownScoreC();
-        individualScore += 5 ;
-        collectiveScore -= 3;
+        //scoring-system
+        individualScore += SS_SINGLECONTACT_I;
+        collectiveScore += SS_SINGLECONTACT_C;
     } 
 }
 
@@ -1412,13 +1581,12 @@ function swarmFollowAttraction(distancing_group, attraction_pointX, attraction_p
     }
 
     if(player1.overlap(distancing_group) && touchedGroup === false){
-        feedbackUpScoreI();
-        feedbackDownScoreC();
         distancing_sound.play();
         distancing_sound.play();
         distancing_sound.setVolume(3.0);
-        individualScore += 10;
-        collectiveScore -= 30;
+        //scoring-system
+        individualScore += SS_DISTANCING_I;
+        collectiveScore += SS_DISTANCING_C;
         touchedGroup = true;
     }
     if(player1.overlap(distancing_group) === false && touchedGroup && !hasStartedTimeoutS){
@@ -1598,7 +1766,7 @@ function playPauseSound(){
 
 function displayIcons(img,img_hover,w,h){
     push();
-        scale(0.1)
+        scale(0.1);
         let currentImg = img; 
         image(currentImg,w*10,h*10);
     pop();
@@ -1617,6 +1785,40 @@ function displayIcons(img,img_hover,w,h){
               zoomInOut();
           }
     } 
+}
+
+
+class DisplayIcons_new{
+  constructor(arr, image, width, height, string){
+    this.arr = arr;
+    this.image = image;
+    this.width = width;
+    this.height = height;
+    this.string = string;
+  }
+
+  push(){
+    this.arr.push(this.string);
+  }
+
+  pop(){
+    this.arr.pop();
+  }
+
+  display(){
+    push();
+      scale(0.8);
+      if(this.arr.indexOf(this.string) === 0){
+          image(this.image,this.width*1.25,this.height*1.25);
+      }else if(this.arr.indexOf(this.string)=== 1){
+          image(this.image,(this.width*1.25)+80,this.height*1.25);
+      }else if(this.arr.indexOf(this.string)=== 2){
+          image(this.image,(this.width*1.25)+160,this.height*1.25);
+      }else if(this.arr.indexOf(this.string)=== 3){
+          image(this.image,(this.width*1.25)+240,this.height*1.25);
+      }
+  pop();
+  }
 }
 
 

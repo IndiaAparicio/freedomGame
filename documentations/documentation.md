@@ -54,8 +54,10 @@ DOCUMENTATION
   - [Structure code](#structure-code)
   - [Improve little things](#improve-little-things)
     - [Colors of Score Displays](#colors-of-score-displays)
+    - [Icons explaining Score Changes](#icons-explaining-score-changes)
     - [Level volume](#level-volume)
     - [Scoring System](#scoring-system-1)
+    - [Feedback Icons](#feedback-icons)
   - [Try and test Github Pages](#try-and-test-github-pages)
 
 
@@ -1169,6 +1171,101 @@ Since the code has become very long and confusing in the meantime, I have organi
 ### Colors of Score Displays
 
 Since the colors for the feedback did not work properly and sometimes resulted in unwanted colors, like beige, I have reworked the functions again and added icons that clearly show whether an event has a positive or negative impact on the scores.
+
+### Icons explaining Score Changes
+
+To make clear which Events influence the Scores in which ways, I decided to create Icons as Feedback-Elements. The icons will be displayed next to the score in either red or green. Because if the icon the player is supposed to understand what element triggerd the event and because of the color he/she can understand if it had a positive or a negative impact on the scores. I created 12 icons with 64x64px:
+![icon](./media/icons/clouds-green.png)
+![icon](./media/icons/distancing-green.png)
+![icon](./media/icons/distancing-red.png)
+![icon](./media/icons/isolation-green.png)
+![icon](./media/icons/isolation-red.png)
+![icon](./media/icons/mask-green.png)
+![icon](./media/icons/mask-red.png)
+![icon](./media/icons/rain-green.png)
+![icon](./media/icons/rain-red.png)
+![icon](./media/icons/singleContact-green.png)
+![icon](./media/icons/zoom-green.png)
+![icon](./media/icons/zoom-red.png)
+
+ I wanted to display all icons that are currently influencing the scores. In order to do so it was very difficult to display the icons next to the scores without them overlapping each other. They were supposed to be displayed next to each other, so the position depended on how many icons were currently displayed. I coded a class to do that. So each icon is an object, which contains information. For each score I created an array, that contains all currently displayed icons as strings. The class `DisplayIcons_new` contains two methods for either pushing the string to the certain array or distracting a string from the array. Another method will display the icon based on the position of the `this.string` in the array.
+
+
+```javascript
+let arrayCheckMask= false;
+let counterIconsIndividual = [];
+let counterIconsCollective = [];
+
+preload(){
+    mask_red_icon = loadImage('../img/icons/mask-red.png');
+    mask_green_icon = loadImage('../img/icons/mask-green.png');
+}
+
+ setup(){
+    iconRedMask_C = new DisplayIcons_new(counterIconsCollective,mask_red_icon,windowWidth/5 + 30,30+(windowHeight/14)+(windowHeight/120), 'RED MASK');
+    iconRedMask_I = new DisplayIcons_new(counterIconsIndividual,mask_red_icon,windowWidth/5 + 30,20, 'RED MASK');
+    iconGreenMask = new DisplayIcons_new(counterIconsCollective,mask_green_icon,windowWidth/5 + 30,30+(windowHeight/14)+(windowHeight/120), 'GREEN MASK');
+ }
+
+ draw(){
+
+    ...
+    if(maskOn){
+        iconRedMask_I.display(); //I
+        iconGreenMask.display(); //C
+        if(arrayCheckMask){
+            iconRedMask_I.push();
+            iconRedMask_C.pop();
+            iconGreenMask.push();
+            arrayCheckMask = false;
+        }
+    }else{
+        iconRedMask_C.display();
+        if(!arrayCheckMask){
+            iconGreenMask.pop();
+            iconRedMask_C.push();
+            iconRedMask_I.pop();
+            arrayCheckMask = true;
+        }
+    }
+...
+
+ }
+
+class DisplayIcons_new{
+    constructor(arr, image, width, height, string){
+        this.arr = arr;
+        this.image = image;
+        this.width = width;
+        this.height = height;
+        this.string = string;
+    }
+
+  push(){
+        this.arr.push(this.string);
+  }
+
+  pop(){
+        this.arr.pop();
+  }
+
+  display(){
+        push();
+        scale(0.8);
+            if(this.arr.indexOf(this.string) === 0){
+                image(this.image,this.width*1.25,this.height*1.25);
+            }else if(this.arr.indexOf(this.string)=== 1){
+                image(this.image,(this.width*1.25)+80,this.height*1.25);
+            }else if(this.arr.indexOf(this.string)=== 2){
+                image(this.image,(this.width*1.25)+160,this.height*1.25);
+            }else if(this.arr.indexOf(this.string)=== 3){
+                image(this.image,(this.width*1.25)+240,this.height*1.25);
+        }
+        pop();
+  }
+}
+ ```
+
   
 ### Level volume 
   
@@ -1179,14 +1276,108 @@ The music and sounds sounded disproportionately loud or quiet. So I used the `se
 
 I have revised the scoring system several times by playing the game and trying to reach all the endings so that no ending becomes impossible or too hard or too easy.
 
+Changed all the values to variables, so I can adjust the scoring system in the global variables. Also I changes the mask-scoring-system. Instead of using setTimeout I change the value every loop.
+
+add icon green mask for collective when wearing
+
+```javascript
+if(player1.overlap(distancing_group) && touchedGroup === false){
+        ...
+        //scoring-system
+        individualScore += 10;
+        collectiveScore -= 30;
+        ...
+    }
+
+function setMaskOffInterval (){
+    maskOffInterval = setInterval(function(){
+      // SCORE CHANGE WHILE MASK IS OFF
+      //scoring-system
+        individualScore += SS_MASK_I; 
+        collectiveScore -= SS_MASK_C;
+    },500);//every 1000 milliseconds
+}
+
+if(maskOn){
+      collectiveScore += SS_MASK_C;
+    }else{
+      individualScore += SS_MASK_I;
+    }
+```
+
+Instead of doing the feedback-color in the scoring system with different functions (and calling the functions every time when something in the scores are changing), I found a easier and shorter way: the variables `lastIndividualScore` and `lastCollectiveScore` store at the beginning of `draw()` the current Score and in the end of `draw()` the currentScore and lastScore get compared. If its increasing, the Score will be displayed in green and if its decreasing, it will be displayed in red. So all Score-changing Inputs are going to be taken into consideration.
+
+Last version:
+```javascript
+
+function draw(){
+    if(player1.overlap(flyingArea)){
+        feedbackUpScoreI();
+        ...
+    }
+}
+
+function feedbackUpScoreI(){
+    fbS_I_r = 0;
+    fbS_I_g = 230;
+    fbS_I_b = 180;
+    setTimeout(function(){fbS_I_r = 255; fbS_I_g = 255; fbS_I_b = 255;}, 500);
+}
+```
+
+Current version:
+```javascript
+function draw(){
+    lastIndividualScore = individualScore;
+
+    ...
+
+    if(lastIndividualScore < individualScore){
+        fbS_I_r = 0;
+        fbS_I_g = 230;
+        fbS_I_b = 180;
+    }else if(individualScore < lastIndividualScore){
+        fbS_I_r = 220;
+        fbS_I_g = 0;
+        fbS_I_b = 60;
+    }else{
+        fbS_I_r = 255;
+        fbS_I_g = 255;
+        fbS_I_b = 255;
+    }
+}
+
+```
+
+
+### Feedback Icons
+
+Da ich bisher die Icons
+
+```javascript
+function feedbackUpScoreI(){
+    fbS_I_r = 0;
+    fbS_I_g = 230;
+    fbS_I_b = 180;
+    if(fbS_I_g === 230){
+        camera.off();
+            displayIcons(arrow_up_icon,arrow_up_icon,windowWidth/5 + 30,20);
+        camera.on();
+    }
+    setTimeout(function(){fbS_I_r = 255; fbS_I_g = 255; fbS_I_b = 255;}, 500);
+}
+```
 
 ## Try and test Github Pages 
 
-To upload the website to Github Pages, I first used [Adobe Photoshop](https://www.adobe.com/de/products/photoshop/bilder-bearbeiten.html) to compromise all the files to have the smallest amount of data that could be loaded quickly. After creating a new repository and changing the main branch to `gh-pages`, the website could be accessed, but no images or sounds were loaded. I spent some time researching to understand the problem. This page](https://www.elharony.com/images-not-displaying-in-github-pages/) helped me to find the problem. The assets could be loaded when I entered the path in the URL, so the problem had to be with the path. When the assets would load, it would search under `indiaaparicio.github.io/audio/jump.mp3`. However, in order to be found, the files had to be searched under `indiaaparicio.github.io/freedom/audio/jump.mp3`. 
+To upload the website to Github Pages, I first used [Adobe Photoshop](https://www.adobe.com/de/products/photoshop/bilder-bearbeiten.html) to compromise all the files to have the smallest amount of data that could be loaded quickly. All Sounds and Illustrations combined cover around 25mb. After creating a new repository and changing the main branch to `gh-pages`, the website could be accessed, but no images or sounds were loaded. I spent some time researching to understand the problem. This page](https://www.elharony.com/images-not-displaying-in-github-pages/) helped me to find the problem. The assets could be loaded when I entered the path in the URL, so the problem had to be with the path. When the assets would load, it would search under `indiaaparicio.github.io/audio/jump.mp3`. However, in order to be found, the files had to be searched under `indiaaparicio.github.io/freedom/audio/jump.mp3`. 
 
 ![GitHub Pages Bug](./media/gh-pages.png)
 
 In the code the files have been added to `../audio/jump.mp3`. However, at GitHub Pages the base is moved. I tried in the code once to put the files under `./audio/jump.mp3` and under `./freedom/audio.jump.mp3`. The first variant worked.
+
+
+
 
 
 
