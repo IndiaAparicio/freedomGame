@@ -10,6 +10,7 @@ let ending_1 = false;
 let ending_2 = false;
 let ending_3 = false;
 let ending_4 = false;
+let startedFirstTime = true;
 
 
 //player
@@ -78,6 +79,7 @@ let EDGE_R = (SCENE_W/2)-50;
 let EDGE_L = (-(SCENE_W/2))+50;
 let EDGE_U = 0; //(-(SCENE_H/2))+50;
 let EDGE_D = SCENE_H;
+let smoothening = 0.0001;
 
 //colliders
 let ground;
@@ -507,6 +509,7 @@ function draw() {
       if(mouseIsPressed && mouseClickCheck){
         mouseClickCheck = false;
         explainPage = false;
+        camera.zoom = 0.3;
         running = true;
         //setTimeout(function(){mouseClickCheck = true;}, 500);
       }
@@ -515,6 +518,17 @@ function draw() {
 
   //RUNNING
   if (running){
+
+      if(startedFirstTime){
+        if(camera.zoom < 1){
+          smoothening *= 1.1;
+          camera.position.x = 0;
+          camera.position.y = SCENE_H/2;
+          camera.zoom += smoothening;
+        }else{
+          startedFirstTime = false;
+        }
+      }
       
       // B A C K G R O U N D S 
       background(0); //Black BG outside of frame 
@@ -733,64 +747,74 @@ function draw() {
         let ScreenPlayerRelation = width/2;
         let ScreenPlayerRelationH = height/2;
 
-        if (player1.position.x >= EDGE_R - ScreenPlayerRelation){
-          camera.position.x = camera.position.x;
-        }else if(player1.position.x <= EDGE_L + ScreenPlayerRelation){
-          camera.position.x = camera.position.x;
-        }else{
-          camera.position.x = player1.position.x;
-        }
+        if(!startedFirstTime){
 
-      //LIMITATIONS GRAVITYAREA Y-AXIS
-                //NOCHMAL PRÜFEN  ////////////////////////////////////////////////////////////////////////////////////////////////////////
-        if(player1.overlap(gravityArea)){
-            player1.rotation = 0;
-            enteringFlyingArea = true;
-            if (player1.overlap(gravityArea) && enteringGravityArea === false){
-              camera.position.y = player1.position.y - (windowHeight/4);
-            }
-            if(camera.position.y >= player1.position.y && enteringGravityArea){
-                while (camera.position.y > player1.position.y - (windowHeight/4)){
-                  camera.position.y -= 1;
-                }
-            } 
-            if(camera.position.y = player1.position.y - (windowHeight/4)){
-              camera.position.y = player1.position.y - (windowHeight/4);
-              //enteringGravityArea = false;
-            }
-        }
+          if (player1.position.x >= EDGE_R - ScreenPlayerRelation){
+            camera.position.x = camera.position.x;
+          }else if(player1.position.x <= EDGE_L + ScreenPlayerRelation){
+            camera.position.x = camera.position.x;
+          }else{
+            camera.position.x = player1.position.x;
+          }
+  
+        //LIMITATIONS GRAVITYAREA Y-AXIS
+                  //NOCHMAL PRÜFEN  ////////////////////////////////////////////////////////////////////////////////////////////////////////
+          if(player1.overlap(gravityArea)){
+              player1.rotation = 0;
+              enteringFlyingArea = true;
+              if (player1.overlap(gravityArea) && enteringGravityArea === false){
+                camera.position.y = player1.position.y - (windowHeight/4);
+              }
+              if(camera.position.y >= player1.position.y && enteringGravityArea){
+                  while (camera.position.y > player1.position.y - (windowHeight/4)){
+                    camera.position.y -= 1;
+                  }
+              } 
+              if(camera.position.y = player1.position.y - (windowHeight/4)){
+                camera.position.y = player1.position.y - (windowHeight/4);
+                //enteringGravityArea = false;
+              }
+          }
+  
+        //LIMITATIONS GRAVITYAREA Y-AXIS
+          if(player1.overlap(flyingArea)){
+              enteringGravityArea = true;
+              if(camera.position.y < player1.position.y-5 && enteringFlyingArea){//wenn camera kleiner und entering
+                  while (camera.position.y < height/2){
+                    camera.position.y += 1;
+                  }
+              }else if (camera.position.y < player1.position.y-5 && enteringFlyingArea === false){//wenn camera kleiner aber nicht entering
+                camera.position.y = player1.position.y;
+              }
+              if(camera.position.y >= player1.position.y){//wenn camera gleich, verfolge Player und entering falsch
+                camera.position.y = player1.position.y;
+                enteringFlyingArea = false;
+              }
+              
+              //can only go to edge
+              if (player1.position.y <= ScreenPlayerRelationH ){
+                camera.position.y = ScreenPlayerRelationH;
+              }
+          }
+        
+        
+        
+      // P L A Y E R   M O V E M E N T
+  
+        //Flying or walking
+          if (player1.overlap(gravityArea)){
+            playerMovement();
+          }else if (player1.overlap(flyingArea)){
+            flying();
+          }
 
-      //LIMITATIONS GRAVITYAREA Y-AXIS
-        if(player1.overlap(flyingArea)){
-            enteringGravityArea = true;
-            if(camera.position.y < player1.position.y-5 && enteringFlyingArea){//wenn camera kleiner und entering
-                while (camera.position.y < height/2){
-                  camera.position.y += 1;
-                }
-            }else if (camera.position.y < player1.position.y-5 && enteringFlyingArea === false){//wenn camera kleiner aber nicht entering
-              camera.position.y = player1.position.y;
-            }
-            if(camera.position.y >= player1.position.y){//wenn camera gleich, verfolge Player und entering falsch
-              camera.position.y = player1.position.y;
-              enteringFlyingArea = false;
-            }
-            
-            //can only go to edge
-            if (player1.position.y <= ScreenPlayerRelationH ){
-              camera.position.y = ScreenPlayerRelationH;
-            }
-        }
-      
-      
-      
-    // P L A Y E R   M O V E M E N T
 
-      //Flying or walking
-        if (player1.overlap(gravityArea)){
-          playerMovement();
-        }else if (player1.overlap(flyingArea)){
-          flying();
+
+
+
+
         }
+        
       
   
     // D R A W   S P R I T E S

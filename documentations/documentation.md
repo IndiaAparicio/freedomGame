@@ -54,10 +54,9 @@ DOCUMENTATION
   - [Structure code](#structure-code)
   - [Improve little things](#improve-little-things)
     - [Colors of Score Displays](#colors-of-score-displays)
-    - [Icons explaining Score Changes](#icons-explaining-score-changes)
+    - [Feedback Icons](#feedback-icons)
     - [Level volume](#level-volume)
     - [Scoring System](#scoring-system-1)
-    - [Feedback Icons](#feedback-icons)
   - [Try and test Github Pages](#try-and-test-github-pages)
 
 
@@ -1172,7 +1171,25 @@ Since the code has become very long and confusing in the meantime, I have organi
 
 Since the colors for the feedback did not work properly and sometimes resulted in unwanted colors, like beige, I have reworked the functions again and added icons that clearly show whether an event has a positive or negative impact on the scores.
 
-### Icons explaining Score Changes
+### Feedback Icons
+
+So far I used a green arrow-up-icon and a red arrow-down-icon as feedback-icons for the change of the scores.
+
+```javascript
+function feedbackUpScoreI(){
+    fbS_I_r = 0;
+    fbS_I_g = 230;
+    fbS_I_b = 180;
+    if(fbS_I_g === 230){
+        camera.off();
+            displayIcons(arrow_up_icon,arrow_up_icon,windowWidth/5 + 30,20);
+        camera.on();
+    }
+    setTimeout(function(){fbS_I_r = 255; fbS_I_g = 255; fbS_I_b = 255;}, 500);
+}
+```
+
+But I decided to use different kinds of icons:
 
 To make clear which Events influence the Scores in which ways, I decided to create Icons as Feedback-Elements. The icons will be displayed next to the score in either red or green. Because if the icon the player is supposed to understand what element triggerd the event and because of the color he/she can understand if it had a positive or a negative impact on the scores. I created 12 icons with 64x64px:
 ![icon](./media/icons/clouds-green.png)
@@ -1197,14 +1214,21 @@ let counterIconsIndividual = [];
 let counterIconsCollective = [];
 
 preload(){
+    ...
     mask_red_icon = loadImage('../img/icons/mask-red.png');
     mask_green_icon = loadImage('../img/icons/mask-green.png');
+    ...
 }
 
  setup(){
+     ...
+
     iconRedMask_C = new DisplayIcons_new(counterIconsCollective,mask_red_icon,windowWidth/5 + 30,30+(windowHeight/14)+(windowHeight/120), 'RED MASK');
     iconRedMask_I = new DisplayIcons_new(counterIconsIndividual,mask_red_icon,windowWidth/5 + 30,20, 'RED MASK');
     iconGreenMask = new DisplayIcons_new(counterIconsCollective,mask_green_icon,windowWidth/5 + 30,30+(windowHeight/14)+(windowHeight/120), 'GREEN MASK');
+
+    ...
+
  }
 
  draw(){
@@ -1260,7 +1284,7 @@ class DisplayIcons_new{
                 image(this.image,(this.width*1.25)+160,this.height*1.25);
             }else if(this.arr.indexOf(this.string)=== 3){
                 image(this.image,(this.width*1.25)+240,this.height*1.25);
-        }
+            }
         pop();
   }
 }
@@ -1280,29 +1304,38 @@ Changed all the values to variables, so I can adjust the scoring system in the g
 
 add icon green mask for collective when wearing
 
+Old version: 
+
 ```javascript
-if(player1.overlap(distancing_group) && touchedGroup === false){
+draw(){
+    if(player1.overlap(distancing_group) && touchedGroup === false){
         ...
         //scoring-system
         individualScore += 10;
         collectiveScore -= 30;
         ...
     }
-
-function setMaskOffInterval (){
-    maskOffInterval = setInterval(function(){
-      // SCORE CHANGE WHILE MASK IS OFF
-      //scoring-system
-        individualScore += SS_MASK_I; 
-        collectiveScore -= SS_MASK_C;
-    },500);//every 1000 milliseconds
 }
 
-if(maskOn){
-      collectiveScore += SS_MASK_C;
-    }else{
-      individualScore += SS_MASK_I;
+```
+
+New version:
+
+```javascript
+let SS_DISTANCING_I = 10; //Boost once
+let SS_DISTANCING_C = -30; //Boost once
+
+draw(){
+    if(player1.overlap(distancing_group) && touchedGroup === false){
+        ...
+        //scoring-system
+        individualScore += SS_DISTANCING_I;
+        collectiveScore += SS_DISTANCING_C;
+        ...
     }
+}
+
+
 ```
 
 Instead of doing the feedback-color in the scoring system with different functions (and calling the functions every time when something in the scores are changing), I found a easier and shorter way: the variables `lastIndividualScore` and `lastCollectiveScore` store at the beginning of `draw()` the current Score and in the end of `draw()` the currentScore and lastScore get compared. If its increasing, the Score will be displayed in green and if its decreasing, it will be displayed in red. So all Score-changing Inputs are going to be taken into consideration.
@@ -1350,23 +1383,7 @@ function draw(){
 ```
 
 
-### Feedback Icons
 
-Da ich bisher die Icons
-
-```javascript
-function feedbackUpScoreI(){
-    fbS_I_r = 0;
-    fbS_I_g = 230;
-    fbS_I_b = 180;
-    if(fbS_I_g === 230){
-        camera.off();
-            displayIcons(arrow_up_icon,arrow_up_icon,windowWidth/5 + 30,20);
-        camera.on();
-    }
-    setTimeout(function(){fbS_I_r = 255; fbS_I_g = 255; fbS_I_b = 255;}, 500);
-}
-```
 
 ## Try and test Github Pages 
 
