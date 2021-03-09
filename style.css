@@ -1,12 +1,22 @@
 html, body {
   margin: 10;
   padding: 10;
+  font-family: 'Roboto', sans-serif;
+  background-image: url(./img/sky.png);
 }
 
 canvas {
   display: block;
 }
 
+h1{
+  color:white;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.5rem;
+  font-size: 1rem;
+  margin-top: 20%;
+}
 
 body {
   margin: 0;

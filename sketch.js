@@ -6,12 +6,9 @@ let running = false;
 let startingPage = true;
 let explainPage = false;
 let mouseClickCheck = true; // StartingPage
-let ending_1 = false;
-let ending_2 = false;
-let ending_3 = false;
-let ending_4 = false;
 let startedFirstTime = true;
 
+let newClean;
 
 //player
 let player1;
@@ -65,7 +62,7 @@ let SS_ZOOM_C = 0.01; //every loop
 let SS_ZOOM_I = 0.001; //every loop times boring(1-10)
 let SS_ISOLATION_C = 0.001; //every loop times lonely(1-10)
 let SS_ISOLATION_I = 0.001; //every loop times lonely(1-10)
-let SS_FLYING_I = 0.001; //every loop
+let SS_FLYING_I = 0.03; //every loop
 let SS_SINGLECONTACT_C = -3; //Boost once
 let SS_SINGLECONTACT_I = 5; //Boost once
 
@@ -1152,20 +1149,6 @@ function draw() {
             pop();
 
 
-          //ENDINGS
-
-              if (individualScore < 10 && collectiveScore > 90){
-                  ending_2 = true;
-              }
-              else if (individualScore > 90 && collectiveScore < 10){
-                  ending_1 = true;
-              }
-              else if (individualScore < 10 && collectiveScore < 10){
-                  ending_3 = true;
-              }
-              else if (individualScore > 90 && collectiveScore > 90){
-                  ending_4 = true;
-              }
 
 
           //FEedback Color Scores
@@ -1202,9 +1185,23 @@ function draw() {
   }//end running
 
 
-  if(ending_1){
+  // ENDINGS
+  if(individualScore > 90 && collectiveScore < 10){
     running = false;
+    newClean = 'ciaociao';
     window.location = './individual.html';
+  }else if(individualScore < 10 && collectiveScore > 90){
+    running = false;
+    window.alert('clean ' + clean + '. Boring ' + boring + '. lonely ' + lonely);
+    window.location = './collective.html';
+  }else if(individualScore > 90 && collectiveScore > 90){
+    running = false;
+    window.alert('clean ' + clean + '. Boring ' + boring + '. lonely ' + lonely);
+    window.location = './nofreedom.html';
+  }else if(individualScore < 10 && collectiveScore < 10){
+    running = false;
+    window.alert('clean ' + clean + '. Boring ' + boring + '. lonely ' + lonely);
+    window.location = './allfreedom.html';
   }
 
   console.log(clean, boring)
@@ -1421,7 +1418,7 @@ function hygieneScore() {
   clean -= 0.005;
 
   if(clean < 0){
-    collectiveScore += (clean * 0.001);
+    collectiveScore += (clean * 0.006);
     boostHygine = false;
   }
 
@@ -1571,13 +1568,18 @@ function swarmFollowAttraction(distancing_group, attraction_pointX, attraction_p
         distancing_sound.play();
         distancing_sound.setVolume(3.0);
         //scoring-system
-        individualScore += SS_DISTANCING_I;
-        collectiveScore += SS_DISTANCING_C;
-        touchedGroup = true;
+        if(maskOn){
+          individualScore += SS_DISTANCING_I;
+          collectiveScore += SS_DISTANCING_C;
+        }else{
+          individualScore += (SS_DISTANCING_I/1.5);
+          collectiveScore += (SS_DISTANCING_C/2);
+        }
+        touchedGroup = true;    
     }
     if(player1.overlap(distancing_group) === false && touchedGroup && !hasStartedTimeoutS){
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        setTimeout(function (){touchedGroup = false; hasStartedTimeoutS = false;},10000) // 10000 macht problem aber 1000 nicht
+        setTimeout(function (){touchedGroup = false; hasStartedTimeoutS = false;},3000) // 10000 macht problem aber 1000 nicht
         hasStartedTimeoutS = true;
     }
  

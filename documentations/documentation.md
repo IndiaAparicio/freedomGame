@@ -1424,7 +1424,16 @@ function hygieneScore() {
 }
 ```
 
-
+### adjust Distancing Change 
+```javascript
+        if(maskOn){
+          individualScore += SS_DISTANCING_I;
+          collectiveScore += SS_DISTANCING_C;
+        }else{
+          individualScore += (SS_DISTANCING_I/2);
+          collectiveScore += (SS_DISTANCING_C/2);
+        }
+```
 ## Try and test Github Pages 
 
 To upload the website to Github Pages, I first used [Adobe Photoshop](https://www.adobe.com/de/products/photoshop/bilder-bearbeiten.html) to compromise all the files to have the smallest amount of data that could be loaded quickly. All Sounds and Illustrations combined cover around 25mb. After creating a new repository and changing the main branch to `gh-pages`, the website could be accessed, but no images or sounds were loaded. I spent some time researching to understand the problem. This page](https://www.elharony.com/images-not-displaying-in-github-pages/) helped me to find the problem. The assets could be loaded when I entered the path in the URL, so the problem had to be with the path. When the assets would load, it would search under `indiaaparicio.github.io/audio/jump.mp3`. However, in order to be found, the files had to be searched under `indiaaparicio.github.io/freedom/audio/jump.mp3`. 
