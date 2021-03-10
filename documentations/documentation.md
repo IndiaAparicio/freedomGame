@@ -1443,6 +1443,44 @@ To upload the website to Github Pages, I first used [Adobe Photoshop](https://ww
 In the code the files have been added to `../audio/jump.mp3`. However, at GitHub Pages the base is moved. I tried in the code once to put the files under `./audio/jump.mp3` and under `./freedom/audio.jump.mp3`. The first variant worked.
 
 
+## Adding Tutorial 
+
+
+```javascript
+
+if(intro_1){
+        
+          
+          image(intro_1_img, windowWidth/2, windowHeight/2);
+          text("The world consists of three levels: the sky, the neutral zone and your home.", windowWidth/2,100);
+
+          textSize(windowHeight/70);
+          text("Click to continue", windowWidth/2,windowHeight - 50);
+
+          if(mouseIsPressed && mouseClickCheck){
+              mouseClickCheck = false;
+              intro_1 = false;
+              intro_2 = true;
+              setTimeout(function(){mouseClickCheck = true;},200)
+          }
+      }else if(intro_2){
+
+          text("In the sky you can fly and meet groups of people.", windowWidth/2,100);
+          image(intro_2_img, windowWidth/2, windowHeight/2);
+
+          textSize(windowHeight/70);
+          text("Click to continue", windowWidth/2,windowHeight - 50);
+
+          //next page
+          if(mouseIsPressed && mouseClickCheck){
+              mouseClickCheck = false;
+              intro_2 = false;
+              intro_3 = true;
+              setTimeout(function(){mouseClickCheck = true;},200)
+          }
+      }
+      ...
+```
 
 
 

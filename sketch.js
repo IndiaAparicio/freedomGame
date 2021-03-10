@@ -3,6 +3,8 @@
 
 //Gameplay
 let running = false;
+let onPause = false;
+let notOnPause = true;
 let startingPage = true;
 let explainPage = false;
 let intro_0 = true;
@@ -510,165 +512,9 @@ function draw() {
 
   // INFOPAGE
   if(explainPage){
-      push();
 
-        background(docu_bg_img);
-
-        textFont('Avenir');
-        textAlign(CENTER);
-        imageMode(CENTER);
-        fill(255);
-        textSize(20);
-
-        if(intro_0){
-          textSize(windowHeight/30);
-          rectMode(CENTER);
-          noStroke();
-          textSize(20);
-       
-          if(mouseX > windowWidth/2-150 && mouseX < windowWidth/2+150
-            && mouseY > windowHeight/2-90 && mouseY < windowHeight/2-10){
-            fill(100,0,50);
-            rect(windowWidth/2,windowHeight/2-50,300,80,100);
-            fill(255);
-            text("WATCH TUTORIAL",windowWidth/2,windowHeight/2-45);
-                if(mouseIsPressed && mouseClickCheck){
-                    mouseClickCheck = false;
-                    intro_0 = false;
-                    intro_1 = true;
-                    setTimeout(function(){mouseClickCheck = true;},200)
-                }
-          }else{
-            fill(255);
-            rect(windowWidth/2,windowHeight/2-50,300,80,100);
-            fill(0);
-            text("WATCH TUTORIAL",windowWidth/2,windowHeight/2-45);
-          }
-  
-          if(mouseX > windowWidth/2-150 && mouseX < windowWidth/2+150
-            && mouseY > windowHeight/2+10 && mouseY < windowHeight/2+90){
-            fill(100,0,50);
-            rect(windowWidth/2,windowHeight/2+50,300,80,100);
-            fill(255);
-            text("SKIP TUTORIAL",windowWidth/2,windowHeight/2+55);
-                if(mouseIsPressed && mouseClickCheck){
-                  mouseClickCheck = false;
-                  intro_0 = false;
-                  running = true;
-                  setTimeout(function(){mouseClickCheck = true;},200)
-                }
-          }else{
-            fill(255);
-            rect(windowWidth/2,windowHeight/2+50,300,80,100);
-            fill(0);
-            text("SKIP TUTORIAL",windowWidth/2,windowHeight/2+55);
-          }
-        }
-        
-
-      if(intro_1){
-        
-          
-          image(intro_1_img, windowWidth/2, windowHeight/2);
-          text("The world consists of three levels: the sky, the neutral zone and your home.", windowWidth/2,100);
-
-          textSize(windowHeight/70);
-          text("Click to continue", windowWidth/2,windowHeight - 50);
-
-          if(mouseIsPressed && mouseClickCheck){
-              mouseClickCheck = false;
-              intro_1 = false;
-              intro_2 = true;
-              setTimeout(function(){mouseClickCheck = true;},200)
-          }
-      }else if(intro_2){
-
-          text("In the sky you can fly and meet groups of people.", windowWidth/2,100);
-          image(intro_2_img, windowWidth/2, windowHeight/2);
-
-          textSize(windowHeight/70);
-          text("Click to continue", windowWidth/2,windowHeight - 50);
-
-          //next page
-          if(mouseIsPressed && mouseClickCheck){
-              mouseClickCheck = false;
-              intro_2 = false;
-              intro_3 = true;
-              setTimeout(function(){mouseClickCheck = true;},200)
-          }
-      }else if(intro_3){
-
-        text("In the neutral zone, your mask is located, \n individuals with masks walk along and a digital media screen is located in the center.", windowWidth/2,100);
-        image(intro_3_img, windowWidth/2, windowHeight/2);
-
-        textSize(windowHeight/70);
-        text("Click to continue", windowWidth/2,windowHeight - 50);
-        //next page
-        if(mouseIsPressed && mouseClickCheck){
-            mouseClickCheck = false;
-            intro_3 = false;
-            intro_4 = true;
-            setTimeout(function(){mouseClickCheck = true;},200)
-        }
-      }else if(intro_4){
-
-        text("You are alone in your home. Here you will also find a digital media area.", windowWidth/2,100);
-        image(intro_4_img, windowWidth/2, windowHeight/2);
-
-        textSize(windowHeight/70);
-        text("Click to continue", windowWidth/2,windowHeight - 50);
-        //next page
-        if(mouseIsPressed && mouseClickCheck){
-            mouseClickCheck = false;
-            intro_4 = false;
-            intro_5 = true;
-            setTimeout(function(){mouseClickCheck = true;},200)
-        }
-      }else if(intro_5){
-
-        text("A small rain shower runs across the game world.\n If you get caught in the rain you will be disinfected.", windowWidth/2,100);
-        image(intro_5_img, windowWidth/2, windowHeight/2);
-
-        textSize(windowHeight/70);
-        text("Click to continue", windowWidth/2,windowHeight - 50);
-        //next page
-        if(mouseIsPressed && mouseClickCheck){
-            mouseClickCheck = false;
-            intro_5 = false;
-            intro_6 = true;
-            setTimeout(function(){mouseClickCheck = true;},200)
-        }
-      }else if(intro_6){
-
-        text("The scores on the left side show you two values,\n which change depending on the areas you are in.\n Next to the scores you will see icons that explain what affects your current scores: \n Rain, Digital Media, Groups, Home, Individuals, Flying, Mask ", windowWidth/2,100);
-        image(intro_6_img, windowWidth/2, windowHeight/2);
-
-        textSize(windowHeight/70);
-        text("Click to continue", windowWidth/2,windowHeight - 50);
-        //next page
-        if(mouseIsPressed && mouseClickCheck){
-            mouseClickCheck = false;
-            intro_6 = false;
-            intro_7 = true;
-            setTimeout(function(){mouseClickCheck = true;},200)
-        }
-      }else if(intro_7){
-
-        text("To walk, just use the arrow keys and to jump, use the space bar.\n To fly, you have to jump into the sky and \nclick the up arrow at the same time. ", windowWidth/2,100);
-        image(intro_7_img, windowWidth/2, windowHeight/2);
-
-        textSize(windowHeight/50);
-        text("Click to START", windowWidth/2,windowHeight - 50);
-              //next page
-              if(mouseIsPressed && mouseClickCheck){
-                  mouseClickCheck = false;
-                  explainPage = false;
-                  running = true;
-                  //setTimeout(function(){mouseClickCheck = true;}, 500);
-              }
-          }
-
-      pop();
+    tutorial();
+    
   }
 
 
@@ -1156,6 +1002,7 @@ function draw() {
 
                 //pause 
                 displayIcons(pause_icon,pause_hover_icon,windowWidth - windowWidth/20 - 20, windowWidth/35);
+
                 
                 //sound
                 displayIcons(sound_icon,sound_hover_icon,windowWidth - windowWidth/20 - 20,windowHeight - (windowHeight/10));
@@ -1341,6 +1188,33 @@ function draw() {
 
   }//end running
 
+  //PAUSE
+  if(running && mouseIsPressed &&
+        mouseX > windowWidth - windowWidth/20 - 20 &&
+        mouseX < (windowWidth - windowWidth/20 - 20) + play_icon.width &&
+        mouseY > windowWidth/35 &&
+        mouseY < windowWidth/35 + (play_icon.height)/10){
+              running = false;
+              onPause = true;
+              setTimeout(function(){notOnPause = false;}, 300);
+  }
+  if(onPause){
+    camera.off();
+    intro_0 = true;
+    tutorial();
+    displayIcons(play_icon,play_hover_icon,windowWidth - windowWidth/20 - 20, windowWidth/35);
+    camera.on();
+    if(mouseIsPressed && !notOnPause &&
+      mouseX > windowWidth - windowWidth/20 - 20 &&
+      mouseX < (windowWidth - windowWidth/20 - 20) + play_icon.width &&
+      mouseY > windowWidth/35 &&
+      mouseY < windowWidth/35 + (play_icon.height)/10){
+            running = true;
+            onPause = false;
+            setTimeout(function(){notOnPause = true;}, 300);
+    }
+  }
+
 
   // ENDINGS
   if(individualScore > 90 && collectiveScore < 10){
@@ -1358,7 +1232,6 @@ function draw() {
     window.location = './allfreedom.html';
   }
 
-  console.log(clean, boring)
 }//end draw
 
 
@@ -1965,26 +1838,6 @@ class DisplayIcons_new{
 
 
 
-  // PAUSE FUNCTION
-function mousePressed(){
-    if(mouseX > windowWidth - windowWidth/20 - 20 &&
-      mouseX < (windowWidth - windowWidth/20 - 20) + play_icon.width &&
-      mouseY > windowWidth/35 &&
-      mouseY < windowWidth/35 + (play_icon.height)/10){
-            button_sound.play();
-            imageMode(CENTER);
-            running = !running; // flip the boolean
-            background(docu_bg_img);
-            //not in a loop daher klappt es nicht
-            displayIcons(play_icon,play_hover_icon,windowWidth - windowWidth/20 - 20, windowWidth/35);
-            
-            //image(docu_img,windowWidth/2,windowHeight/2);
-            imageMode(CORNER);
-
-            
-    }
-}
-
 
 
 function windowResized() {
@@ -1992,3 +1845,121 @@ function windowResized() {
 }
 
 
+function tutorial(){
+
+  push();
+  camera.off();
+
+
+      background(docu_bg_img);
+
+      textFont('Avenir');
+      textAlign(CENTER);
+      imageMode(CENTER);
+      fill(255);
+      textSize(20);
+
+
+      if(intro_0){
+            textSize(windowHeight/30);
+            rectMode(CENTER);
+            noStroke();
+            textSize(20);
+       
+            if(mouseX > windowWidth/2-150 && mouseX < windowWidth/2+150
+                && mouseY > windowHeight/2-90 && mouseY < windowHeight/2-10){
+                fill(100,0,50);
+                rect(windowWidth/2,windowHeight/2-50,300,80,100);
+                fill(255);
+                text("WATCH TUTORIAL",windowWidth/2,windowHeight/2-45);
+                if(mouseIsPressed && mouseClickCheck){
+                        mouseClickCheck = false;
+                        intro_0 = false;
+                        intro_1 = true;
+                        setTimeout(function(){mouseClickCheck = true;},200)
+                }
+            }else{
+                fill(255);
+                rect(windowWidth/2,windowHeight/2-50,300,80,100);
+                fill(0);
+                text("WATCH TUTORIAL",windowWidth/2,windowHeight/2-45);
+            }
+      
+            if(mouseX > windowWidth/2-150 && mouseX < windowWidth/2+150
+                && mouseY > windowHeight/2+10 && mouseY < windowHeight/2+90){
+                fill(100,0,50);
+                rect(windowWidth/2,windowHeight/2+50,300,80,100);
+                fill(255);
+                text("SKIP TUTORIAL",windowWidth/2,windowHeight/2+55);
+                    if(mouseIsPressed && mouseClickCheck){
+                      mouseClickCheck = false;
+                      intro_0 = false;
+                      running = true;
+                      setTimeout(function(){mouseClickCheck = true;},200)
+                    }
+            }else{
+                fill(255);
+                rect(windowWidth/2,windowHeight/2+50,300,80,100);
+                fill(0);
+                text("SKIP TUTORIAL",windowWidth/2,windowHeight/2+55);
+            }
+      }
+        
+
+      if(intro_1){
+        tutorialSinglePage(intro_1_img, "The world consists of three levels: the sky, the neutral zone and your home."," 1/7 \n Click to continue");
+      }else if(intro_2){
+        tutorialSinglePage(intro_2_img, "In the sky you can fly and meet groups of people.","2/7 \nClick to continue");
+      }else if(intro_3){
+        tutorialSinglePage(intro_3_img, "In the neutral zone, your mask is located, \n individuals with masks walk along and a digital media screen is located in the center.","3/7 \nClick to continue");
+      }else if(intro_4){
+        tutorialSinglePage(intro_4_img, "You are alone in your home. Here you will also find a digital media area.","4/7 \nClick to continue");
+      }else if(intro_5){
+        tutorialSinglePage(intro_5_img, "A small rain shower runs across the game world.\n If you get caught in the rain you will be disinfected.","5/7 \nClick to continue");
+      }else if(intro_6){
+        tutorialSinglePage(intro_6_img, "The scores on the left side show you two values,\n which change depending on the areas you are in.\n Next to the scores you will see icons that explain what affects your current scores: \n Rain, Digital Media, Groups, Home, Individuals, Flying, Mask ","6/7 \nClick to continue");
+      }else if(intro_7){
+        tutorialSinglePage(intro_7_img, "To walk, just use the arrow keys and to jump, use the space bar.\n To fly, you have to jump into the sky and \nclick the up arrow at the same time. ","7/7 \n START");
+      }
+
+  camera.on();
+  pop();
+}
+
+function tutorialSinglePage(img, string, scdString){
+      image(img, windowWidth/2, windowHeight/2);
+      text(string, windowWidth/2,100);
+
+      textSize(windowHeight/70);
+      text(scdString, windowWidth/2,windowHeight - 50);
+
+      if(mouseIsPressed && mouseClickCheck){
+        console.log('pressed');
+              mouseClickCheck = false;
+              if(intro_1){
+                intro_1 = false;
+                intro_2 = true;
+              }else if(intro_2){
+                intro_2 = false;
+                intro_3 = true;
+              }else if(intro_3){
+                intro_3 = false;
+                intro_4 = true;
+              }else if(intro_4){
+                intro_4 = false;
+                intro_5 = true;
+              }else if(intro_5){
+                intro_5 = false;
+                intro_6 = true;
+              }else if(intro_6){
+                intro_6 = false;
+                intro_7 = true;
+              }else if(intro_7){
+                intro_7 = false;
+                explainPage = false;
+                running = true;
+              }
+
+              setTimeout(function(){mouseClickCheck = true;},200)
+      }
+}
