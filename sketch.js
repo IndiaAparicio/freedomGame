@@ -1,10 +1,10 @@
 // V A R I A B L E S
 
-
 //Gameplay
 let running = false;
 let onPause = false;
 let notOnPause = true;
+let gameHasStarted = false;
 let startingPage = true;
 let explainPage = false;
 let intro_0 = true;
@@ -17,9 +17,6 @@ let intro_6 = false;
 let intro_7 = false;
 let mouseClickCheck = true; // StartingPage
 let mouseClickCheck2 = true; // StartingPage
-let startedFirstTime = true;
-
-let newClean;
 
 //player
 let player1;
@@ -65,17 +62,19 @@ let counterIconsCollective = [];
 //Scoring-System
 let SS_DISTANCING_I = 10; //Boost once
 let SS_DISTANCING_C = -30; //Boost once
-let SS_MASK_C = 0.01; //every loop
-let SS_MASK_I = 0.01; //every loop
+let SS_MASK_C = 0.015; //every loop
+let SS_MASK_I = 0.005; //every loop
 let SS_HYGIENE_C = 20; //Boost once
 let SS_HYGIENE_I = 10; //Boost once
 let SS_ZOOM_C = 0.01; //every loop
 let SS_ZOOM_I = 0.001; //every loop times boring(1-10)
-let SS_ISOLATION_C = 0.001; //every loop times lonely(1-10)
-let SS_ISOLATION_I = 0.001; //every loop times lonely(1-10)
+let SS_ISOLATION_C = 0.005; //every loop times lonely(1-10)
+let SS_ISOLATION_I = 0.003; //every loop times lonely(1-10)
 let SS_FLYING_I = 0.03; //every loop
 let SS_SINGLECONTACT_C = -3; //Boost once
 let SS_SINGLECONTACT_I = 5; //Boost once
+let SS_SINGLECONTACT_I_LOOP = 0.005; //every loop
+let SS_SINGLECONTACT_C_LOOP = 0.005; //every loop
 
 
 
@@ -115,7 +114,7 @@ let heightSinglePerson = (SCENE_H/5)*3.15; //SingleContact
 //distancing
 let distanceCharacter;
 let distancing_groups = [];
-let total_number_of_groups = 4;
+let total_number_of_groups = 6;
 let amount_of_characters = 25;
 let att_points = [];
 let minSpeed = 2;//min and max speed of attraction points
@@ -238,8 +237,8 @@ function preload(){
 
           player1.addAnimation('player_1_jump_animate', '../img/player/Player-SW-Jump-1.png','../img/player/Player-SW-Jump-11.png');
           player1.addAnimation('player_1_ground_animate','../img/player/Player-SW-Ground-1.png','../img/player/Player-SW-Ground-11.png');
-          player1.addAnimation('player_1_mask_jump_animate','../img/player/Player-SW-Maske-Ground-1.png','../img/player/Player-SW-Maske-Ground-11.png');
-          player1.addAnimation('player_1_mask_ground_animate','../img/player/Player-SW-Maske-Jump-1.png','../img/player/Player-SW-Maske-Jump-11.png');
+          player1.addAnimation('player_1_mask_ground_animate','../img/player/Player-SW-Maske-Ground-1.png','../img/player/Player-SW-Maske-Ground-11.png');
+          player1.addAnimation('player_1_mask_jump_animate','../img/player/Player-SW-Maske-Jump-1.png','../img/player/Player-SW-Maske-Jump-11.png');
 
           player1.addAnimation('player_2_jump_animate','../img/player/Player-Ausgeblichen-Jump-1.png','../img/player/Player-Ausgeblichen-Jump-11.png');
           player1.addAnimation('player_2_ground_animate','../img/player/Player-Ausgeblichen-Ground-1.png','../img/player/Player-Ausgeblichen-Ground-11.png');
@@ -520,17 +519,8 @@ function draw() {
 
   //RUNNING
   if (running){
+      gameHasStarted = true;
 
-      if(startedFirstTime){
-        if(camera.zoom < 1){
-          smoothening *= 1.1;
-          camera.position.x = 0;
-          camera.position.y = SCENE_H/2;
-          camera.zoom += smoothening;
-        }else{
-          startedFirstTime = false;
-        }
-      }
       
       // B A C K G R O U N D S 
       background(0); //Black BG outside of frame 
@@ -541,35 +531,35 @@ function draw() {
       push();
               
       //BACKGROUND CHANGE COLLECTIVE 
-          if (collectiveScore < 10){ 
+          if (collectiveScore < 20){ 
                 bg_back.addImage(bg_hinten_1);
                 bg.addImage(bg_vorne_1);
                 bg_clouds1.addImage(clouds_1_img);
                 bg_clouds2.addImage(clouds_1_img);
                 s1.changeAnimation('singleContact_1_R_animate');
                 s2.changeAnimation('singleContact_1_L_animate');
-          }else if (collectiveScore > 10 && collectiveScore < 35){
+          }else if (collectiveScore > 20 && collectiveScore < 40){
                 bg_back.addImage(bg_hinten_2);
                 bg.addImage(bg_vorne_2);
                 bg_clouds1.addImage(clouds_2_img);
                 bg_clouds2.addImage(clouds_2_img);
                 s1.changeAnimation('singleContact_2_R_animate');
                 s2.changeAnimation('singleContact_2_L_animate');
-          }else if (collectiveScore > 35 && collectiveScore < 65){
+          }else if (collectiveScore > 40 && collectiveScore < 60){
                 bg_back.addImage(bg_hinten_3);
                 bg.addImage(bg_vorne_3);
                 bg_clouds1.addImage(clouds_3_img);
                 bg_clouds2.addImage(clouds_3_img);
                 s1.changeAnimation('singleContact_3_R_animate');
                 s2.changeAnimation('singleContact_3_L_animate');
-          }else if (collectiveScore > 65 && collectiveScore < 90){
+          }else if (collectiveScore > 60 && collectiveScore < 80){
                 bg_back.addImage(bg_hinten_4);
                 bg.addImage(bg_vorne_4);
                 bg_clouds1.addImage(clouds_4_img);
                 bg_clouds2.addImage(clouds_4_img);
                 s1.changeAnimation('singleContact_4_R_animate');
                 s2.changeAnimation('singleContact_4_L_animate');
-          }else if(collectiveScore > 90 && collectiveScore < 100){
+          }else if(collectiveScore > 80 && collectiveScore < 100){
                 bg_back.addImage(bg_hinten_5);
                 bg.addImage(bg_vorne_5);
                 bg_clouds1.addImage(clouds_5_img);
@@ -579,7 +569,7 @@ function draw() {
           }
 
       //PLAYER CHANGE INDIVIDUAL 
-          if(individualScore < 10){
+          if(individualScore < 20){
                 if(maskOn && playerGroundCheck){
                   player1.changeAnimation('player_1_mask_jump_animate');
                 }else if(maskOn && !isJumping){
@@ -589,7 +579,7 @@ function draw() {
                 }else if(!maskOn && !isJumping){
                   player1.changeAnimation('player_1_ground_animate');
                 }
-          }else if(individualScore > 10 && individualScore < 35){
+          }else if(individualScore > 20 && individualScore < 40){
                 if(maskOn && isJumping){
                   player1.changeAnimation('player_2_mask_jump_animate');
                 }else if(maskOn && !isJumping){
@@ -599,7 +589,7 @@ function draw() {
                 }else if(!maskOn && !isJumping){
                   player1.changeAnimation('player_2_ground_animate');
                 }
-          }else if(individualScore > 35 && individualScore < 65){
+          }else if(individualScore > 40 && individualScore < 60){
                 if(maskOn && isJumping){
                   player1.changeAnimation('player_3_mask_jump_animate');
                 }else if(maskOn && !isJumping){
@@ -609,7 +599,7 @@ function draw() {
                 }else if(!maskOn && !isJumping){
                   player1.changeAnimation('player_3_ground_animate');
                 }
-          }else if(individualScore > 65 && individualScore < 90){
+          }else if(individualScore > 60 && individualScore < 80){
                 if(maskOn && isJumping){
                   player1.changeAnimation('player_4_mask_jump_animate');
                 }else if(maskOn && !isJumping){
@@ -619,7 +609,7 @@ function draw() {
                 }else if(!maskOn && !isJumping){
                   player1.changeAnimation('player_4_ground_animate');
                 }
-          }else if(individualScore > 90){
+          }else if(individualScore > 80){
                 if(maskOn && isJumping){
                   player1.changeAnimation('player_5_mask_jump_animate');
                 }else if(maskOn && !isJumping){
@@ -749,7 +739,7 @@ function draw() {
         let ScreenPlayerRelation = width/2;
         let ScreenPlayerRelationH = height/2;
 
-        if(!startedFirstTime){
+        
 
           if (player1.position.x >= EDGE_R - ScreenPlayerRelation){
             camera.position.x = camera.position.x;
@@ -815,7 +805,7 @@ function draw() {
 
 
 
-        }
+        
         
       
   
@@ -832,6 +822,7 @@ function draw() {
 
         //Flacker Effect
         push();
+        imageMode(CORNER);
             if(randomizer > 0.5){
                 image(lights_unten_img,-SCENE_W/2,0);
                 image(lights_oben_img,-SCENE_W/2,0);
@@ -984,9 +975,9 @@ function draw() {
                 if(touchedPerson){
                     updateUserInfo='You met somebody';
                 }else if(clean < 0){
-                    updateUserInfo="You need to get desinfected";
+                    updateUserInfo="You need to get disinfected";
                 }else if(player1.overlap(hygieneArea)){
-                    updateUserInfo='You are desinfected';
+                    updateUserInfo='You are disinfected';
                 }else if(touchedGroup){
                     updateUserInfo='You met a group of people';
                 }else if(player1.overlap(zoomArea)){
@@ -1112,7 +1103,7 @@ function draw() {
                     iconRedRain_C.push();
                     arrayCheckClean= true;
                   }
-                }else{
+                }else if(clean > 0){
                   if(arrayCheckClean){
                     iconRedRain_C.pop();
                     arrayCheckClean= false;
@@ -1200,7 +1191,6 @@ function draw() {
   }
   if(onPause){
     camera.off();
-    intro_0 = true;
     tutorial();
     displayIcons(play_icon,play_hover_icon,windowWidth - windowWidth/20 - 20, windowWidth/35);
     camera.on();
@@ -1219,15 +1209,11 @@ function draw() {
   // ENDINGS
   if(individualScore > 90 && collectiveScore < 10){
     running = false;
-    newClean = 'ciaociao';
     window.location = './individual.html';
   }else if(individualScore < 10 && collectiveScore > 90){
     running = false;
     window.location = './collective.html';
   }else if(individualScore > 90 && collectiveScore > 90){
-    running = false;
-    window.location = './nofreedom.html';
-  }else if(individualScore < 10 && collectiveScore < 10){
     running = false;
     window.location = './allfreedom.html';
   }
@@ -1432,7 +1418,7 @@ function movingHygieneArea(){
 }
 
 function hygieneScore() {
-  //clean: 10 = desinfected // clean: -10 = dirty
+  //clean: 10 = disinfected // clean: -10 = dirty
   if(clean >= 10){ clean = 10; }else if(clean <= -10){clean = -10;}
 
   if(player1.overlap(hygieneArea) && !boostHygine){
@@ -1445,7 +1431,7 @@ function hygieneScore() {
   clean -= 0.005;
 
   if(clean < 0){
-    collectiveScore += (clean * 0.006);
+    collectiveScore += (clean * 0.01);
     boostHygine = false;
   }
 
@@ -1506,8 +1492,12 @@ function isolationScore(){
     if (insideIsolationArea){
         lonely *= 1.001;
         //scoring-system
+        if(!maskOn){
+          collectiveScore += SS_MASK_C;
+        }
         individualScore -= lonely * SS_ISOLATION_I;
         collectiveScore += lonely * SS_ISOLATION_C;
+        
     }else{
         lonely *= 0.999; //lässt außerhalb lonely wieder runter gehen
     }
@@ -1549,6 +1539,11 @@ function singlePeopleWalking () {
         individualScore += SS_SINGLECONTACT_I;
         collectiveScore += SS_SINGLECONTACT_C;
     } 
+
+    if(player1.overlap(singlepeople) || player1.overlap(singlepeople2)){
+      individualScore += SS_SINGLECONTACT_I_LOOP;
+      collectiveScore -= SS_SINGLECONTACT_I_LOOP;
+    }
 }
 
 
@@ -1701,7 +1696,7 @@ function Rain(x,y){
 
 
 function graphicsScreen(graphics, x, y, w, h, stroke, r, g, b){
-
+    imageMode(CORNER);
     graphics.background(stroke);
     graphics.noFill();
     if(collectiveScore < 20){
@@ -1747,7 +1742,7 @@ function zoomInOut(){
         }
         camera.zoom = windowWidth/SCENE_H;
     }else{
-        camera.zoom = 0.2;
+        camera.zoom = 1;
         hasClickedSound = false;
     }
 }
@@ -1856,14 +1851,32 @@ function tutorial(){
       textFont('Avenir');
       textAlign(CENTER);
       imageMode(CENTER);
+      rectMode(CENTER);
       fill(255);
+      noStroke();
       textSize(20);
 
 
+      
+
+
       if(intro_0){
-            textSize(windowHeight/30);
-            rectMode(CENTER);
-            noStroke();
+            if(mouseX > windowWidth/2-75 && mouseX < windowWidth/2+75 &&
+              mouseY > windowHeight-60){
+                fill(200,0,50);
+                if(mouseIsPressed){
+                  window.location = './about.html';
+                }
+            }else{
+                fill(0);
+            }
+            
+            rect(windowWidth/2,windowHeight-45,150,30,100);
+            fill(255);
+            textSize(12);
+            text("A B O U T",windowWidth/2,windowHeight-40);
+
+            textSize(windowHeight/30);         
             textSize(20);
        
             if(mouseX > windowWidth/2-150 && mouseX < windowWidth/2+150
@@ -1884,25 +1897,50 @@ function tutorial(){
                 fill(0);
                 text("WATCH TUTORIAL",windowWidth/2,windowHeight/2-45);
             }
-      
-            if(mouseX > windowWidth/2-150 && mouseX < windowWidth/2+150
-                && mouseY > windowHeight/2+10 && mouseY < windowHeight/2+90){
-                fill(100,0,50);
-                rect(windowWidth/2,windowHeight/2+50,300,80,100);
-                fill(255);
-                text("SKIP TUTORIAL",windowWidth/2,windowHeight/2+55);
-                    if(mouseIsPressed && mouseClickCheck){
-                      mouseClickCheck = false;
-                      intro_0 = false;
-                      running = true;
-                      setTimeout(function(){mouseClickCheck = true;},200)
-                    }
-            }else{
-                fill(255);
-                rect(windowWidth/2,windowHeight/2+50,300,80,100);
-                fill(0);
-                text("SKIP TUTORIAL",windowWidth/2,windowHeight/2+55);
+
+            if(!gameHasStarted){
+                if(mouseX > windowWidth/2-150 && mouseX < windowWidth/2+150
+                    && mouseY > windowHeight/2+10 && mouseY < windowHeight/2+90){
+                    fill(100,0,50);
+                    rect(windowWidth/2,windowHeight/2+50,300,80,100);
+                    fill(255);
+                    text("SKIP TUTORIAL",windowWidth/2,windowHeight/2+55);
+                        if(mouseIsPressed && mouseClickCheck){
+                          mouseClickCheck = false;
+                          intro_0 = false;
+                          running = true;
+                          setTimeout(function(){mouseClickCheck = true;},200)
+                        }
+                }else{
+                    fill(255);
+                    rect(windowWidth/2,windowHeight/2+50,300,80,100);
+                    fill(0);
+                    text("SKIP TUTORIAL",windowWidth/2,windowHeight/2+55);
+                }
+
+            }else if(gameHasStarted){
+                if(mouseX > windowWidth/2-150 && mouseX < windowWidth/2+150
+                    && mouseY > windowHeight/2+10 && mouseY < windowHeight/2+90){
+                    fill(100,0,50);
+                    rect(windowWidth/2,windowHeight/2+50,300,80,100);
+                    fill(255);
+                    text("CONTINUE",windowWidth/2,windowHeight/2+55);
+                        if(mouseIsPressed && mouseClickCheck){
+                          mouseClickCheck = false;
+                          intro_0 = false;
+                          running = true;
+                          onPause = false;
+                          setTimeout(function(){mouseClickCheck = true;notOnPause = true;},200)
+                        }
+                }else{
+                    fill(255);
+                    rect(windowWidth/2,windowHeight/2+50,300,80,100);
+                    fill(0);
+                    text("CONTINUE",windowWidth/2,windowHeight/2+55);
+                }
             }
+      
+           
       }
         
 
@@ -1920,6 +1958,8 @@ function tutorial(){
         tutorialSinglePage(intro_6_img, "The scores on the left side show you two values,\n which change depending on the areas you are in.\n Next to the scores you will see icons that explain what affects your current scores: \n Rain, Digital Media, Groups, Home, Individuals, Flying, Mask ","6/7 \nClick to continue");
       }else if(intro_7){
         tutorialSinglePage(intro_7_img, "To walk, just use the arrow keys and to jump, use the space bar.\n To fly, you have to jump into the sky and \nclick the up arrow at the same time. ","7/7 \n START");
+      }else{
+        intro_0 = true;
       }
 
   camera.on();

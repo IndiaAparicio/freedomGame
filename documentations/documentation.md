@@ -57,7 +57,12 @@ DOCUMENTATION
     - [Feedback Icons](#feedback-icons)
     - [Level volume](#level-volume)
     - [Scoring System](#scoring-system-1)
+    - [Changed Hygiene Score System](#changed-hygiene-score-system)
+    - [Adjust Scores depending on `maskOn`](#adjust-scores-depending-on-maskon)
   - [Try and test Github Pages](#try-and-test-github-pages)
+  - [Adding Tutorial](#adding-tutorial)
+  - [Loading Page](#loading-page)
+  - [Adding Ending Screens](#adding-ending-screens)
 
 
 # Short Description
@@ -1081,7 +1086,7 @@ To allow even less confusion and to offer more information to the user, I also c
 * *You are wearing a mask*
 * *You are not wearing a mask*
 * *You met somebody*
-* *You are desinfected*
+* *You are disinfected*
 * *You met a group of people*
 * *You are using digital media*
 * *Feel free to fly*
@@ -1338,7 +1343,7 @@ draw(){
 
 ```
 
-Instead of doing the feedback-color in the scoring system with different functions (and calling the functions every time when something in the scores are changing), I found a easier and shorter way: the variables `lastIndividualScore` and `lastCollectiveScore` store at the beginning of `draw()` the current Score and in the end of `draw()` the currentScore and lastScore get compared. If its increasing, the Score will be displayed in green and if its decreasing, it will be displayed in red. So all Score-changing Inputs are going to be taken into consideration.
+Instead of doing the feedback-color in the scoring system with different functions (and calling the functions every time when something in the scores are changing), I found an easier and shorter way: the variables `lastIndividualScore` and `lastCollectiveScore` store at the beginning of `draw()` the current Score and in the end of `draw()` the currentScore and lastScore get compared. If its increasing, the Score will be displayed in green and if its decreasing, it will be displayed in red. So all Score-changing Inputs are going to be taken into account.
 
 Last version:
 ```javascript
@@ -1384,9 +1389,26 @@ function draw(){
 
 ### Changed Hygiene Score System
 
+I added a variable `clean` that is constantcly going down until it reaches -10. If the player get disinfected it will go back to 10. The `clean` value will get multiplied with the `SS_HYGIENE` variable. If `clean` is less than 0 the collective score will decrease. If it is higher than 0 it will increase the score. 
+
+
+last version:
+```javascript
+function hygieneScore()
+    if (player1.overlap(hygieneArea) && boostHygine === false){
+        boostHygine = true;
+        collectiveScore += SS_HYGIENE_C;
+        individualScore -= SS_HYGIENE_I;
+    }
+    ...
+}
+```
+
+
+current version:
 ```javascript
 function hygieneScore() {
-  //clean: 10 = desinfected // clean: -10 = dirty
+  //clean: 10 = disinfected // clean: -10 = dirty
   if(clean >= 10){ clean = 10; }else if(clean <= -10){clean = -10;}
 
   if(player1.overlap(hygieneArea) && !boostHygine){
@@ -1402,29 +1424,13 @@ function hygieneScore() {
     collectiveScore += (clean * 0.001);
     boostHygine = false;
   }
-  
-
-  
-  // if (player1.overlap(hygieneArea) && boostHygine === false){
-  //     clean = 1;
-  //     boostHygine = true;
-  //     //scoring-system
-  //     collectiveScore += SS_HYGIENE_C;
-  //     individualScore -= SS_HYGIENE_I;
-  // }else if (player1.overlap(hygieneArea) === false && boostHygine && !hasStartedTimeoutH){
-  //     hygieneBoostIntervall = setTimeout(function(){boostHygine = false; hasStartedTimeoutH = false;}, 20000); //wenn in der letzten Sekunde ein boost war
-  //     hasStartedTimeoutH = true;
-  //   }
-
-  // if(player1.overlap(hygieneArea) === false){
-  //   //clean *= 1.001; // wie schnell der Wert zurück au 10 fällt 
-  //   //collectiveScore -= clean * 0.001; // wie starken Impact clean auf den Score hat
-  // }
-
 }
 ```
 
-### adjust Distancing Change 
+### Adjust Scores depending on `maskOn` 
+
+In some cases it makes more sense if the effect of scores is higher or lower if the player is wearing a mask. Here are some examples:
+
 ```javascript
         if(maskOn){
           individualScore += SS_DISTANCING_I;
@@ -1434,6 +1440,17 @@ function hygieneScore() {
           collectiveScore += (SS_DISTANCING_C/2);
         }
 ```
+```javascript
+    if (insideIsolationArea){
+        ...
+        if(!maskOn){
+          collectiveScore += SS_MASK_C;
+        }
+        ...
+    }
+```
+
+
 ## Try and test Github Pages 
 
 To upload the website to Github Pages, I first used [Adobe Photoshop](https://www.adobe.com/de/products/photoshop/bilder-bearbeiten.html) to compromise all the files to have the smallest amount of data that could be loaded quickly. All Sounds and Illustrations combined cover around 25mb. After creating a new repository and changing the main branch to `gh-pages`, the website could be accessed, but no images or sounds were loaded. I spent some time researching to understand the problem. This page](https://www.elharony.com/images-not-displaying-in-github-pages/) helped me to find the problem. The assets could be loaded when I entered the path in the URL, so the problem had to be with the path. When the assets would load, it would search under `indiaaparicio.github.io/audio/jump.mp3`. However, in order to be found, the files had to be searched under `indiaaparicio.github.io/freedom/audio/jump.mp3`. 
@@ -1445,12 +1462,12 @@ In the code the files have been added to `../audio/jump.mp3`. However, at GitHub
 
 ## Adding Tutorial 
 
+After testing the game with some friends I decided to add sort of a tutorial at the beginning of the game. The tutorial is supposed to explain the purpose and the "rules" of the game. 7 variables will be set to true after each other and by doing so, different screens will be displayed. First I coded it like this:
 
 ```javascript
 
 if(intro_1){
-        
-          
+
           image(intro_1_img, windowWidth/2, windowHeight/2);
           text("The world consists of three levels: the sky, the neutral zone and your home.", windowWidth/2,100);
 
@@ -1463,7 +1480,7 @@ if(intro_1){
               intro_2 = true;
               setTimeout(function(){mouseClickCheck = true;},200)
           }
-      }else if(intro_2){
+}else if(intro_2){
 
           text("In the sky you can fly and meet groups of people.", windowWidth/2,100);
           image(intro_2_img, windowWidth/2, windowHeight/2);
@@ -1478,10 +1495,38 @@ if(intro_1){
               intro_3 = true;
               setTimeout(function(){mouseClickCheck = true;},200)
           }
-      }
+}
       ...
 ```
+But then I decided to put this functionality in a function in order to keep the code shorter:
 
+```javascript
+...
+if(intro_1){
+        tutorialSinglePage(intro_1_img, "The world consists of three levels: the sky, the neutral zone and your home."," 1/7 \n Click to continue");
+}else if(intro_2){
+        tutorialSinglePage(intro_2_img, "In the sky you can fly and meet groups of people.","2/7 \nClick to continue");
+}
+...
 
+function tutorialSinglePage(img, string, scdString){
+      image(img, windowWidth/2, windowHeight/2);
+      text(string, windowWidth/2,100);
 
+      textSize(windowHeight/70);
+      text(scdString, windowWidth/2,windowHeight - 50);
 
+      if(mouseIsPressed && mouseClickCheck){
+       ...
+      }
+}
+```
+![Tutorial](./media/tutorial.png)
+
+## Loading Page
+## Adding Ending Screens
+
+![Individual](./media/ending-individual.png)
+![Collective](./media/ending-collective.png)
+![Both](./media/ending-both.png)
+![About](./media/about-oage.png)

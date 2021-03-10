@@ -1,34 +1,12 @@
 html,body {
     background-color: black;
     font-family: 'Roboto', sans-serif;
-  }
-
-  
-  .bg-individual{
-    background-image: url('./img/endings/individual.png');
-    background-position: 0;
-    padding: 2rem;
-    background-size:cover;
-  }
-  
-  .bg-collective{
-    background-image: url('./img/endings/collective.png');
-    background-position: 0;
-    padding: 2rem;
-    background-size:cover;
-  }
-
-  .bg-both{
-    background-image: url('./img/endings/collective.png');
-    background-position: 0;
-    padding: 2rem;
-    background-size:cover;
+    background-image: url('./img/sky.png');
   }
 
   
   h1 {
-      color: rgb(224, 83, 125);
-      background-color: rgba(255,255,255,0.7);
+      color:white;
       text-align: center;
       font-size: 6rem;
       font-weight: 900;
@@ -36,11 +14,7 @@ html,body {
       letter-spacing: 0.2rem;  
   }
 
-  .center{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+ 
 
   button{
     border: none;
@@ -61,6 +35,13 @@ html,body {
 
   .cta-button{
     background-color: black;
+    font-size: 0.9rem;
+    padding: 20px 42px;
+    align-items: center;
+  }
+
+  .cta-a{
+    color: white;
   }
 
   .cta-container{
@@ -68,38 +49,35 @@ html,body {
     align-items: center;
   }
 
-  .button-container{
-      float: right;
-  }
+ 
 
   .button{
-      background-color: gray;
+      background-color: white;
   }
 
   a{
-      color: white;
+      color: black;
       text-decoration: none;
   }
 
   p{
-      color: rgb(30,30,30);
-      line-height: 1.4rem;
+      color: white;
+      line-height: 1.5rem;
+      font-weight: 100;
 
   }
 
   h3{
     text-transform: uppercase;
-    font-weight: 100;
+    color: white;
+    font-weight: 500;
     letter-spacing: 0.3rem;
-    padding-top: 2rem;
-    line-height: 1.6rem;
+    line-height: 1.9rem;
   }
 
   .container{
-      background-color: rgba(255,255,255,0.9);
       padding-left: 5rem;
       padding-right: 5rem;
-      padding-top: 1rem;
       padding-bottom: 3rem;
       margin: 5rem;
   }
@@ -108,3 +86,25 @@ html,body {
       float: left;
       clear: left;
   }
+
+  .inlineLink{
+    color: black;
+    font-weight: 500;
+  }
+  .inlineLink:hover{
+    color: rgb(224, 83, 125);
+  }
+  .musicLink{
+    color: white;
+  }
+  .musicLink:hover{
+    color: rgb(224, 83, 125);
+  }
+
+  .madeBy{
+    text-align: center;
+    letter-spacing: 0.1rem;
+    margin-top: 6rem;
+    margin-bottom: -6rem;
+  }
+
