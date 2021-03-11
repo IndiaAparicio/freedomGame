@@ -68,6 +68,7 @@ DOCUMENTATION
   - [Unexpected turns](#unexpected-turns)
   - [Challenge](#challenge)
   - [Developing it further](#developing-it-further)
+  - [Final presentation](#final-presentation)
   - [Some Screenshots of the game:](#some-screenshots-of-the-game)
 
 
@@ -1554,7 +1555,7 @@ Low meaning less than 10% and high meaning more than 90%. When I was writing the
 
 For the three endings I wrote a general text about collective and individual freedom, which will be displayed at the end of each scenario. Only after the game is over is it explained to the player exactly what the individual and collective freedom are all about. Although it is explained in the tutorial that it is about the Corona measures, so that the interactions also make sense, the connection with freedom is only presented after the game. This is to keep up the suspense and arouse more interest in the topic. In addition to the general text, a small text is added to the respective ending to give the player a conclusion about their own simulation behavior. 
 
-The texts with the sources can be found [here]().
+The texts with the sources can be found [here](ADDD).
 
 ![Individual](./media/ending-individual.png)
 ![Collective](./media/ending-collective.png)
@@ -1605,6 +1606,10 @@ Especially with the coding I really challenged myself. With consideration that t
 
 ## Developing it further
 After the project is done I would like to fix all the bugs that are still in the game. Also when I puplished it with GitHub-Pages I realized eventhough the game is working with google chrome, it is not working with safari. So I would like to publish it with another host sometime. Also one thing I like about the project is, that the idea can be also applied to other topics, like climate change for example. So I could create more games like this – perhaps in a smaller scale – with focus on other topics. 
+
+## Final presentation
+
+You can find my final presentation [here](ADDD)
 
 
 ## Some Screenshots of the game:
