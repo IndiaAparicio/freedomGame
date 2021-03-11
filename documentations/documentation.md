@@ -10,7 +10,6 @@ DOCUMENTATION
 - [December](#december)
   - [Mid-term presentation](#mid-term-presentation)
   - [Concretization and visualization](#concretization-and-visualization)
-  - [First sketch](#first-sketch)
 - [January](#january)
   - [Start Coding](#start-coding)
   - [Viewport, Background and Camera](#viewport-background-and-camera)
@@ -141,12 +140,11 @@ pop up and the background is transitioning -> If I make a mix with a real story 
 ## Update Concept 30. November
 
 * Topic: Interactive visualization of the dependency of freedom between individual and collective -> Freedom as a thought that does not depend only on one subject, because freedom is a game between own freedom and letting others have freedom
-* Best Practice: Every day the same dream // democratic socialist // Grow
-* Principle: User can make decisions that influence two values (freedom collective and freedom individual) -> The goal is to get both values balanced over a certain minimum, the decisions influence the values and the values influence the other value 
+* Best Practice: [Every day the same dream](https://www.youtube.com/watch?v=5qpvxh_llMA) // [democratic socialist](https://molleindustria.org/demsocsim/) // [Grow](https://en.wikipedia.org/wiki/GROW_(series))
+* Principle: User can make decisions that influence two values (freedom collective and freedom individual) -> The goal is to get both values balanced over a certain minimum, the decisions influence the values
 * Topic can be transferred to today's topic with Corona and a decision would be for example to wear masks
-* Scenery is like in the Best Practice example an everyday scene, which contains about 5 screen widths and the decisions to be made have to be found  Web-based it should be and you go through vertical scrolling and you can click the interactive states 
-* Design: Preferably rather abstract (like Pierre's example with the triangles and squares), but the two values should be visually recognizable by the richness of detail of the subject and the background  
-* Advanced: if decisions were made, they might also change the gaming behavior perhaps. For example, when a mask is put on, the subject becomes faster or something like that
+* Scenery is like in the Best Practice example "Every day the same dream", which contains about 5 screen widths. Based on story continues. Maybe vertical Scrollitelling
+* Design: Preferably rather abstract, but the two values should be visually recognizable by the richness of detail of the subject and the background
 * things that you can interact with -> different „states“ that influence the two values -> mask (metaphor like maybe a cage, slowing someone down
   * -> seeing people (where you stand, being next to someone else)
   * -> washing/disinfecting hands (something that you have to do like every 1 minute)
@@ -178,12 +176,10 @@ I created the following list that visualizes the interactions - and their impact
 I have also created the [Project Plan](./Timetable.md). Matching the project plan, I listed all [To-Dos](./To-Do.md) for a better overview. For goal setting, we defined the [Best and Worst Case Scenarios](./Best_Worst_Case.md).
 
 
-I decided to create the game with the p5-play-library, because it should be a game that can be played in the browser. The rest of december I used to work with the [p5-play-library](https://molleindustria.github.io/p5.play/). During the whole project I used these three documentations all the time:
+I decided to create the game with the p5.play-library, because it should be a game that can be played in the browser. The rest of december I started to get a better understanding of the [p5.play-library](https://molleindustria.github.io/p5.play/). During the whole project I used these three documentations all the time:
 * [molleindustria](https://molleindustria.github.io/p5.play/examples/index.html)
 * [creative coding](https://creative-coding.decontextualize.com/making-games-with-p5-play/)
 * [code.org](https://code-dot-org.github.io/p5.play/docs/modules/p5.play.html)
-
-## First sketch
 
 
 ____
@@ -195,7 +191,7 @@ ____
 
 On the first day of the project week, I first created a Github repository and connected it to my visual studio code. After that I downloaded the p5.play-library and created my file.
 
-In January during the project week I had the conception of the project mostly ready, so I sat down to the code for the first time. Since it is my first big coding project, I tried to make a plan for the project week. The sequence of the project was as follows:
+In January – during the project week – the conception of the project was mostly done, so started to code. Since it is my first big coding project, I tried to make a plan for the project week. The sequence of the project was as follows:
 
 - Create scene
 - Insert background 
@@ -204,13 +200,13 @@ In January during the project week I had the conception of the project mostly re
 - Player Movement
   
 After the first day of the project week, my sketch looked [like this]((../sketch-jan-5.js)):
-![Januar](./media/video-jan-3.mp4)
 ![Januar](./media/img-jan-3.png)
+You can also find a video of my sketch at this time [here](./media/video-jan-3.mp4).
 
 
 ## Viewport, Background and Camera
 
-In January I started working on the code. The first thing to do was to create the game world. For this the previously created [drawing](./media/bg-test-6.png) was used as background image.
+In January I started working on the code. The first thing to do was to create the game world. For this the previously created [drawing](./media/bg-test-6.png) was used as a background image.
 
 
 ```javascript
@@ -303,6 +299,11 @@ function draw() {
     ...
 }
 ```
+![Collider](./media/collider.png)
+
+Because I needed to create *sprites* for all elements the player can interact with, I could not create the stairs as I first planned. As you can see in the image above, the stairs were supposed to look like "normal" stairs, which leads into the sky, but with the *sprites* I was only able to create platform-like stairs.
+
+
 ## Group in p5 play
 
 For the individual contacts and for the distancing groups, p5-play groups had to be created. This way many elements could be given the same attributes. For the different interaction elements I created functions, like here `singlePeopleWalking()` .
@@ -335,14 +336,14 @@ function singlePeopleWalking(){
       }
 }
 ```
-![Collider](./media/collider.png)
+
 
 
 ## Player
 
 ### Mask
 
-A *sprite* was also created for the player, so that the player has a collider that provides the events when it touches the other colliders. However, since the player should look different depending on whether it wears a mask, several images were assigned to the *sprite*. Several boolean variables were then used to check whether the player was wearing the mask and whether they had touched the ground again since putting on the mask (because otherwise the mask would be on and off continuously for the entire time the player was touching the mask). Throughout the code for the game, I then very often used this Boolean logic to trigger events only once (in a given) in the draw loop.
+A *sprite* was also created for the player, so that the player has a collider that provides the events when it touches the other colliders. However, since the player should look different depending on whether it wears a mask, several images were assigned to the *sprite*. Several boolean variables were then used to check whether the player was wearing the mask and whether they had touched the ground again since putting on the mask (because otherwise the mask would be on and off continuously for the entire time the player was touching the mask). Throughout the code for the game, I then very often used this boolean logic to trigger events only once in the draw loop.
 
 ![Collider](./media/mask-change.png)
 
@@ -390,7 +391,7 @@ function maskOnOff(){
 ### Player Movement
 
 
-To make the player move, I programmed the player movement in the Gravity-Area on the one hand and in the Flying-Area on the other hand. To change the position of the player only the `player1.position.x` had to be changed at for example `keyIsDown(RIGHT_ARROW)`. For flying, this was allowed in all four directions. For jumping the `player.velocity.y` had to be changed. Again a GroundCheck with a Boolean variable was used, so that the player cannot jump continuously.
+To make the player move, I coded a different *player movement* for the gravity-area on the one hand and for the flying-area on the other hand. To change the position of the player only the `player1.position.x` had to be changed – for example with `keyIsDown(RIGHT_ARROW)`. For flying, this was allowed in all four directions. For jumping the `player.velocity.y` had to be changed. Again a *GroundCheck* with a Boolean variable was used, so that the player cannot jump continuously.
 
 ```javascript
 ...
@@ -431,10 +432,8 @@ After the project week the basic functions and the basic scene were coded. [Here
 ## Distancing 
 
 Especially with the programming for the distancing function I had great difficulties. For this, a group should be created that follows an attraction point. The attraction point should be invisible afterwards, so that it looks like the group is moving in swarms. With one group it worked relatively fast, but there were many problems and failed attempts to create multiple groups following different points. 
-The first version looked like this: ![Distancing-Version1]()
+The first version looked like this: ![Distancing-Version1](./media/jan-distancing.mp4)
 
-
-https://molleindustria.github.io/p5.play/examples/index.html?fileName=sprite4.js
 
 ```javascript
 function setup() {
