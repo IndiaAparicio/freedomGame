@@ -13,7 +13,7 @@ ___
 * [x] Setting up GitHub Repo
 * [x] Write down all To-Do's
 * [x] Save all references, links
-* [ ] Documentation
+* [x] Documentation
 * [x] Color Scheme for Doku: Orga: Black / Concept: Cyan / Theory: Blue / Programming: Red / Design: Green
   
 ___
@@ -22,22 +22,22 @@ ___
 * [x] Main Idea
 * [x] Creating Map 
 * [x] Creating different interactions
-* [ ] Think about:
+* [x] Think about:
 * * [x] Kind of functionality
-* * [ ] Signifier, Affordance and Feedback
-* * [ ] Kind of impact on Scoring System
-* [ ] Creating different kinds of Endings (before adding Scoring System)
-* [ ] Optional: Writing down examples of topics that match the game (f.e. climate change)
+* * [x] Signifier, Affordance and Feedback
+* * [x] Kind of impact on Scoring System
+* [x] Creating different kinds of Endings (before adding Scoring System)
+* [x] Optional: Writing down examples of topics that match the game (f.e. climate change)
 
 ___
 ![Theory](./media/color-theory.png)
 ## Theoretical To-Do's
 * [x] Analyze the subject of freedom
-* [ ] Analyze individual/collective freedom
-* [ ] Writing everything down
-* [ ] Create Scenarios for the game based on theory 
-* [ ] Write short discription of every scenario that the user can read in the end
-* [ ] Write a short discription for the beginning
+* [x] Analyze individual/collective freedom
+* [x] Writing everything down
+* [x] Create Scenarios for the game based on theory 
+* [x] Write short discription of every scenario that the user can read in the end
+* [x] Write a short discription for the beginning / tutorial
 
 ___
 ![Coding](./media/color-coding.png)
@@ -80,108 +80,83 @@ ___
 * [x] Make the camera stop moving at certain positions
 
 ##### SCORING
-* [ ] Making the Scoring System work
+* [x] Making the Scoring System work
 
 ##### ANIMATION
-* [ ] Including all the illustrations and animations
-* [ ] Making the Animations switch based on the values 
+* [x] Including all the illustrations and animations
+* [x] Making the Animations switch based on the values 
 
 ##### SOUND
-* [ ] Including Sound
-* [ ] Make Sound louder/quiter based on time spend in certain areas
+* [x] Including Sound
 
 ##### UI ELEMENTS
 * [x] Play/Pause
 * [x] individual freedom value
 * [x] collective freedom value
-* [ ] Restart
-* [ ] Sound On/Off
-* [ ] Start Page
-* [ ] Different Endings 
+* [x] Restart
+* [x] Sound On/Off
+* [x] Start Page
+* [x] Different Endings 
 ___
 ![Design](./media/color-design.png)
 ## Design To-Do's
 * [x] Create Moodboard for look and feel 
-* [ ] Make a Styleguide 
-* [ ] Maybe choose one color for each interaction?
+* [-] Make a Styleguide / only moodboard
+* [-] Maybe choose one color for each interaction? / icons instead
 
 ##### SOUND
-* [ ] Choose Sound Effects (a effect for each interaction area: zoom, isolation, hygiene)
-* [ ] Search for Sounds (a Sound for each short interaction: mask, distancing, contact, user input)
-* [ ] Maybe a Sound for value impact?
-* [ ] Serach for music (a song for each area: upper, middle, lower)
+* [x] Choose Sound Effects (a effect for each interaction area: zoom, isolation, hygiene)
+* [x] Search for Sounds (a Sound for each short interaction: mask, distancing, contact, user input)
+* [x] Maybe a Sound for value impact?
+* [x] Serach for music (a song for each area: upper, middle, lower)
 
 ##### ILLUSTRATIONS AND ANIMATIONS
-Creating the **background image** without any elements, the user will interact with/ moving elements
-* [ ] low Score - picture
-* [ ] ... (more pictures depending on time I have left)
-* [ ] high Score - picture (detailed)
-Creating the **interaction** illustrations and animations
-* [ ] Player (low Score)
-* [ ] Player (in between)
-* [ ] Player (high Score)
-* [ ] Player with Mask (low Score)
-* [ ] Player with Mask (in between)
-* [ ] Player with Mask (high Score)
-* [ ] Mask alone (low Score)
-* [ ] Mask alone (in between)
-* [ ] Mask alone (high Score)
-* [ ] Other people (low Score)
-* [ ] Other people (in between)
-* [ ] Other people (high Score)
-* [ ] clouds
-* [ ] rain
-* [ ] isolation area lights
-* [ ] zoom animation loop
-* [ ] teleporting animation loop
 
-
-//ANIMATIONS:
 [fertig gemalt] [eingepflegt]
 - Player (Maße: 199 x 322 px)
-  - [] [] Detailed mask
-  - [] [] Detailed
-  - [] [] halb Detailed mask
-  - [] [] halb Detailed
-  - [] [] bunt mask
-  - [] [] bunt 
-  - [] [] azsgeblichen mask
-  - [] [] ausgeblichen 
-  - [] [] S/W mask
-  - [] [] S/W 
+  - [x] [x] Detailed mask
+  - [x] [x] Detailed
+  - [x] [x] halb Detailed mask
+  - [x] [x] halb Detailed
+  - [x] [x] bunt mask
+  - [x] [x] bunt 
+  - [x] [x] azsgeblichen mask
+  - [x] [x] ausgeblichen 
+  - [x] [x] S/W mask
+  - [x] [x] S/W 
 - Distancing (Maße: 44 x 34 px)
-  - [] [] detailed Color1
-  - [] [] detailed Color2
-  - [] [] detailed Color3
-  - [] [] bunt Color1
-  - [] [] bunt Color2
-  - [] [] bunt Color3
-  - [] [] S/W Color1
-  - [] [] S/W Color2
-  - [] [] S/W Color3
+  - [x] [x] detailed Color1
+  - [x] [x] detailed Color2
+  - [x] [x] detailed Color3
+  - [x] [x] bunt Color1
+  - [x] [x] bunt Color2
+  - [x] [x] bunt Color3
+  - [x] [x] S/W Color1
+  - [x] [x] S/W Color2
+  - [x] [x] S/W Color3
 - Single Contact (Maße: 133 x 178 px) TESTEN
-  - [] [] detailed R Color1
-  - [] [] detailed R Color2
-  - [] [] detailed R Color3
-  - [] [] detailed L Color1
-  - [] [] detailed L Color2
-  - [] [] detailed L Color3
-  - [] [] bunt R Color1
-  - [] [] bunt R Color2
-  - [] [] bunt R Color3
-  - [] [] bunt L Color1
-  - [] [] bunt L Color2
-  - [] [] bunt L Color3
-  - [] [] S/W R Color1
-  - [] [] S/W R Color2
-  - [] [] S/W R Color3
-  - [] [] S/W L Color1
-  - [] [] S/W L Color2
-  - [] [] S/W L Color3
+  - [x] [x] detailed R Color1
+  - [x] [x] detailed R Color2
+  - [x] [x] detailed R Color3
+  - [x] [x] detailed L Color1
+  - [x] [x] detailed L Color2
+  - [x] [x] detailed L Color3
+  - [x] [x] bunt R Color1
+  - [x] [x] bunt R Color2
+  - [x] [x] bunt R Color3
+  - [x] [x] bunt L Color1
+  - [x] [x] bunt L Color2
+  - [x] [x] bunt L Color3
+  - [x] [x] S/W R Color1
+  - [x] [x] S/W R Color2
+  - [x] [x] S/W R Color3
+  - [x] [x] S/W L Color1
+  - [x] [x] S/W L Color2
+  - [x] [x] S/W L Color3
 - BG
-  - [] [] detailed
-  - [] [] halb
-  - [] [] bunt
-  - [] [] ausgeblichen
-  - [] [] S/W
+  - [x] [x] detailed
+  - [x] [x] halb
+  - [x] [x] bunt
+  - [x] [x] ausgeblichen
+  - [x] [x] S/W
 

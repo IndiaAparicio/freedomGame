@@ -68,6 +68,7 @@ DOCUMENTATION
     - [Unexpected turns](#unexpected-turns)
     - [Challenge](#challenge)
     - [Developing it further](#developing-it-further)
+  - [Some Screenshots of the game:](#some-screenshots-of-the-game)
 
 
 # Short Description
@@ -1599,3 +1600,12 @@ Especially with the coding I really challenged myself. With consideration that t
 
 ### Developing it further
 After the project is done I would like to fix all the bugs that are still in the game. Also when I puplished it with GitHub-Pages I realized eventhough the game is working with google chrome, it is not working with safari. So I would like to publish it with another host sometime. Also one thing I like about the project is, that the idea can be also applied to other topics, like climate change for example. So I could create more games like this – perhaps in a smaller scale – with focus on other topics. 
+
+
+## Some Screenshots of the game:
+
+![](./media/screenshot-game-1.png)
+![](./media/screenshot-game-2.png)
+![](./media/screenshot-game-3.png)
+![](./media/screenshot-game-4.png)
+![](./media/screenshot-game-5.png)
