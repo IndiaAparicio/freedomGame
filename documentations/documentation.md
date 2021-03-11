@@ -58,6 +58,7 @@ DOCUMENTATION
     - [Level volume](#level-volume)
     - [Scoring System](#scoring-system-1)
     - [Changed Hygiene Score System](#changed-hygiene-score-system)
+    - [An extra Interaction on the Scoring System](#an-extra-interaction-on-the-scoring-system)
     - [Adjust Scores depending on `maskOn`](#adjust-scores-depending-on-maskon)
   - [Try and test Github Pages](#try-and-test-github-pages)
   - [Adding Tutorial](#adding-tutorial)
@@ -723,6 +724,7 @@ function isolationScore(){
 ```
 
 The same principle is used to influence the score within the zoom range and (also later with) the hygiene range. In this case the variable `boring` and later the variable `clean` was introduced.
+
 
 
 ## Rain 
@@ -1401,7 +1403,7 @@ function draw(){
 
 ### Changed Hygiene Score System
 
-I added a variable `clean` that is constantcly going down until it reaches -10. If the player get disinfected it will go back to 10. The `clean` value will get multiplied with the `SS_HYGIENE` variable. If `clean` is less than 0 the collective score will decrease. If it is higher than 0 it will increase the score. 
+I added a variable `clean` that is constantcly going down until it reaches -10. If the player get disinfected it will go back to 10. The `clean` value will get multiplied with the `SS_HYGIENE` variable. If `clean` is less than 0 the collective score will decrease. If it is higher than 0 it will increase the score. I also made the hygiene area move around, because while I was coding the game, I realised that sometimes the player needed to be challenged. When the area is moving the player sometimes has no other choice than get disinfected.
 
 
 last version:
@@ -1438,6 +1440,9 @@ function hygieneScore() {
   }
 }
 ```
+
+### An extra Interaction on the Scoring System
+In the beginning I was planning only on 6 different actions, that can influence the Scores. But while coding on the project, I was realising that the individual Score needs more positive interactions. Or at least an interaction, that isn't decreasing the collective Score that much. So I added the flying as part of the scoring system. When the user is flying it will increase the individual Score, because it symbolizes the "outside". I also added more groups, so it is kind of a challenge to not bump into groups while you are flying around. 
 
 ### Adjust Scores depending on `maskOn` 
 
@@ -1555,7 +1560,7 @@ Low meaning less than 10% and high meaning more than 90%. When I was writing the
 
 For the three endings I wrote a general text about collective and individual freedom, which will be displayed at the end of each scenario. Only after the game is over is it explained to the player exactly what the individual and collective freedom are all about. Although it is explained in the tutorial that it is about the Corona measures, so that the interactions also make sense, the connection with freedom is only presented after the game. This is to keep up the suspense and arouse more interest in the topic. In addition to the general text, a small text is added to the respective ending to give the player a conclusion about their own simulation behavior. 
 
-The texts with the sources can be found [here](ADDD).
+The texts with the sources can be found [here](./text-endings.pdf).
 
 ![Individual](./media/ending-individual.png)
 ![Collective](./media/ending-collective.png)
@@ -1587,7 +1592,7 @@ I also added a about-Page for the basic information of the game.
 
 # Conclusion
 
-Overall, it can be said that the game turned out for the most part the way I imagined it after the project was concretized. I was able to implement all six interactions, the scoring system works and the look and feel of the design matches my previous intentions. Nevertheless there are some things, that didn't turn out the way I wanted: 
+Overall, it can be said that the game turned out for the most part the way I imagined it after the project was concretized. I was able to implement all six interactions – and even add one more (flying) –, the scoring system works and the look and feel of the design matches my previous intentions. Nevertheless there are some things, that didn't turn out the way I wanted: 
 * Sometimes some of the feedback-icons aren't displayed 
 * The transitions of the design-styles are sometimes rather abrupt 
 * The music is sometimes playing when it`s on mute
@@ -1609,7 +1614,7 @@ After the project is done I would like to fix all the bugs that are still in the
 
 ## Final presentation
 
-You can find my final presentation [here](ADDD)
+You can find my final presentation [here](./presentations/final-presentation.pdf). All the videos embedded in the presentation you can also find in documentations/media.
 
 
 ## Some Screenshots of the game:
