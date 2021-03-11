@@ -63,13 +63,15 @@ DOCUMENTATION
   - [Adding Tutorial](#adding-tutorial)
   - [Loading Page](#loading-page)
   - [Adding Ending Screens](#adding-ending-screens)
+  - [Adding About Page](#adding-about-page)
+- [Conclusion](#conclusion)
 
 
 # Short Description
 
 At the beginning of the project the plan was to develop a storytelling website about philosophy and religion. These very daring plans have become concrete in the last weeks. The subject area was narrowed down to the - still philosophical - topic of freedom. Due to the current restrictions caused by the Corona virus, many discussions about "freedom" have been started. How much freedom do I have to give away? Is it a violation of personal freedom or the freedom of others if I follow or break certain rules? A **balance between individual freedom and the freedom of the collective** follows. Based on this topic, a game-like application will be developed, which resembles a kind of simulation on the one hand and a puzzle principle on the other. The game will be implemented with **p5 and the p5.play library**.
 
-The player finds himself in a world in which he can move freely. Two values are displayed to the player: *Individual Freedom* and *Collective Freedom*. The values change depending on how the player moves in the world. After a while of trial and error, the player should figure out how the values are affected and can specifically try to achieve a certain score. There are six objects/areas in the world, which are meant to symbolize Corona-related limitations: *Mask, Single Contacts, Distance, Hygiene Regulation, Isolation, Zoom*. The six interactions were arranged differently in space. Here, the Y-axis reflects the differences in individual freedom (Top: flying, many contacts, sky -> much freedom. Bottom: Isolation, basement -> little freedom). The room has three different floors and is altogether larger than the viewport. Different value changes are planned for the interactions and through affordance/signifier and feedback the player should understand which objects are interactive.
+The player finds himself in a world in which they can move freely. Two values are displayed to the player: *Individual Freedom* and *Collective Freedom*. The values change depending on how the player moves in the world. After a while of trial and error, the player should figure out how the values are affected and can specifically try to achieve a certain score. There are six objects/areas in the world, which are meant to symbolize Corona-related limitations: *Mask, Single Contacts, Distance, Hygiene Regulation, Isolation, Zoom*. The six interactions were arranged differently in space. Here, the Y-axis reflects the differences in individual freedom (Top: flying, many contacts, sky -> much freedom. Bottom: Isolation, basement -> little freedom). The room has three different floors and is altogether larger than the viewport. Different value changes are planned for the interactions and through affordance/signifier and feedback the player should understand which objects are interactive.
 
 
 
@@ -336,7 +338,7 @@ function singlePeopleWalking(){
 
 ### Mask
 
-A *sprite* was also created for the player, so that the player has a collider that provides the events when it touches the other colliders. However, since the player should look different depending on whether it wears a mask, several images were assigned to the *sprite*. Several boolean variables were then used to check whether the player was wearing the mask and whether he had touched the ground again since putting on the mask (because otherwise the mask would be on and off continuously for the entire time the player was touching the mask). Throughout the code for the game, I then very often used this Boolean logic to trigger events only once (in a given) in the draw loop.
+A *sprite* was also created for the player, so that the player has a collider that provides the events when it touches the other colliders. However, since the player should look different depending on whether it wears a mask, several images were assigned to the *sprite*. Several boolean variables were then used to check whether the player was wearing the mask and whether they had touched the ground again since putting on the mask (because otherwise the mask would be on and off continuously for the entire time the player was touching the mask). Throughout the code for the game, I then very often used this Boolean logic to trigger events only once (in a given) in the draw loop.
 
 ![Collider](./media/mask-change.png)
 
@@ -1196,7 +1198,7 @@ function feedbackUpScoreI(){
 
 But I decided to use different kinds of icons:
 
-To make clear which Events influence the Scores in which ways, I decided to create Icons as Feedback-Elements. The icons will be displayed next to the score in either red or green. Because if the icon the player is supposed to understand what element triggerd the event and because of the color he/she can understand if it had a positive or a negative impact on the scores. I created 12 icons with 64x64px:
+To make clear which Events influence the Scores in which ways, I decided to create Icons as Feedback-Elements. The icons will be displayed next to the score in either red or green. Because if the icon the player is supposed to understand what element triggerd the event and because of the color they can understand if it had a positive or a negative impact on the scores. I created 12 icons with 64x64px:
 ![icon](./media/icons/clouds-green.png)
 ![icon](./media/icons/distancing-green.png)
 ![icon](./media/icons/distancing-red.png)
@@ -1524,9 +1526,71 @@ function tutorialSinglePage(img, string, scdString){
 ![Tutorial](./media/tutorial.png)
 
 ## Loading Page
+
+Because of all the assets, the sketches takes quiet some time to load. It takes around 10 seconds to load. When all the asstes are loaded in `preload()` there will be a white screen with a small text saying "Loading.." by default. From an UX Point of view this might be confusing, because it could feel unintended: The design of this loading screen looks very basic and therefore it could feel like an error which isn't part of the game, since the design of the default loading page doesn't match the design of the game. So I added a loading page with the right look and feel. To do so I only needed to add a `<div>` with the id `id="p5_loading"` in the index.html file and the loading page will be displayed in the style that was defined in css.
+
 ## Adding Ending Screens
+
+First it wanted to add four possible endings:
+1. High collective score and low individual score
+2. Low collective score and high individual score
+3. Both scores high
+4. Both scores low 
+
+Low meaning less than 10% and high meaning more than 90%. When I was writing the final text, which were supposed to be displayed at the ending-scenarios, I was realizing that only three of these endings make sense:
+* The first one: **High collective score and low individual score** is a scenario in which the player is more likely to be very strict with the corona measures. For this reason, the player is obliged to ensure the freedom of others as much as possible. In the process, the player sometimes forgets about their own freedom. This might be altruistic but there is also a way to keep both values high, which should be the goal. 
+* The second one: **Low collective score and high individual score** is a screnario in which the player is more likely to do what they likes regardless of the corona measures. This could lead to a reduction of the collective freedom, since with such behavior in reality the virus could be spread. In order to protect the collective freedom, the individual freedom can still be high aswell. So the goal should be to keep both values as high as possible. 
+* The third one: **Both scores high**. This scenario is meant to illustrate a scenario in which a good balance has been found between one's own freedom and ensuring that of others.
+* The fourth one: **Both scores low**. This scenario was supposed to illustrate a scenario with no freedom at all. But that makes no sense, since every action in the game (and also the compliance or non-compliance with the Corona measures) is increasing at least one of the values. So the scores can not reach less than 10% in both cases and to have no freedom at all is never a consequence of one's behaviour. Therefore I have taken out the fourth ending. 
+
+For the three endings I wrote a general text about collective and individual freedom, which will be displayed at the end of each scenario. Only after the game is over is it explained to the player exactly what the individual and collective freedom are all about. Although it is explained in the tutorial that it is about the Corona measures, so that the interactions also make sense, the connection with freedom is only presented after the game. This is to keep up the suspense and arouse more interest in the topic. In addition to the general text, a small text is added to the respective ending to give the player a conclusion about their own simulation behavior. 
+
+The texts with the sources can be found [here]().
 
 ![Individual](./media/ending-individual.png)
 ![Collective](./media/ending-collective.png)
 ![Both](./media/ending-both.png)
+
+Each ending has it's own html-page. So if the scores has reached a certain value, the user will be redirected to the respective page.
+
+```javascript
+ if(individualScore > 90 && collectiveScore < 10){
+    running = false;
+    window.location = './individual.html';
+  }else if(individualScore < 10 && collectiveScore > 90){
+    running = false;
+    window.location = './collective.html';
+  }else if(individualScore > 90 && collectiveScore > 90){
+    running = false;
+    window.location = './allfreedom.html';
+  }
+```
+
+
+## Adding About Page
+
+I also added a about-Page for the basic information of the game. 
+
+
 ![About](./media/about-oage.png)
+
+
+# Conclusion
+
+
+reflecting on what you've done, to what extent it matched your vision at the beginning, what had to be changed, how you would plan on developing it further, etc.
+
+Overall, it can be said that the game turned out for the most part the way I imagined it after the project was concretized. I was able to implement all six interactions, the scoring system works and the look and feel of the design matches my previous intentions. Nevertheless there are some things, that didn't turn out the way I wanted: 
+* Sometimes some of the feedback-icons aren't displayed 
+* The transitions of the design-styles are sometimes rather abrupt 
+* The music is sometimes playing when it`s on mute
+* I wanted to add a little bit more theory about freedom
+* I think the code could be much more optimized in order to make the loading process shorter and less computationally expensive 
+
+During the process there were some things I didn't see coming, that needed to be changed or added:
+* Eventough the concept was clear to me, it wans't necessarly clear to the user. So I needed to adjust the feedback-system. That's why I spend much more time on the displaying of the scores than I planned to: First I only had the scores with increasing or discreasing 'blocks'. Then I added color. Then I added the two lines inside the scores, so the user would know at which point something is supposed to happen. Then I added the green/red arrows. Then I deleted the arrows and replaced them with the other feedback-icons. It was a long process, but I think it paid off. 
+* Also in the beginning I didn't want to explain the user what is happening beforehand. The meaning of the game was supposed to be like a 'surprise'. During the testings I realized that it was just confusing not to explain. So again it was a little chaotic journey to the current state of the project: First I only wanted to add a questionmark-button. Then I added the explain-page on default, but it was still confusing. So finally I decided to implement this little tutorial. I think it is a good solution, because eventhough the conection to the corona-measures is made clear – and therefore the actions of the user can be much more intended – the 'reveal' about freedom is still a little surprise-like.
+* One thing that really surprised me (I could have seen it coming but I didn't) was the amount of work I needed to put into the animations. I didn't think about all the different states I needed to animate (jumping, not jumping, mask, no mask). In the end I needed to do 220 illustrations only for the player. So that took me a lot of time. But I am very happpy with the animations now. Especially with the player-animation, because all of the persons, who tested the game really liked this 'blob'. Many of them said that it was cute and they sympathized with it. They also felt sorry for it, when it was in the cage, they felt like it was trapped. So this was a very good emotional response in regard to the intention of the game.
+
+In general I have to say that I am happy with how the game turned out. I put a lot of effort in the illustrations and I am happy with how they turend out, but the elaborate was the coding.
+Especially with the coding I really challenged myself. With consideration that this is my first major coding project, I am really proud of how it turned out. After the project I really feel comfortable with p5, p5.play and more comfortable with javascript. I noticed the improvement really quickly. While some coding concepts took me a long time to think about in January, I was able to execute them faster and faster towards March. Looking at the code from the beginning, I would already write the code differently for many things. 
