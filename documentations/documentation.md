@@ -65,6 +65,9 @@ DOCUMENTATION
   - [Adding Ending Screens](#adding-ending-screens)
   - [Adding About Page](#adding-about-page)
 - [Conclusion](#conclusion)
+    - [Unexpected turns](#unexpected-turns)
+    - [Challenge](#challenge)
+    - [Developing it further](#developing-it-further)
 
 
 # Short Description
@@ -1577,9 +1580,6 @@ I also added a about-Page for the basic information of the game.
 
 # Conclusion
 
-
-reflecting on what you've done, to what extent it matched your vision at the beginning, what had to be changed, how you would plan on developing it further, etc.
-
 Overall, it can be said that the game turned out for the most part the way I imagined it after the project was concretized. I was able to implement all six interactions, the scoring system works and the look and feel of the design matches my previous intentions. Nevertheless there are some things, that didn't turn out the way I wanted: 
 * Sometimes some of the feedback-icons aren't displayed 
 * The transitions of the design-styles are sometimes rather abrupt 
@@ -1587,10 +1587,15 @@ Overall, it can be said that the game turned out for the most part the way I ima
 * I wanted to add a little bit more theory about freedom
 * I think the code could be much more optimized in order to make the loading process shorter and less computationally expensive 
 
+### Unexpected turns
 During the process there were some things I didn't see coming, that needed to be changed or added:
 * Eventough the concept was clear to me, it wans't necessarly clear to the user. So I needed to adjust the feedback-system. That's why I spend much more time on the displaying of the scores than I planned to: First I only had the scores with increasing or discreasing 'blocks'. Then I added color. Then I added the two lines inside the scores, so the user would know at which point something is supposed to happen. Then I added the green/red arrows. Then I deleted the arrows and replaced them with the other feedback-icons. It was a long process, but I think it paid off. 
 * Also in the beginning I didn't want to explain the user what is happening beforehand. The meaning of the game was supposed to be like a 'surprise'. During the testings I realized that it was just confusing not to explain. So again it was a little chaotic journey to the current state of the project: First I only wanted to add a questionmark-button. Then I added the explain-page on default, but it was still confusing. So finally I decided to implement this little tutorial. I think it is a good solution, because eventhough the conection to the corona-measures is made clear – and therefore the actions of the user can be much more intended – the 'reveal' about freedom is still a little surprise-like.
 * One thing that really surprised me (I could have seen it coming but I didn't) was the amount of work I needed to put into the animations. I didn't think about all the different states I needed to animate (jumping, not jumping, mask, no mask). In the end I needed to do 220 illustrations only for the player. So that took me a lot of time. But I am very happpy with the animations now. Especially with the player-animation, because all of the persons, who tested the game really liked this 'blob'. Many of them said that it was cute and they sympathized with it. They also felt sorry for it, when it was in the cage, they felt like it was trapped. So this was a very good emotional response in regard to the intention of the game.
 
+### Challenge
 In general I have to say that I am happy with how the game turned out. I put a lot of effort in the illustrations and I am happy with how they turend out, but the elaborate was the coding.
-Especially with the coding I really challenged myself. With consideration that this is my first major coding project, I am really proud of how it turned out. After the project I really feel comfortable with p5, p5.play and more comfortable with javascript. I noticed the improvement really quickly. While some coding concepts took me a long time to think about in January, I was able to execute them faster and faster towards March. Looking at the code from the beginning, I would already write the code differently for many things. 
+Especially with the coding I really challenged myself. With consideration that this is my first major coding project, I am really proud of how it turned out. After the project I really feel comfortable with p5, p5.play and more comfortable with javascript. I noticed the improvement really quickly. While some coding concepts took me a long time to think about in January, I was able to execute them faster and faster towards March. I think for example in january I wouldn't have been able to write the `class DisplayIcons_new`, but now I was able to think about a concept like this and write the code without an example from the internet. Looking at the code from the beginning, I would already write the code differently for many things. 
+
+### Developing it further
+After the project is done I would like to fix all the bugs that are still in the game. Also when I puplished it with GitHub-Pages I realized eventhough the game is working with google chrome, it is not working with safari. So I would like to publish it with another host sometime. Also one thing I like about the project is, that the idea can be also applied to other topics, like climate change for example. So I could create more games like this – perhaps in a smaller scale – with focus on other topics. 
